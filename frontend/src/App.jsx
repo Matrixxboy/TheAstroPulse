@@ -4,6 +4,9 @@ import 'bootstrap';
 import './App.css'
 
 import Horoscope from './components/pages/Horoscope/Horoscope';
+import MainLayout from './components/MainLayout';
+import HomePage from './components/pages/homepage/HomePage';
+import PalmReadingPage from './components/pages/palmreading/PalmReadingPage';
 
 
 function App() {
@@ -12,7 +15,9 @@ function App() {
       {/* <ScrollToTop /> */}
       <Routes>
         {/* ✅ Main Site Routes with fancy layout */}
-        <Route path='/horoscope' element={<Horoscope />} />
+        <Route path='/' element={<MainLayout><HomePage /></MainLayout>} />
+        <Route path='/horoscope' element={<MainLayout><Horoscope /></MainLayout>} />
+        <Route path='/palmreading' element={<MainLayout><PalmReadingPage /></MainLayout>} />
       </Routes>
     </Router>
   );

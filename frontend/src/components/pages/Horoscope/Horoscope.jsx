@@ -24,15 +24,15 @@ const Horoscope = () => {
             } else {
                 setResult({ error: "No horoscope found." });
             }
-        } catch (error) {
-            setResult({ error: "Failed to fetch horoscope. Please try again." });
+        } catch (e) {
+            setResult({ error: "Failed to fetch horoscope. Please try again.",e });
         }
 
         setLoading(false);
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-900 to-indigo-900 flex items-center justify-center px-4">
+        <div className="min-h-screen flex items-center justify-center px-4">
             <div className="bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-xl text-white w-full max-w-md">
                 <h1 className="text-3xl font-bold text-center text-yellow-300 mb-6">🔮 Horoscope</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -74,9 +74,12 @@ const Horoscope = () => {
                             <p className="text-red-400">{result.error}</p>
                         ) : (
                             <>
-                                <h2 className="text-xl font-bold text-yellow-200 mb-2">Your Horoscope</h2>
+                                <h2 className="text-xl font-bold text-yellow-200 mb-2">Your Horoscope </h2>
                                 <p className="text-sm text-gray-100">
                                     <strong>DOB:</strong> {result.dob}
+                                </p>
+                                <p className="text-sm text-gray-100">
+                                    <strong>Your Zodic Sign:</strong> {result.zodiac_sign}
                                 </p>
                                 <p className="text-sm text-gray-100">
                                     <strong>Day:</strong> {result.day_type}
