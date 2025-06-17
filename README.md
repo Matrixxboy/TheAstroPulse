@@ -10,7 +10,7 @@
 Welcome to **The Astro Pulse** — a mystical journey into the realms of **palmistry** and **astrology**, supercharged by cutting-edge **AI**.
 
 This project blends **ancient cosmic wisdom** with **modern technology**, offering users:
-- Insightful palm analysis  
+- Insightful palm analysis (still working on this feature)
 - Daily horoscopes  
 - Personalized AI-generated cosmic messages
 
@@ -27,13 +27,7 @@ This project blends **ancient cosmic wisdom** with **modern technology**, offeri
 - Mobile-first, with a responsive hamburger menu
 - Dynamic animated **hero section** on the homepage
 
-### 🔮 Gemini AI Integration (Cosmic Insight)
-
-- Integrated with **Google Gemini API (gemini-2.0-flash)**
-- Generates unique and inspiring cosmic insights
-- Quick, one-click access to universal wisdom
-
-### 🧠 Advanced Image Processing Backend
+### 🧠 Advanced Image Processing Backend (still working on this feature)
 
 - **Python Flask** backend using **OpenCV** and **Pillow**
 - Accepts palm image, converts it to grayscale
