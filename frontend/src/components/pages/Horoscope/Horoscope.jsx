@@ -32,7 +32,7 @@ const Horoscope = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center px-4">
+        <div className="min-h-screen px-4 py-12 flex flex-col items-center">
             <div className="bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-xl text-white w-full max-w-md">
                 <h1 className="text-3xl font-bold text-center text-yellow-300 mb-6">🔮 Horoscope</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">

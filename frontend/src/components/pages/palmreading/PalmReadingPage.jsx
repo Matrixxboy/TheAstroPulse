@@ -82,7 +82,7 @@ const PalmReadingPage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br px-4 py-12 flex flex-col items-center">
+        <div className="min-h-screen px-4 py-12 flex flex-col items-center">
             <h1 className="text-4xl font-bold mb-6">Palm Reading</h1>
 
             <div className="bg-white/5 p-6 rounded-xl shadow-lg w-full max-w-md text-center">
