@@ -56,19 +56,33 @@ def process_image():
         return {"error": "Empty filename"}, 400
 
     try:
-        # Convert image to grayscale array
+        # Convert uploaded file to OpenCV image
         in_memory_file = np.frombuffer(file.read(), np.uint8)
-        img = cv2.imdecode(in_memory_file, cv2.IMREAD_GRAYSCALE)
+        img = cv2.imdecode(in_memory_file, cv2.IMREAD_COLOR)
+        if img is None:
+            return {"error": "Invalid image format"}, 400
 
-        # Apply binary threshold
-        _, binary_img = cv2.threshold(img, 182, 255, cv2.THRESH_BINARY)
+        # Step 1: Initial noise reduction
+        denoised1 = cv2.fastNlMeansDenoisingColored(img, None, 1, 1, 5, 35)
 
-        # Encode to PNG
-        _, buffer = cv2.imencode('.png', binary_img)
+        # Step 2: Convert to grayscale and enhance with CLAHE
+        gray = cv2.cvtColor(denoised1, cv2.COLOR_BGR2GRAY)
+        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+        highlighted = clahe.apply(gray)
 
-        # Send image as response using a memory stream
+        # Step 3: Reduce noise again
+        denoised2 = cv2.fastNlMeansDenoising(highlighted, None, h=1, templateWindowSize=1, searchWindowSize=21)
+
+        # Step 4: Edge detection
+        canny_image = cv2.Canny(denoised2, 50, 200)
+
+        # Step 5: Convert result to PNG bytes
+        success, encoded_image = cv2.imencode('.png', canny_image)
+        if not success:
+            return {"error": "Failed to encode image"}, 500
+
         return send_file(
-            io.BytesIO(buffer.tobytes()),
+            io.BytesIO(encoded_image.tobytes()),
             mimetype='image/png',
             as_attachment=False,
             download_name='processed_image.png'
