@@ -53,15 +53,33 @@ const Palmistry = () => {
                   <li>Multiple → Instability</li>
                 </ul>
               </li>
+              <li>Length
+                <ul className="nested">
+  <li>&lt; 5.5 cm → Energetically cautious</li>
+  <li>5.5–7.5 cm → Good health and vitality</li>
+  <li>7.5–9.0 cm → Very energetic and resilient</li>
+  <li>&gt; 9.0 cm → Exceptional endurance</li>
+</ul>
+              </li>
+              <li>Growth Indicators
+                <ul className="nested">
+                  <li>Branching upward → Positive mindset</li>
+                  <li>Branching downward → Anxiety-prone</li>
+                  <li>Double line → Strong support/resilience</li>
+                </ul>
+              </li>
             </ul>
           </li>
           <li>Head Line
             <ul className="nested">
               <li>Length
                 <ul className="nested">
-                  <li>Long → Determination</li>
-                  <li>Short → Common sense</li>
-                </ul>
+  <li>&lt; 6.0 cm → Quick thinker</li>
+  <li>6.0–8.0 cm → Balanced mind</li>
+  <li>8.0–10.0 cm → Deep thinker</li>
+  <li>&gt; 10.0 cm → Analytical genius/overthinker</li>
+</ul>
+
               </li>
               <li>Shape
                 <ul className="nested">
@@ -93,9 +111,12 @@ const Palmistry = () => {
               </li>
               <li>Length
                 <ul className="nested">
-                  <li>Long → Deep love</li>
-                  <li>Short → Self-focused</li>
-                </ul>
+  <li>&lt; 5.0 cm → Emotionally guarded</li>
+  <li>5.0–6.5 cm → Emotionally balanced</li>
+  <li>6.5–8.5 cm → Deeply empathetic</li>
+  <li>&gt; 8.5 cm → Emotionally idealistic</li>
+</ul>
+
               </li>
               <li>Branches
                 <ul className="nested">
@@ -107,6 +128,7 @@ const Palmistry = () => {
                 <ul className="nested">
                   <li>Break → Emotional loss</li>
                   <li>Chain → Mood swings</li>
+                  <li>Multiple → Relationship complexity</li>
                 </ul>
               </li>
             </ul>
@@ -137,6 +159,15 @@ const Palmistry = () => {
                   <li>Break → Career breaks</li>
                   <li>Multiple → Multi-career</li>
                 </ul>
+              </li>
+              <li>Length
+               <ul className='nested'>
+  <li>&lt; 4.0 cm → Unstable path</li>
+  <li>4.0–6.0 cm → Moderate purpose</li>
+  <li>6.0–8.5 cm → Strong purpose</li>
+  <li>&gt; 8.5 cm → Mission-driven</li>
+</ul>
+
               </li>
             </ul>
           </li>
