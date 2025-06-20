@@ -37,6 +37,14 @@ const Navbar = () => {
                     </li>
                     <li>
                         <Link
+                            to="/palm"
+                            className="hover:text-yellow-300 transition-colors duration-200"
+                        >
+                            HandPalm-Info
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
                             to="/horoscope"
                             className="hover:text-yellow-300 transition-colors duration-200"
                         >

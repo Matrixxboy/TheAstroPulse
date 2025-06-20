@@ -1,0 +1,54 @@
+/* palmistry.css */
+
+#tree {
+  list-style-type: none;
+  padding-left: 1rem;
+  font-size: 1rem;
+}
+
+#tree li {
+  cursor: pointer;
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.3rem;
+  transition: color 0.3s;
+}
+
+#tree li::before {
+  content: ">";
+  position: absolute;
+  left: 0;
+  color: #facc15; /* yellow-400 */
+  font-size: 0.9rem;
+  transition: transform 0.3s ease;
+}
+
+#tree li.open::before {
+  content: "▼";
+}
+
+#tree .nested {
+  display: none;
+  padding-left: 1.2rem;
+  border-left: 1px dashed #555;
+  margin-left: 0.5rem;
+  margin-top: 0.2rem;
+}
+
+#tree li.open > .nested {
+  display: block;
+}
+
+#tree li:hover {
+  color: #facc15; /* yellow-400 */
+}
+
+h1 {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Optional: Smooth transitions */
+#tree li,
+#tree li::before {
+  transition: all 0.2s ease-in-out;
+}
