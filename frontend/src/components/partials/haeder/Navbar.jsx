@@ -83,6 +83,15 @@ const Navbar = () => {
                         </li>
                         <li>
                             <Link
+                                to="/palm"
+                                className="block py-2 px-4 hover:bg-slate-700 w-full text-center"
+                                onClick={toggleMenu} // Close menu on link click
+                            >
+                                Hand Palm Info
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
                                 to="/horoscope"
                                 className="block py-2 px-4 hover:bg-slate-700 w-full text-center"
                                 onClick={toggleMenu} // Close menu on link click
