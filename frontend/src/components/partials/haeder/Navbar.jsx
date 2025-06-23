@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa"; // Importing icons for hamburger and close
+import './Navbar.css'; // Importing custom styles for the Navbar
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false); // State to manage mobile menu visibility
@@ -18,7 +19,7 @@ const Navbar = () => {
                 </Link>
 
                 {/* Desktop Menu */}
-                <ul className="hidden md:flex gap-6 text-lg font-medium">
+                <ul className="hidden md:flex gap-6 m-0 text-lg font-medium">
                     <li>
                         <Link
                             to="/"
@@ -62,12 +63,12 @@ const Navbar = () => {
 
                 {/* Mobile Menu (conditionally rendered) */}
                 {isOpen && (
-                    <ul className="absolute top-full left-0 w-full bg-slate-800 text-white flex flex-col items-center py-4 md:hidden shadow-lg rounded-b-lg">
+                    <ul className=" phone-menu flex flex-col absolute top-full left-0 w-full bg-yellow-400 text-white md:hidden z-50 rounded-xl shadow-lg p-6">
                         <li>
                             <Link
                                 to="/"
-                                className="block py-2 px-4 hover:bg-slate-700 w-full text-center"
-                                onClick={toggleMenu} // Close menu on link click
+                                className="block py-2 px-4 hover:text-color-primary w-full text-center"
+                                onClick={toggleMenu}
                             >
                                 Home
                             </Link>
@@ -75,8 +76,8 @@ const Navbar = () => {
                         <li>
                             <Link
                                 to="/palmreading"
-                                className="block py-2 px-4 hover:bg-slate-700 w-full text-center"
-                                onClick={toggleMenu} // Close menu on link click
+                                className="block py-2 px-4 hover:bg-white/20 w-full text-center"
+                                onClick={toggleMenu}
                             >
                                 Palm Reading
                             </Link>
@@ -84,8 +85,8 @@ const Navbar = () => {
                         <li>
                             <Link
                                 to="/palm"
-                                className="block py-2 px-4 hover:bg-slate-700 w-full text-center"
-                                onClick={toggleMenu} // Close menu on link click
+                                className="block py-2 px-4 hover:bg-white/20 w-full text-center"
+                                onClick={toggleMenu}
                             >
                                 Hand Palm Info
                             </Link>
@@ -93,13 +94,14 @@ const Navbar = () => {
                         <li>
                             <Link
                                 to="/horoscope"
-                                className="block py-2 px-4 hover:bg-slate-700 w-full text-center"
-                                onClick={toggleMenu} // Close menu on link click
+                                className="block py-2 px-4 hover:bg-white/20 w-full text-center"
+                                onClick={toggleMenu}
                             >
                                 Horoscope
                             </Link>
                         </li>
                     </ul>
+
                 )}
             </div>
         </nav>
