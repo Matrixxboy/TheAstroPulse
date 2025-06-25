@@ -64,7 +64,11 @@ cd the-astro-pulse/backend
 
 
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+#Linux
+source venv/bin/activate  #
+
+#Windows 
+venv\Scripts\activate
 
 pip install -r requirements.txt
 

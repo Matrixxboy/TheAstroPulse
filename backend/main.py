@@ -5,6 +5,11 @@ import numpy as np
 import cv2
 import io
 from datetime import datetime
+import mediapipe as mp
+from skimage.filters import meijering
+from skimage.morphology import skeletonize
+from skimage.util import img_as_ubyte
+
 # Assuming horoscope_fetcher.py (the code from your 'horoscope-fetcher' immersive)
 # is in the same directory as this file.
 
@@ -56,28 +61,84 @@ def process_image():
         return {"error": "Empty filename"}, 400
 
     try:
-        # Convert uploaded file to OpenCV image
         in_memory_file = np.frombuffer(file.read(), np.uint8)
         img = cv2.imdecode(in_memory_file, cv2.IMREAD_COLOR)
         if img is None:
             return {"error": "Invalid image format"}, 400
 
-        # Step 1: Initial noise reduction
-        denoised1 = cv2.fastNlMeansDenoisingColored(img, None, 1, 1, 5, 35)
+        # 1. Background Removal
+        mp_selfie_segmentation = mp.solutions.selfie_segmentation
+        with mp_selfie_segmentation.SelfieSegmentation(model_selection=1) as segmentor:
+            rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            result = segmentor.process(rgb_img)
+            mask = result.segmentation_mask
+            mask = cv2.GaussianBlur(mask, (15, 15), 0)
+            mask_3ch = np.stack([mask] * 3, axis=-1)
+            mask_3ch = (mask_3ch > 0.2).astype(np.uint8)
+            white_bg = np.ones_like(img, dtype=np.uint8) * 255
+            img = (img * mask_3ch + white_bg * (1 - mask_3ch)).astype(np.uint8)
 
-        # Step 2: Convert to grayscale and enhance with CLAHE
-        gray = cv2.cvtColor(denoised1, cv2.COLOR_BGR2GRAY)
-        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
-        highlighted = clahe.apply(gray)
+        # 2. Grayscale + CLAHE
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        clahe = cv2.createCLAHE(clipLimit=2.5, tileGridSize=(8, 8))
+        enhanced = clahe.apply(gray)
 
-        # Step 3: Reduce noise again
-        denoised2 = cv2.fastNlMeansDenoising(highlighted, None, h=1, templateWindowSize=1, searchWindowSize=21)
+        # 3. TopHat + Meijering filter for palm lines
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 15))
+        tophat = cv2.morphologyEx(enhanced, cv2.MORPH_TOPHAT, kernel)
+        combined = cv2.addWeighted(enhanced, 0.6, tophat, 0.4, 0)
 
-        # Step 4: Edge detection
-        canny_image = cv2.Canny(denoised2, 50, 200)
+        meij = meijering(combined / 255.0, sigmas=range(1, 6), black_ridges=True)
+        meij = img_as_ubyte(meij)
 
-        # Step 5: Convert result to PNG bytes
-        success, encoded_image = cv2.imencode('.png', canny_image)
+        # 4. Threshold + Skeleton
+        _, binary = cv2.threshold(meij, 25, 255, cv2.THRESH_BINARY)
+        skeleton = skeletonize(binary // 255)
+        skeleton = (skeleton * 255).astype(np.uint8)
+
+        # 5. Morph closing
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+        closed = cv2.morphologyEx(skeleton, cv2.MORPH_CLOSE, kernel, iterations=1)
+
+        # 6. Edge-based line detection (for heart/head)
+        edges = cv2.Canny(closed, 30, 120)
+        lines = cv2.HoughLinesP(edges, 1, np.pi / 180, threshold=50, minLineLength=80, maxLineGap=15)
+
+        # 7. Contour-based detection (for curved life line)
+        contours, _ = cv2.findContours(closed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        height, width = gray.shape
+        line_img = cv2.cvtColor(closed, cv2.COLOR_GRAY2BGR)
+
+        # if lines is not None:
+        #     for line in lines:
+        #         x1, y1, x2, y2 = line[0]
+        #         dx, dy = abs(x2 - x1), abs(y2 - y1)
+        #         avg_x = (x1 + x2) // 2
+        #         avg_y = (y1 + y2) // 2
+
+        #         if avg_y < height * 0.4 and dx > dy:
+        #             color = (0, 0, 255)  # Red: Heart
+        #         elif height * 0.4 <= avg_y < height * 0.65 and dx > dy:
+        #             color = (255, 0, 0)  # Blue: Head
+        #         elif avg_x < width * 0.4 and dy > dx:
+        #             color = (0, 255, 255)  # Yellow: Life
+        #         else:
+        #             continue
+        #         cv2.line(line_img, (x1, y1), (x2, y2), color, 2)
+
+        for cnt in contours:
+            area = cv2.contourArea(cnt)
+            if area < 100:
+                continue
+            x, y, w, h = cv2.boundingRect(cnt)
+            cx, cy = x + w // 2, y + h // 2
+            aspect = w / (h + 1e-5)
+
+            if cx < width * 0.4 and aspect < 1.2 and h > 60:
+                cv2.drawContours(line_img, [cnt], -1, (0, 255, 255), 2)  # Yellow: Life
+
+        # 8. Encode and return image
+        success, encoded_image = cv2.imencode('.png', line_img)
         if not success:
             return {"error": "Failed to encode image"}, 500
 
@@ -85,11 +146,12 @@ def process_image():
             io.BytesIO(encoded_image.tobytes()),
             mimetype='image/png',
             as_attachment=False,
-            download_name='processed_image.png'
+            download_name='highlighted_palm_lines.png'
         )
 
     except Exception as e:
         return {"error": str(e)}, 500
+
 
 
 if __name__ == '__main__':
