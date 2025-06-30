@@ -52,6 +52,14 @@ const Navbar = () => {
                             Horoscope
                         </Link>
                     </li>
+                    <li>
+                        <Link
+                            to="/numerology"
+                            className="hover:text-yellow-300 transition-colors duration-200"
+                        >
+                            Numerology
+                        </Link>
+                    </li>
                 </ul>
 
                 {/* Hamburger/Close Icon for Mobile */}
@@ -100,6 +108,14 @@ const Navbar = () => {
                                 Horoscope
                             </Link>
                         </li>
+                        <li>
+                        <Link
+                            to="/numerology"
+                            className="hover:text-yellow-300 transition-colors duration-200"
+                        >
+                            Numerology
+                        </Link>
+                    </li>
                     </ul>
 
                 )}

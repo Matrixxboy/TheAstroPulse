@@ -1,20 +1,47 @@
-from flask import Flask, request, jsonify ,send_file
-from flask_cors import CORS
-from astrology.horoscope import fetch_horoscope ,get_zodiac_sign
-import numpy as np
-import cv2
 import io
-from datetime import datetime
+import cv2
+import numpy as np
+from PIL import Image
 import mediapipe as mp
+from rembg import remove
+from flask_cors import CORS
+from datetime import datetime
 from skimage.filters import meijering
-from skimage.morphology import skeletonize
 from skimage.util import img_as_ubyte
+from skimage.restoration import denoise_tv_chambolle
+from flask import Flask, request, jsonify ,send_file
+from skimage.morphology import skeletonize, remove_small_objects
+from astrology.horoscope import fetch_horoscope , get_zodiac_sign
+from numerology.numlogycalcu import numlogy_basic_sums
+
 
 # Assuming horoscope_fetcher.py (the code from your 'horoscope-fetcher' immersive)
 # is in the same directory as this file.
 
 app = Flask(__name__)
 CORS(app,origins=["http://localhost:5173"])
+
+# Convert OpenCV image to PNG bytes
+def cv2_to_bytes(image):
+    success, encoded_image = cv2.imencode('.png', image)
+    return io.BytesIO(encoded_image.tobytes()) if success else None
+
+# Background remover using rembg
+def remove_background_opencv(img):
+    # Convert OpenCV image to PIL
+    image_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    pil_image = Image.fromarray(image_rgb)
+
+    # Remove background using rembg
+    byte_io = io.BytesIO()
+    pil_image.save(byte_io, format="PNG")
+    byte_io.seek(0)
+    result_bytes = remove(byte_io.read())
+
+    # Convert back to OpenCV
+    no_bg_image = Image.open(io.BytesIO(result_bytes)).convert("RGB")
+    return cv2.cvtColor(np.array(no_bg_image), cv2.COLOR_RGB2BGR)
+
 
 @app.route('/horoscope', methods=['GET'])
 def get_horoscope():
@@ -62,78 +89,59 @@ def process_image():
 
     try:
         # Decode the uploaded image
-        in_memory_file = np.frombuffer(file.read(), np.uint8)
-        img = cv2.imdecode(in_memory_file, cv2.IMREAD_COLOR)
+        image = np.frombuffer(file.read(), np.uint8)
+        img = cv2.imdecode(image, cv2.IMREAD_COLOR)
+        original = img.copy()
         if img is None:
             return {"error": "Invalid image format"}, 400
 
-        # ------------------ 1. Background Removal ------------------
-        mp_selfie_segmentation = mp.solutions.selfie_segmentation
-        with mp_selfie_segmentation.SelfieSegmentation(model_selection=1) as segmentor:
-            rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            result = segmentor.process(rgb_img)
-            mask = result.segmentation_mask
-            mask = cv2.GaussianBlur(mask, (15, 15), 0)
-            mask_3ch = np.stack([mask] * 3, axis=-1)
-            mask_3ch = (mask_3ch > 0.2).astype(np.uint8)
-            white_bg = np.ones_like(img, dtype=np.uint8) * 255
-            img = (img * mask_3ch + white_bg * (1 - mask_3ch)).astype(np.uint8)
-
-        # ------------------ 2. Enhancement Filters ------------------
+        # 2. Background removal using MediaPipe
+        img = remove_background_opencv(img)
+        
+        # 3. Negative filter + grayscale
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        clahe = cv2.createCLAHE(clipLimit=2.5, tileGridSize=(8, 8))
+        gray = cv2.GaussianBlur(gray, (1, 1), 0)
+
+        # 4. Remove small noise (initial)
+        cleaned = remove_small_objects(gray.astype(bool), min_size=50, connectivity=2)
+        cleaned = (cleaned * 255).astype(np.uint8)
+
+
+        # 6. CLAHE + TopHat
+        clahe = cv2.createCLAHE(clipLimit=5.0, tileGridSize=(13, 13))
         enhanced = clahe.apply(gray)
-
-        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 15))
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (7, 12))
         tophat = cv2.morphologyEx(enhanced, cv2.MORPH_TOPHAT, kernel)
-        combined = cv2.addWeighted(enhanced, 0.6, tophat, 0.4, 0)
+        combined = cv2.addWeighted(enhanced, 0.8, tophat, 0.8, 0)
+        combined = cv2.GaussianBlur(combined, (3, 3), 0)
+        combined = denoise_tv_chambolle(combined / 255.0, weight=0.2)
+        combined = (combined * 255).astype(np.uint8)
+        
 
-        meij = meijering(combined / 255.0, sigmas=range(1, 6), black_ridges=True)
+        # 7. Meijering line enhancement
+        meij = meijering(combined / 255.0, sigmas=range(4, 8), black_ridges=True)
         meij = img_as_ubyte(meij)
 
-        _, binary = cv2.threshold(meij, 25, 255, cv2.THRESH_BINARY)
-        skeleton = skeletonize(binary // 255)
-        skeleton = (skeleton * 255).astype(np.uint8)
+        # 8. Threshold + Skeleton
+        _, binary = cv2.threshold(meij, 50, 255, cv2.THRESH_BINARY)
+        skeleton = skeletonize(binary // 255).astype(np.uint8) * 255
+        # ✅ Make skeleton lines thicker
+        kernel_thick = cv2.getStructuringElement(cv2.MORPH_RECT, (5,5))  # or (5, 5)
+        skeleton = cv2.dilate(skeleton, kernel_thick, iterations=1)
 
-        # ------------------ 3. Morphological Closing ------------------
-        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
-        closed = cv2.morphologyEx(skeleton, cv2.MORPH_CLOSE, kernel, iterations=1)
-
-        # ------------------ 4. Line Detection ------------------
-        edges = cv2.Canny(closed, 30, 120)
-        lines = cv2.HoughLinesP(edges, 1, np.pi / 180, threshold=50, minLineLength=80, maxLineGap=15)
-        contours, _ = cv2.findContours(closed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-        height, width = gray.shape
-        line_img = cv2.cvtColor(closed, cv2.COLOR_GRAY2BGR)
-
-        # ------------------ 5. Draw Outer Hand Border ------------------
-        if contours:
-            largest = max(contours, key=cv2.contourArea)
-            if cv2.contourArea(largest) > 1000:
-                cv2.drawContours(line_img, [largest], -1, (255, 255, 255), 1)  # White border
-
-        # ------------------ 6. Draw Main Palm Lines ------------------
-        if lines is not None:
-            for line in lines:
-                x1, y1, x2, y2 = line[0]
-                dx, dy = abs(x2 - x1), abs(y2 - y1)
-                avg_x = (x1 + x2) // 2
-                avg_y = (y1 + y2) // 2
-
-                # Classify based on heuristics
-                if avg_y < height * 0.35 and dx > dy:
-                    color = (0, 0, 255)      # Heart line - Red
-                elif height * 0.35 <= avg_y < height * 0.6 and dx > dy:
-                    color = (0, 255, 255)    # Head line - Yellow
-                elif avg_x < width * 0.4 and dy > dx:
-                    color = (0, 255, 0)      # Life line - Green
-                else:
-                    continue
-                cv2.line(line_img, (x1, y1), (x2, y2), color, 2)
+        # 9. Apply mask again
+        skeleton = cv2.bitwise_and(skeleton, skeleton, mask=cleaned)
+        
+        # 10. Remove small objects after skeleton
+        cleaned = remove_small_objects(skeleton.astype(bool), min_size=500, connectivity=1)
+        cleaned = (cleaned * 255).astype(np.uint8)
+        
+        # 11. Overlay result on original
+        result_img = cv2.cvtColor(cleaned, cv2.COLOR_GRAY2BGR)
+        overlay = cv2.addWeighted(original, 0.6, result_img, 0.6, 0)
 
         # ------------------ 7. Return the Result ------------------
-        success, encoded_image = cv2.imencode('.png', line_img)
+        success, encoded_image = cv2.imencode('.png', overlay)
         if not success:
             return {"error": "Failed to encode image"}, 500
 
@@ -147,6 +155,29 @@ def process_image():
     except Exception as e:
         return {"error": str(e)}, 500
 
+#api = /numerology?fname=Utsav%20lankapati&dob=14-07-2004
+@app.route('/numerology', methods=['GET'])
+def numerology():
+    """API endpoint to calculate numerology based on full name and date of birth.
+    Expected URL parameters:
+    - fname (required): Full name of the person (e.g., "Utsav Lankapati").
+    - dob (required): Date of birth in 'DD-MM-YYYY' format (e.g., "14-07-2004").
+    Example usage:
+    GET /numerology?fname=Utsav%20Lankapati&dob=14-07-2004
+    This endpoint will return a JSON response with the numerology calculations.
+    """
+    req_name = request.args.get('fname')
+    req_dob = request.args.get('dob')
+    
+    if not req_name or not req_dob:
+        return jsonify({"error": "Both 'fname' and 'dob' parameters are required."}), 400
+    try:
+        # Call the numerology calculation function
+        result = numlogy_basic_sums(req_name, req_dob)
+        # Return the result as JSON
+        return jsonify(result), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True) # debug=True allows for automatic reloading on code changes

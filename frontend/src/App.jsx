@@ -8,6 +8,7 @@ import MainLayout from './components/MainLayout';
 import HomePage from './components/pages/homepage/HomePage';
 import PalmReadingPage from './components/pages/palmreading/PalmReadingPage';
 import Palmistry from './components/pages/palmreading/Palmistry';
+import Numerology from './components/pages/numerology/Numerology';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path='/horoscope' element={<MainLayout><Horoscope /></MainLayout>} />
         <Route path='/palmreading' element={<MainLayout><PalmReadingPage /></MainLayout>} />
         <Route path='/palm' element={<MainLayout><Palmistry /></MainLayout>} />
+        <Route path='/numerology' element={<MainLayout><Numerology /></MainLayout>} />
 
       </Routes>
     </Router>
