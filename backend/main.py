@@ -1,4 +1,5 @@
 import io
+import os
 import cv2
 import numpy as np
 from PIL import Image
@@ -12,14 +13,27 @@ from skimage.restoration import denoise_tv_chambolle
 from flask import Flask, request, jsonify ,send_file
 from skimage.morphology import skeletonize, remove_small_objects
 from astrology.horoscope import fetch_horoscope , get_zodiac_sign
+from chatbotassistant.chatmodel import chat_bot_reply
 from numerology.numlogycalcu import numlogy_basic_sums
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from dotenv import load_dotenv
+load_dotenv()  # Load environment variables from .env file
 
-
-# Assuming horoscope_fetcher.py (the code from your 'horoscope-fetcher' immersive)
-# is in the same directory as this file.
+# toekn for api verification
+API_KEY_TOKEN = os.getenv("API_KEY_TOKEN")
 
 app = Flask(__name__)
-CORS(app,origins=["http://localhost:5173"])
+
+#secured routes (Allow CORS for specific routes)
+CORS(app, resources={
+    r"/numerology": {"origins": ["http://localhost:5173"]},
+    r"/horoscope": {"origins": ["http://localhost:5173"]},
+    r"/process-image": {"origins": ["http://localhost:5173"]}
+})  
+
+limiter = Limiter(get_remote_address, app=app, default_limits=["10 per minute"])
+
 
 # Convert OpenCV image to PNG bytes
 def cv2_to_bytes(image):
@@ -44,6 +58,7 @@ def remove_background_opencv(img):
 
 
 @app.route('/horoscope', methods=['GET'])
+@limiter.limit("5 per minute")  # Limit to 10 requests per minute
 def get_horoscope():
     """
     API endpoint to fetch horoscope for a given date of birth and day type.
@@ -79,6 +94,7 @@ def get_horoscope():
 
 
 @app.route('/process-image', methods=['POST'])
+@limiter.limit("5 per minute")  # Limit to 5 requests per minute
 def process_image():
     if 'image' not in request.files:
         return {"error": "No image file provided"}, 400
@@ -155,8 +171,9 @@ def process_image():
     except Exception as e:
         return {"error": str(e)}, 500
 
-#api = /numerology?fname=Utsav%20lankapati&dob=14-07-2004
+#api = /numerology?fname=Utsavlankapati&dob=14-07-2004
 @app.route('/numerology', methods=['GET'])
+# @limiter.limit("5 per minute") 
 def numerology():
     """API endpoint to calculate numerology based on full name and date of birth.
     Expected URL parameters:
@@ -166,6 +183,11 @@ def numerology():
     GET /numerology?fname=Utsav%20Lankapati&dob=14-07-2004
     This endpoint will return a JSON response with the numerology calculations.
     """
+    client_api = request.headers.get('Numlogy-API-KEY') or request.args.get('Numlogy-API-KEY')
+    # print(f"{client_api}") use for debugging
+    if client_api != API_KEY_TOKEN:
+        return jsonify({"error":"Unauthorised request"}) , 401
+    
     req_name = request.args.get('fname')
     req_dob = request.args.get('dob')
     
@@ -178,6 +200,18 @@ def numerology():
         return jsonify(result), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+# API : /chat?question=this%20is%my%question
+@app.route("/chat", methods=["POST"])
+def chat_bot():
+    req_question = request.args.get('question')
+    if not req_question:
+        return jsonify({"error": "Empty Question"})
+    try:
+        chat_reply =  chat_bot_reply(req_question)
+        return jsonify(chat_reply),200
+    except Exception as e :
+        return jsonify({"error":str(e)}),500
 
 if __name__ == '__main__':
     app.run(debug=True) # debug=True allows for automatic reloading on code changes

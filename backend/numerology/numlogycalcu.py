@@ -1,8 +1,7 @@
 import sys 
 import os
-from .numlogy import expression_number, soul_number_meanings, personality_traits, lucky_list, avoids
+from .numlogy import expression_number, life_path_meanings, soul_number_meanings, personality_traits, lucky_list, avoids
 from collections import Counter
-
 
 # Helper function to reduce number to single digit (except 11, 22, 33)
 def reduce_number(n):
@@ -30,7 +29,11 @@ def numlogy_basic_sums(full_name,dob_str):
 
     #for date of birth processing
     # Input: dob_str in 'DD-MM-YYYY' format  
-    day, month, year = dob_str.strip().split("-")
+    try:
+        day, month, year = dob_str.strip().split("-")
+    except ValueError:
+        raise ValueError("Date of birth must be in 'DD-MM-YYYY' format")
+
     # Get individual digits
     all_digits = [int(ch) for ch in dob_str if ch.isdigit()]
     all_values_stack = all_digits.copy()
@@ -72,7 +75,7 @@ def numlogy_basic_sums(full_name,dob_str):
     # print(f"Vowels Sum: {vowels_single}")
     # print(f"Consonants Sum: {consonants_single}")
 
-
+    life_path_result = life_path_meanings.get(master_single, "Unknown Life Path Number")
     soule_urge_result = soul_number_meanings.get(vowels_single, "Unknown Soul Urge Number")
     personality_traits_result = personality_traits.get(consonants_single, "Unknown Personality Traits")
     lucky_list_result = lucky_list.get(master_single, "No Lucky List Available")
@@ -87,14 +90,16 @@ def numlogy_basic_sums(full_name,dob_str):
     
     # Prepare the output
     output = {
+        "name": full_name,
         "master_sum": master_single,
         "vowels_sum": vowels_single,
         "consonants_sum": consonants_single,
+        "life_path_number": life_path_result,
         "soul_urge_number": soule_urge_result,
-        "peronality_traits": personality_traits_result,
+        "personality_traits": personality_traits_result,
         "lucky_list":lucky_list_result,
-        "frequency": dict(freq),
         "avoids" : avoids_result,
+        "frequency": dict(freq),
     }
     
     return output
