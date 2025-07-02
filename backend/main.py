@@ -29,7 +29,8 @@ app = Flask(__name__)
 CORS(app, resources={
     r"/numerology": {"origins": ["http://localhost:5173"]},
     r"/horoscope": {"origins": ["http://localhost:5173"]},
-    r"/process-image": {"origins": ["http://localhost:5173"]}
+    r"/process-image": {"origins": ["http://localhost:5173"]},
+    r"/chat": {"origins": ["http://localhost:5173"]}
 })  
 
 limiter = Limiter(get_remote_address, app=app, default_limits=["10 per minute"])
@@ -204,6 +205,10 @@ def numerology():
 # API : /chat?question=this%20is%my%question
 @app.route("/chat", methods=["POST"])
 def chat_bot():
+    client_api = request.headers.get('CHAT-API-KEY') or request.args.get('CHAT-API-KEY')
+    # print(f"{client_api}") use for debugging
+    if client_api != API_KEY_TOKEN:
+        return jsonify({"error":"Unauthorised request"}) , 401
     req_question = request.args.get('question')
     if not req_question:
         return jsonify({"error": "Empty Question"})

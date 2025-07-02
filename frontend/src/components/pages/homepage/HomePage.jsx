@@ -1,5 +1,7 @@
 import React from 'react';
+import Chatbot from '../chatbot/Chatbot';
 import { Link } from 'react-router-dom';
+import { ErrorBoundary } from "react-error-boundary";
 
 const HomePage = () => {
     return (
@@ -40,6 +42,9 @@ const HomePage = () => {
                     </p>
                 </div>
             </div>
+            <ErrorBoundary>
+            <Chatbot />
+            </ErrorBoundary>
         </div>
     );
 };
