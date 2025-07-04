@@ -157,6 +157,9 @@ GAN_NAKSHATRA_MAP = [
 ]
 
 # Nadi (based on Nakshatra Index 0-26) - Correct.
+# adhi = adhya
+# madhya = madhya
+# anya = antya
 NADI_NAKSHATRA_MAP = [
     "Adya (Vata)", "Madhya (Pitta)", "Antya (Kapha)", "Antya (Kapha)", "Madhya (Pitta)", "Adya (Vata)",
     "Antya (Kapha)", "Madhya (Pitta)", "Adya (Vata)", "Antya (Kapha)", "Madhya (Pitta)", "Adya (Vata)",
@@ -477,6 +480,36 @@ def get_favorable_sign(nakshatra_name):
         "Uttara Bhadrapada": "Pisces",
         "Revati": "Pisces"
     }.get(nakshatra_name, "Unknown")
+def get_tara_name(nakshatra_name):
+    return {
+        "Ashwini": "Janma Tara",
+        "Bharani": "Sampat tara",
+        "Krittika": "Vipat Tara",
+        "Rohini": "Kshema Tara",
+        "Mrigashira": "Pratyari Tara",
+        "Ardra": "Sadhaka Tara",
+        "Punarvasu": "Vadha Tara",
+        "Pushya": "Mitra Tara",
+        "Ashlesha": "Ari Mitra Tara",
+        "Magha":"Janma Tara" ,
+        "Purva Phalguni":"Sampat tara" ,
+        "Uttara Phalguni": "Vipat Tara",
+        "Hasta":"Kshema Tara" ,
+        "Chitra":"Pratyari Tara" ,
+        "Swati": "Sadhaka Tara",
+        "Vishakha":"Vadha Tara" ,
+        "Anuradha": "Mitra Tara",
+        "Jyeshtha": "Ati Mitra Tara",
+        "Mula": "Janma Tara",
+        "Purva Ashadha":"Sampat tara" ,
+        "Uttara Ashadha":"Vipat Tara" ,
+        "Shravana": "Kshema Tara",
+        "Dhanishta":"Pratyari Tara" ,
+        "Shatabhisha":"Sadhaka Tara" ,
+        "Purva Bhadrapada": "Vadha Tara",
+        "Uttara Bhadrapada": "Mitra Tara",
+        "Revati":"Ati Mitra Tara" 
+    }.get(nakshatra_name, "Unknown")
 
 
 def get_favorable_alphabet(nakshatra_name, pada):
@@ -591,9 +624,33 @@ def get_favorable_direction(rashi_name):
 
 def get_ruling_planet(nakshatra_name):
     ruling = {
-        "Ashwini": "Ketu", "Bharani": "Venus", "Krittika": "Sun", "Rohini": "Moon",
-        "Mrigashira": "Mars", "Ardra": "Rahu", "Punarvasu": "Jupiter", "Pushya": "Saturn",
-        # ... add all
+        "Ashwini": "Ketu",
+        "Bharani": "Venus",
+        "Krittika": "Sun",
+        "Rohini": "Moon",
+        "Mrigashira": "Mars",
+        "Ardra": "Rahu",
+        "Punarvasu": "Jupiter",
+        "Pushya": "Saturn",
+        "Ashlesha": "Mercury",
+        "Magha": "Ketu",
+        "Purva Phalguni": "Venus",
+        "Uttara Phalguni": "Sun",
+        "Hasta": "Moon",
+        "Chitra": "Mars",
+        "Swati": "Rahu",
+        "Vishakha": "Jupiter",
+        "Anuradha": "Saturn",
+        "Jyeshtha": "Mercury",
+        "Mula": "Ketu",
+        "Purva Ashadha": "Venus",
+        "Uttara Ashadha": "Sun",
+        "Shravana": "Moon",
+        "Dhanishta": "Mars",
+        "Shatabhisha": "Rahu",
+        "Purva Bhadrapada": "Jupiter",
+        "Uttara Bhadrapada": "Saturn",
+        "Revati": "Mercury"
     }
     return ruling.get(nakshatra_name, "Unknown")
 
@@ -674,8 +731,8 @@ def favorable_lists(nakshatra_name, nakshatra_pada, rashi_name):
 
 # --- Main Calculation Logic ---
 # ----- Input -----
-DOB = "2004-07-14"
-TOB = "07:20"
+DOB = "2019-12-08"
+TOB = "23:59"
 LOCATION = "Surat ,Gujarat"
 
 # ----- Get Geolocation -----
@@ -774,6 +831,7 @@ avakhada_details = get_avakhada_details(
 
 #favorable list
 favorable_list = favorable_lists(nakshatra_name, nakshatra_pada, moon_sign_rashi)
+person_tara = get_tara_name(nakshatra_name)
 
 # --- Print Results ---
 print("\n" + "="*70)
@@ -812,8 +870,8 @@ print(f"{'Karan':<20}: {karan_name}\n")
 print(f"\n--- Moon's Details ---")
 print(f"Moon's Nakshatra: {nakshatra_name} (No. {nakshatra_index_1based})")
 print(f"Nakshatra Pada: {nakshatra_pada}")
-print(f"Moon Sign (Chandra Rashi): {moon_sign_rashi}\n")
-
+print(f"Moon Sign (Chandra Rashi): {moon_sign_rashi}")
+print(f"Tara (star) : {person_tara}\n")
 
 print("\n--- Avakhada Details ---")
 for key, value in avakhada_details.items():
