@@ -67,6 +67,7 @@ life_path_meanings = {
         "strengths": "Wise, thoughtful, deep thinker, loves knowledge and solitude",
         "challenges": "Withdrawn, skeptical, overly critical, emotionally detached",
         "life_purpose": "To seek truth through spiritual and intellectual exploration.",
+        "career": "Researcher , Spiritual Guide , Software developer , Scholar "
     },
     8: {
         "title": "The Powerhouse",

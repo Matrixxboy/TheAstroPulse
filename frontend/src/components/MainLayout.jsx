@@ -14,7 +14,7 @@ const MainLayout = ({ children }) => {
             {/* Navbar */}
             <Navbar />
             {/* <ScrollToTop /> */}
-            <main className="w-full pt-24 px-4 sm:px-8 md:px-16 lg:px-24">
+            <main className="w-full">
                 {children}
             </main>
         </div>

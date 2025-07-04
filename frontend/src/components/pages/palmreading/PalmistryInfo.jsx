@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './palmistry.css';
 
-const Palmistry = () => {
+const PalmistryInfo = () => {
   useEffect(() => {
     const treeItems = document.querySelectorAll("#tree li");
     const toggleItem = (e) => {
@@ -306,4 +306,4 @@ const Palmistry = () => {
   );
 };
 
-export default Palmistry;
+export default PalmistryInfo;

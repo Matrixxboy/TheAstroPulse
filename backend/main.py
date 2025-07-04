@@ -13,8 +13,8 @@ from skimage.restoration import denoise_tv_chambolle
 from flask import Flask, request, jsonify ,send_file
 from skimage.morphology import skeletonize, remove_small_objects
 from astrology.horoscope import fetch_horoscope , get_zodiac_sign
-from chatbotassistant.chatmodel import chat_bot_reply
-from numerology.numlogycalcu import numlogy_basic_sums
+from chatbotassistant.chatmodelGroq import chat_bot_reply
+from numerology.numlogycalcu import name_numlogy_basic_sums , business_numerology_basic_sums
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from dotenv import load_dotenv
@@ -24,13 +24,15 @@ load_dotenv()  # Load environment variables from .env file
 API_KEY_TOKEN = os.getenv("API_KEY_TOKEN")
 
 app = Flask(__name__)
+valid_add = "http://192.168.1.8:5173" 
 
 #secured routes (Allow CORS for specific routes)
 CORS(app, resources={
-    r"/numerology": {"origins": ["http://localhost:5173"]},
-    r"/horoscope": {"origins": ["http://localhost:5173"]},
-    r"/process-image": {"origins": ["http://localhost:5173"]},
-    r"/chat": {"origins": ["http://localhost:5173"]}
+    r"/chat": {"origins": [valid_add]},
+    r"/horoscope": {"origins": [valid_add]},
+    r"/process-image": {"origins": [valid_add]},
+    r"/name-numerology": {"origins": [valid_add]},
+    r"/business-numerology": {"origins": [valid_add]}
 })  
 
 limiter = Limiter(get_remote_address, app=app, default_limits=["10 per minute"])
@@ -173,30 +175,55 @@ def process_image():
         return {"error": str(e)}, 500
 
 #api = /numerology?fname=Utsavlankapati&dob=14-07-2004
-@app.route('/numerology', methods=['GET'])
+@app.route('/name-numerology', methods=['GET'])
 # @limiter.limit("5 per minute") 
-def numerology():
+def name_numerology():
     """API endpoint to calculate numerology based on full name and date of birth.
     Expected URL parameters:
     - fname (required): Full name of the person (e.g., "Utsav Lankapati").
     - dob (required): Date of birth in 'DD-MM-YYYY' format (e.g., "14-07-2004").
     Example usage:
-    GET /numerology?fname=Utsav%20Lankapati&dob=14-07-2004
+    GET /numerology?fname=Utsav%20Lankapati&dob=14-07-2004&gen=Male
+    This endpoint will return a JSON response with the numerology calculations.
+    """
+    # client_api = request.headers.get('Numlogy-API-KEY') or request.args.get('Numlogy-API-KEY')
+    # print(f"{client_api}") #use for debugging
+    # if client_api != API_KEY_TOKEN:
+    #     return jsonify({"error":"Unauthorised request"}) , 401
+    
+    req_name = request.args.get('fname')
+    req_dob = request.args.get('dob')
+    req_gender = request.args.get('gen')
+    
+    if not req_name or not req_dob:
+        return jsonify({"error": "Both 'fname' and 'dob' parameters are required."}), 400
+    try:
+        # Call the numerology calculation function
+        result = name_numlogy_basic_sums(req_name, req_dob,req_gender)
+        # Return the result as JSON
+        return jsonify(result), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+#api = /business-numerology?bname=theastropulse
+@app.route('/business-numerology', methods=['GET'])
+# @limiter.limit("5 per minute") 
+def business_numerology():
+    """API endpoint to calculate numerology based on full name and date of birth.
+    Expected URL parameters:
+    - bname (required): Full name of the business or company (e.g., "The astro pulse")
+    Example usage:
+    GET /business-numerology?bnmae=theastropulse
     This endpoint will return a JSON response with the numerology calculations.
     """
     client_api = request.headers.get('Numlogy-API-KEY') or request.args.get('Numlogy-API-KEY')
     # print(f"{client_api}") use for debugging
     if client_api != API_KEY_TOKEN:
         return jsonify({"error":"Unauthorised request"}) , 401
-    
-    req_name = request.args.get('fname')
-    req_dob = request.args.get('dob')
-    
-    if not req_name or not req_dob:
-        return jsonify({"error": "Both 'fname' and 'dob' parameters are required."}), 400
+    req_name = request.args.get('bname')
     try:
         # Call the numerology calculation function
-        result = numlogy_basic_sums(req_name, req_dob)
+        result = business_numerology_basic_sums(req_name)
         # Return the result as JSON
         return jsonify(result), 200
     except Exception as e:
@@ -219,4 +246,4 @@ def chat_bot():
         return jsonify({"error":str(e)}),500
 
 if __name__ == '__main__':
-    app.run(debug=True) # debug=True allows for automatic reloading on code changes
+    app.run(debug=True,host="0.0.0.0",port=5000) # debug=True allows for automatic reloading on code changes

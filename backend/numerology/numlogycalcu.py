@@ -11,13 +11,14 @@ def reduce_number(n):
         n = sum(int(d) for d in str(n))
     return n
 
-def numlogy_basic_sums(full_name,dob_str):
+def name_numlogy_basic_sums(full_name,dob_str,gender):
     letters = [char.upper() for char in full_name if char.isalpha()]
     vowel_stack = []
     consonant_stack = []
     all_values_stack = []
     vowels = set('AEIOU')
 
+    
     # Process each character
     for char in letters:
         value = expression_number.get(char, 0)
@@ -33,6 +34,34 @@ def numlogy_basic_sums(full_name,dob_str):
         day, month, year = dob_str.strip().split("-")
     except ValueError:
         raise ValueError("Date of birth must be in 'DD-MM-YYYY' format")
+    
+
+    #kua number 
+    gyear = int(year)
+    last_two = gyear % 100
+    digit_sum = sum(map(int, str(last_two)))
+    kua = 0
+    if gyear >= 2000:
+        if gender.lower() == 'male':
+            kua = 9 - digit_sum
+        else:
+            kua = digit_sum + 5
+    else:
+        if gender.lower() == 'male':
+            kua = 10 - digit_sum
+        else:
+            kua = digit_sum + 5
+
+    # Reduce to 1 digit
+    while kua > 9:
+        kua = sum(map(int, str(kua)))
+    
+    # Special rule: if kua == 5
+    if kua == 5:
+        if gender.lower() == 'male':
+            kua = 2
+        else:
+            kua = 8
 
     # Get individual digits
     all_digits = [int(ch) for ch in dob_str if ch.isdigit()]
@@ -59,11 +88,18 @@ def numlogy_basic_sums(full_name,dob_str):
     master_sum = reduced_total
     vowels_sum = sum(vowel_stack)
     consonants_sum = sum(consonant_stack)
+    name_number_sum = vowels_sum+consonants_sum
+    
 
     # Reduce each sum
     master_single = reduce_number(master_sum)
     vowels_single = reduce_number(vowels_sum)
     consonants_single = reduce_number(consonants_sum)
+    name_number_single = reduce_number(name_number_sum)
+    connector_number_single = reduce_number(full_sum)
+    driver_number_single= reduce_number(day_sum)
+
+
 
 
     # Output results
@@ -91,6 +127,7 @@ def numlogy_basic_sums(full_name,dob_str):
     # Prepare the output
     output = {
         "name": full_name,
+        "name_number":name_number_single,
         "master_sum": master_single,
         "vowels_sum": vowels_single,
         "consonants_sum": consonants_single,
@@ -100,6 +137,59 @@ def numlogy_basic_sums(full_name,dob_str):
         "lucky_list":lucky_list_result,
         "avoids" : avoids_result,
         "frequency": dict(freq),
+        "connector_number":connector_number_single,
+        "driver_number":driver_number_single,
+        "kua_number" : kua,
+    }
+    return output
+
+def business_numerology_basic_sums(business_name):
+    # 🔍 Clean the business name: keep only A-Z letters
+    cleaned_name = ''.join(char.upper() for char in business_name if char.isalpha())
+
+    if not cleaned_name:
+        return {
+            "error": "Business name must contain at least one alphabet letter (A–Z)."
+        }
+
+    vowels = set('AEIOU')
+    vowel_stack = []
+    consonant_stack = []
+
+    for char in cleaned_name:
+        value = expression_number.get(char, 0)
+        if char in vowels:
+            vowel_stack.append(value)
+        else:
+            consonant_stack.append(value)
+
+    vowels_sum = sum(vowel_stack)
+    consonants_sum = sum(consonant_stack)
+    master_sum = vowels_sum + consonants_sum
+    name_number_sum = master_sum
+
+    full_sum = master_sum  # Connector number
+
+    # Reduce numbers
+    name_number_single = reduce_number(name_number_sum)
+    vowels_single = reduce_number(vowels_sum)
+    consonants_single = reduce_number(consonants_sum)
+    master_single = reduce_number(master_sum)
+    connector_number_single = reduce_number(full_sum)
+
+
+    freq = Counter([name_number_single, vowels_single, consonants_single])
+
+    output = {
+        "business_name": business_name,
+        "cleaned_name": cleaned_name,
+        "name_number": name_number_single,
+        "master_sum": master_single,
+        "vowels_sum": vowels_single,
+        "consonants_sum": consonants_single,
+        "frequency": dict(freq),
+        "connector_number": connector_number_single,
+       
     }
     
     return output
