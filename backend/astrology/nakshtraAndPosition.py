@@ -186,19 +186,49 @@ SIGN_LORD_MAPPING = {
 
 # Tatva (Elements based on Rashi) - Correct.
 TATVA_MAPPING = {
-    "Aries (Mesha)": "Agni (Fire)", "Leo (Simha)": "Agni (Fire)", "Sagittarius (Dhanu)": "Agni (Fire)",
-    "Taurus (Vrishabha)": "Prithvi (Earth)", "Virgo (Kanya)": "Prithvi (Earth)", "Capricorn (Makara)": "Prithvi (Earth)",
-    "Gemini (Mithuna)": "Vayu (Air)", "Libra (Tula)": "Vayu (Air)", "Aquarius (Kumbha)": "Vayu (Air)",
-    "Cancer (Karka)": "Jala (Water)", "Scorpio (Vrishchika)": "Jala (Water)", "Pisces (Meena)": "Jala (Water)"
+    "Aries (Mesha)": "Agni (Fire)", 
+    "Leo (Simha)": "Agni (Fire)", 
+    "Sagittarius (Dhanu)": "Agni (Fire)",
+    "Taurus (Vrishabha)": "Prithvi (Earth)", 
+    "Virgo (Kanya)": "Prithvi (Earth)", 
+    "Capricorn (Makara)": "Prithvi (Earth)",
+    "Gemini (Mithuna)": "Vayu (Air)", 
+    "Libra (Tula)": "Vayu (Air)", 
+    "Aquarius (Kumbha)": "Vayu (Air)",
+    "Cancer (Karka)": "Jala (Water)", 
+    "Scorpio (Vrishchika)": "Jala (Water)", 
+    "Pisces (Meena)": "Jala (Water)"
 }
 
 # Paya (based on Nakshatra group) - Correct.
 PAYA_NAKSHATRA_MAP = [
-    "Swarna (Gold)", "Rajata (Silver)", "Tamra (Copper)", "Loha (Iron)", "Rajata (Silver)", "Tamra (Copper)",
-    "Rajata (Silver)", "Tamra (Copper)", "Swarna (Gold)", "Rajata (Silver)", "Tamra (Copper)", "Loha (Iron)",
-    "Rajata (Silver)", "Tamra (Copper)", "Swarna (Gold)", "Loha (Iron)", "Tamra (Copper)", "Rajata (Silver)",
-    "Loha (Iron)", "Tamra (Copper)", "Rajata (Silver)", "Tamra (Copper)", "Loha (Iron)", "Swarna (Gold)",
-    "Swarna (Gold)", "Rajata (Silver)", "Loha (Iron)"
+    "Swarna (Gold)", 
+    "Rajata (Silver)", 
+    "Tamra (Copper)", 
+    "Loha (Iron)", 
+    "Rajata (Silver)", 
+    "Tamra (Copper)",
+    "Rajata (Silver)", 
+    "Tamra (Copper)", 
+    "Swarna (Gold)", 
+    "Rajata (Silver)", 
+    "Tamra (Copper)", 
+    "Loha (Iron)",
+    "Rajata (Silver)", 
+    "Tamra (Copper)", 
+    "Swarna (Gold)", 
+    "Loha (Iron)", 
+    "Tamra (Copper)", 
+    "Rajata (Silver)",
+    "Loha (Iron)", 
+    "Tamra (Copper)", 
+    "Rajata (Silver)", 
+    "Tamra (Copper)", 
+    "Loha (Iron)", 
+    "Swarna (Gold)",
+    "Swarna (Gold)", 
+    "Rajata (Silver)", 
+    "Loha (Iron)"
 ]
 
 
@@ -248,6 +278,8 @@ def get_rashi_from_nakshatra_pada(nakshatra_num, pada_num):
     else:
         return "Error in calculation"
 
+
+# need to be correct as per the Indian Astrology
 def calculate_vimshottari_dasha(moon_long_sidereal, dob_datetime_obj): 
     """
     Calculates the Vimshottari Mahadasha sequence.
@@ -291,6 +323,7 @@ def calculate_vimshottari_dasha(moon_long_sidereal, dob_datetime_obj):
         
     return current_dasha_lord, years_left_in_current_dasha, sequence
 
+#Karna finnding logic (no need to change working properly)
 def get_karan(moon_long_sidereal, sun_long_sidereal):
     """
     Calculates the Karan based on the current Tithi number and whether it's the first or second half.
@@ -731,9 +764,9 @@ def favorable_lists(nakshatra_name, nakshatra_pada, rashi_name):
 
 # --- Main Calculation Logic ---
 # ----- Input -----
-DOB = "2019-12-08"
-TOB = "23:59"
-LOCATION = "Surat ,Gujarat"
+DOB = "2004-07-14"
+TOB = "07:15"
+LOCATION = "surat ,Gujarat"
 
 # ----- Get Geolocation -----
 geolocator = Nominatim(user_agent="vedic_astrology_app") 
@@ -807,6 +840,7 @@ for name, pid in planets_ids.items():
 # ----- Panchang Calculations -----
 sun_long_sidereal = planet_positions_sidereal["Sun"][0]
 moon_long_sidereal = planet_positions_sidereal["Moon"][0]
+print(f"moon postion array : {planet_positions_sidereal}")
 
 vara, tithi_name_simple, paksha_name, karan_name, yoga_name = get_vara_tithi_karan_yoga(jd, sun_long_sidereal, moon_long_sidereal)
 full_tithi_name = f"{tithi_name_simple} ({paksha_name})"
