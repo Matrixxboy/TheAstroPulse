@@ -15,6 +15,7 @@ from skimage.morphology import skeletonize, remove_small_objects
 from astrology.horoscope import fetch_horoscope , get_zodiac_sign
 from chatbotassistant.chatmodelGroq import chat_bot_reply
 from numerology.numlogycalcu import name_numlogy_basic_sums , business_numerology_basic_sums
+from astrology.nakshtra_details import final_astro_report
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from dotenv import load_dotenv
@@ -30,6 +31,7 @@ valid_add = "http://192.168.1.8:5173"
 CORS(app, resources={
     r"/chat": {"origins": [valid_add]},
     r"/horoscope": {"origins": [valid_add]},
+    r"/astro-report": {"origins": [valid_add]},
     r"/process-image": {"origins": [valid_add]},
     r"/name-numerology": {"origins": [valid_add]},
     r"/business-numerology": {"origins": [valid_add]}
@@ -244,6 +246,33 @@ def chat_bot():
         return jsonify(chat_reply),200
     except Exception as e :
         return jsonify({"error":str(e)}),500
+    
 
+
+# API : /astro-report?dob=14-07-2004&tob=07:15&lob=surat,gujarat
+@app.route("/astro-report",methods=['GET'])
+def final_astro_report_generator():
+    
+    client_api = request.headers.get('Astro-API-KEY') or request.args.get('Astro-API-KEY')
+    # print(f"{client_api}") use for debugging
+    if client_api != API_KEY_TOKEN:
+        return jsonify({"error":"Unauthorised request"}) , 401
+    
+    req_dob = request.args.get('dob') #date of birth
+    req_tob = request.args.get('tob') #time of birth
+    req_lob = request.args.get('lob')#location of birth
+    
+    if not req_dob:
+        return jsonify({"error": "Empty Date of birth"}),400
+    if not req_tob:
+        return jsonify({"error": "Empty time of birth"}),400
+    if not req_lob:
+        return jsonify({"error": "Empty Location of birth"}),400
+    try:
+        report =  final_astro_report(req_dob,req_tob,req_lob)
+        return jsonify(report),200
+    except Exception as e :
+        return jsonify({"error":str(e)}),500
+    
 if __name__ == '__main__':
     app.run(debug=True,host="0.0.0.0",port=5000) # debug=True allows for automatic reloading on code changes

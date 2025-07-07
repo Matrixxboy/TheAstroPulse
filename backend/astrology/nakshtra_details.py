@@ -1458,119 +1458,139 @@ DOB = "2019-12-08"
 TOB = "23:59"
 LOCATION = "Surat ,Gujarat"
 
-# ----- Get Geolocation -----
-geolocator = Nominatim(user_agent="vedic_astrology_app") 
-location = geolocator.geocode(LOCATION)
-if not location:
-    raise ValueError(f"Could not find location for '{LOCATION}'")
-lat, lon = location.latitude, location.longitude
+def final_astro_report(DOB:str,TOB:str,LOCATION:str)->dict:
+    # ----- Get Geolocation -----
+    geolocator = Nominatim(user_agent="vedic_astrology_app") 
+    location = geolocator.geocode(LOCATION)
+    if not location:
+        raise ValueError(f"Could not find location for '{LOCATION}'")
+    lat, lon = location.latitude, location.longitude
 
-# ----- Get Timezone and Local Time to UTC -----
-tf = TimezoneFinder()
-timezone_str = tf.timezone_at(lat=lat, lng=lon)
-if not timezone_str:
-    raise ValueError(f"Could not find timezone for Latitude: {lat}, Longitude: {lon}")
-local_tz = pytz.timezone(timezone_str)
+    # ----- Get Timezone and Local Time to UTC -----
+    tf = TimezoneFinder()
+    timezone_str = tf.timezone_at(lat=lat, lng=lon)
+    if not timezone_str:
+        raise ValueError(f"Could not find timezone for Latitude: {lat}, Longitude: {lon}")
+    local_tz = pytz.timezone(timezone_str)
 
-naive_dt = datetime.strptime(f"{DOB} {TOB}", "%Y-%m-%d %H:%M")
-local_dt = local_tz.localize(naive_dt, is_dst=None)
-utc_dt = local_dt.astimezone(pytz.utc)
+    naive_dt = datetime.strptime(f"{DOB} {TOB}", "%Y-%m-%d %H:%M")
+    local_dt = local_tz.localize(naive_dt, is_dst=None)
+    utc_dt = local_dt.astimezone(pytz.utc)
 
-# Calculate Julian Day for UTC time
-jd = swe.julday(utc_dt.year, utc_dt.month, utc_dt.day,
-                utc_dt.hour + utc_dt.minute / 60.0 + utc_dt.second / 3600.0)
+    # Calculate Julian Day for UTC time
+    jd = swe.julday(utc_dt.year, utc_dt.month, utc_dt.day,
+                    utc_dt.hour + utc_dt.minute / 60.0 + utc_dt.second / 3600.0)
 
-# --- Ayanamsa Setup ---
-ayanamsa_flag_for_calc = 0 
-ayanamsa_used_display = "Unknown / Default" 
+    # --- Ayanamsa Setup ---
+    ayanamsa_flag_for_calc = 0 
+    ayanamsa_used_display = "Unknown / Default" 
 
-try:
-    if hasattr(swe, 'AYANAMSA_LAHIRI') and callable(getattr(swe, 'set_ayanamsa_arc', None)):
-        swe.set_ayanamsa_arc(swe.AYANAMSA_LAHIRI)
-        ayanamsa_used_display = "Lahiri (via swe.set_ayanamsa_arc)"
-    else:
-        print("\nWARNING: Modern Ayanamsa setting functions (swe.set_ayanamsa_arc, swe.AYANAMSA_LAHIRI) not found.")
-        print("This indicates your pyswisseph version is outdated.")
-        print("Attempting to use legacy Ayanamsa flag directly in swe.calc (assuming Lahiri = 2).")
+    try:
+        if hasattr(swe, 'AYANAMSA_LAHIRI') and callable(getattr(swe, 'set_ayanamsa_arc', None)):
+            swe.set_ayanamsa_arc(swe.AYANAMSA_LAHIRI)
+            ayanamsa_used_display = "Lahiri (via swe.set_ayanamsa_arc)"
+        else:
+            print("\nWARNING: Modern Ayanamsa setting functions (swe.set_ayanamsa_arc, swe.AYANAMSA_LAHIRI) not found.")
+            print("This indicates your pyswisseph version is outdated.")
+            print("Attempting to use legacy Ayanamsa flag directly in swe.calc (assuming Lahiri = 2).")
+            ayanamsa_flag_for_calc = 2 
+            ayanamsa_used_display = "Lahiri (via legacy direct flag)"
+    except AttributeError as e:
+        print(f"\nCRITICAL WARNING: Encountered AttributeError during Ayanamsa setup: {e}")
+        print("Your pyswisseph library is severely outdated.")
+        print("Please run: pip install --upgrade pyswisseph")
+        print("If error persists after upgrade, verify your Python environment.")
         ayanamsa_flag_for_calc = 2 
-        ayanamsa_used_display = "Lahiri (via legacy direct flag)"
-except AttributeError as e:
-    print(f"\nCRITICAL WARNING: Encountered AttributeError during Ayanamsa setup: {e}")
-    print("Your pyswisseph library is severely outdated.")
-    print("Please run: pip install --upgrade pyswisseph")
-    print("If error persists after upgrade, verify your Python environment.")
-    ayanamsa_flag_for_calc = 2 
-    ayanamsa_used_display = "Lahiri (via forced legacy flag due to error)"
+        ayanamsa_used_display = "Lahiri (via forced legacy flag due to error)"
 
-# ----- Planet Positions (Sidereal) -----
-planets_ids = {
-    "Sun": swe.SUN, "Moon": swe.MOON, "Mars": swe.MARS, "Mercury": swe.MERCURY,
-    "Jupiter": swe.JUPITER, "Venus": swe.VENUS, "Saturn": swe.SATURN,
-    "Rahu": swe.MEAN_NODE, "Ketu": swe.MEAN_NODE
-}
-planet_positions_sidereal = {}
+    # ----- Planet Positions (Sidereal) -----
+    planets_ids = {
+        "Sun": swe.SUN, "Moon": swe.MOON, "Mars": swe.MARS, "Mercury": swe.MERCURY,
+        "Jupiter": swe.JUPITER, "Venus": swe.VENUS, "Saturn": swe.SATURN,
+        "Rahu": swe.MEAN_NODE, "Ketu": swe.MEAN_NODE
+    }
+    planet_positions_sidereal = {}
 
-flags = swe.FLG_SWIEPH | swe.FLG_SIDEREAL | ayanamsa_flag_for_calc | swe.FLG_NONUT
+    flags = swe.FLG_SWIEPH | swe.FLG_SIDEREAL | ayanamsa_flag_for_calc | swe.FLG_NONUT
 
-for name, pid in planets_ids.items():
-    if name == "Ketu":
-        pos_rahu = swe.calc(jd, swe.MEAN_NODE, flags)
-        rahu_lon = pos_rahu[0][0]
-        ketu_lon = (rahu_lon + 180) % 360
-        planet_positions_sidereal["Ketu"] = (ketu_lon, pos_rahu[0][1], pos_rahu[0][2])
-    else:
-        pos = swe.calc(jd, pid, flags)[0]
-        planet_positions_sidereal[name] = pos
+    for name, pid in planets_ids.items():
+        if name == "Ketu":
+            pos_rahu = swe.calc(jd, swe.MEAN_NODE, flags)
+            rahu_lon = pos_rahu[0][0]
+            ketu_lon = (rahu_lon + 180) % 360
+            planet_positions_sidereal["Ketu"] = (ketu_lon, pos_rahu[0][1], pos_rahu[0][2])
+        else:
+            pos = swe.calc(jd, pid, flags)[0]
+            planet_positions_sidereal[name] = pos
 
 
-# ----- Panchang Calculations -----
-sun_long_sidereal = planet_positions_sidereal["Sun"][0]
-moon_long_sidereal = planet_positions_sidereal["Moon"][0]
-print(f"moon postion array : {planet_positions_sidereal}")
+    # ----- Panchang Calculations -----
+    sun_long_sidereal = planet_positions_sidereal["Sun"][0]
+    moon_long_sidereal = planet_positions_sidereal["Moon"][0]
+    print(f"moon postion array : {planet_positions_sidereal}")
 
-vara, tithi_name_simple, paksha_name, karan_name, yoga_name = get_vara_tithi_karan_yoga(jd, sun_long_sidereal, moon_long_sidereal)
-full_tithi_name = f"{tithi_name_simple} ({paksha_name})"
+    vara, tithi_name_simple, paksha_name, karan_name, yoga_name = get_vara_tithi_karan_yoga(jd, sun_long_sidereal, moon_long_sidereal)
+    full_tithi_name = f"{tithi_name_simple} ({paksha_name})"
 
-# ----- Nakshatra, Pada, and Rashi for Moon -----
-nakshatra_idx_0based, nakshatra_index_1based, nakshatra_name, nakshatra_pada, nakshtra_all_details = get_nakshatra_info(moon_long_sidereal)
-moon_sign_rashi = get_rashi_from_nakshatra_pada(nakshatra_index_1based, nakshatra_pada)
+    # ----- Nakshatra, Pada, and Rashi for Moon -----
+    nakshatra_idx_0based, nakshatra_index_1based, nakshatra_name, nakshatra_pada, nakshtra_all_details = get_nakshatra_info(moon_long_sidereal)
+    moon_sign_rashi = get_rashi_from_nakshatra_pada(nakshatra_index_1based, nakshatra_pada)
 
-# ----- Ascendant and Houses -----
-cusps, ascmc = swe.houses(jd, lat, lon, b'A') 
-ascendant_long = ascmc[0] 
-house_cusps_long = cusps 
+    # ----- Ascendant and Houses -----
+    cusps, ascmc = swe.houses(jd, lat, lon, b'A') 
+    ascendant_long = ascmc[0] 
+    house_cusps_long = cusps 
+
+    output = {
+        "DOB":DOB,
+        "TOB" :TOB,
+        "timezone" : timezone_str,
+        "UTC_time" : utc_dt.strftime('%H:%M UTC'),
+        "location": LOCATION,
+        "latitude":lat,
+        "longitude" :lon,
+        "julian_Day" : jd,
+        "ayanamasa_Used":ayanamsa_used_display,
+        "vara":vara,
+        "tithi":full_tithi_name,
+        "nakshatra_index" : nakshatra_index_1based,
+        "nakshatra_name" : nakshatra_name,
+        "nakshatra_pada" : nakshatra_pada,
+        "nakshtra_all_details" :  nakshtra_all_details,
+    }
+    return output
 
 # --- Print Results ---
-print("\n" + "="*70)
-print("             Vedic Astrology Birth Chart Report             ")
-print("="*70 + "\n")
+# print("\n" + "="*70)
+# print("             Vedic Astrology Birth Chart Report             ")
+# print("="*70 + "\n")
 
-print("--- Birth Details ---")
-print(f"Date of Birth: {DOB}")
-print(f"Time of Birth: {TOB} ({timezone_str} / {utc_dt.strftime('%H:%M UTC')})")
-print(f"Location: {LOCATION}")
-print(f"Coordinates: Latitude: {lat:.2f}°, Longitude: {lon:.2f}°")
-print(f"Julian Day: {jd:.4f}\n")
-print(f"Ayanamsa Used: {ayanamsa_used_display}\n")
-
-
-print("--- Panchang Details ---")
-print(f"{'Vara (Weekday)':<20}: {vara}")
-print(f"{'Tithi':<20}: {full_tithi_name}")
-print(f"{'Nakshatra':<20}: (No. {nakshatra_index_1based}) {nakshatra_name} ")
-print(f"{'Yoga':<20}: {yoga_name}")
-print(f"{'Karan':<20}: {karan_name}\n")
+# print("--- Birth Details ---")
+# print(f"Date of Birth: {DOB}")
+# print(f"Time of Birth: {TOB} ({timezone_str} / {utc_dt.strftime('%H:%M UTC')})")
+# print(f"Location: {LOCATION}")
+# print(f"Coordinates: Latitude: {lat:.2f}°, Longitude: {lon:.2f}°")
+# print(f"Julian Day: {jd:.4f}\n")
+# print(f"Ayanamsa Used: {ayanamsa_used_display}\n")
 
 
-print(f"\n--- Moon's Details ---")
-print(f"Moon's Nakshatra: {nakshatra_name} (No. {nakshatra_index_1based})")
-print(f"Nakshatra Pada: {nakshatra_pada}")
-print(f"Moon Sign (Chandra Rashi): {moon_sign_rashi}")
-print(f"Tara (star) : {nakshtra_all_details}\n")
-person_pada = nakshtra_all_details.get("pada", {}).get(str(nakshatra_pada))
-print(f"Info of pada-{nakshatra_pada} : {person_pada}")
+# print("--- Panchang Details ---")
+# print(f"{'Vara (Weekday)':<20}: {vara}")
+# print(f"{'Tithi':<20}: {full_tithi_name}")
+# print(f"{'Nakshatra':<20}: (No. {nakshatra_index_1based}) {nakshatra_name} ")
+# print(f"{'Yoga':<20}: {yoga_name}")
+# print(f"{'Karan':<20}: {karan_name}\n")
 
-print("\n" + "="*70)
-print("              End of Birth Chart Report             ")
-print("="*70)
+
+# print(f"\n--- Moon's Details ---")
+# print(f"Moon's Nakshatra: {nakshatra_name} (No. {nakshatra_index_1based})")
+# print(f"Nakshatra Pada: {nakshatra_pada}")
+# print(f"Moon Sign (Chandra Rashi): {moon_sign_rashi}")
+# print(f"Tara (star) : {nakshtra_all_details}\n")
+# person_pada = nakshtra_all_details.get("pada", {}).get(str(nakshatra_pada))
+# print(f"Info of pada-{nakshatra_pada} : {person_pada}")
+
+# print("\n" + "="*70)
+# print("              End of Birth Chart Report             ")
+# print("="*70)
 
