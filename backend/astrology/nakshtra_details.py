@@ -1557,6 +1557,7 @@ def final_astro_report(DOB:str,TOB:str,LOCATION:str)->dict:
         "nakshatra_name" : nakshatra_name,
         "nakshatra_pada" : nakshatra_pada,
         "nakshtra_all_details" :  nakshtra_all_details,
+        "rashi_all_details" : moon_sign_rashi
     }
     return output
 
