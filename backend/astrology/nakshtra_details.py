@@ -10,6 +10,7 @@ try:
 except Exception as e:
     print(f"Error setting ephemeris path to 'ephe': {e}")
     print("Please set swe.set_ephe_path('FULL_PATH_TO_YOUR_SWEPH_EPHE_FOLDER') manually.")
+    
 NAKSHATRA_NAMES = [
     "Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra", "Punarvasu",
     "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni", "Hasta",
@@ -17,6 +18,7 @@ NAKSHATRA_NAMES = [
     "Uttara Ashadha", "Shravana", "Dhanishtha", "Shatabhisha", "Purva Bhadrapada",
     "Uttara Bhadrapada", "Revati"
 ]
+
 NAKSHTRA_DETAILS = {
     "Ashwini": {
         "varna": "Vaishya",
@@ -1560,38 +1562,3 @@ def final_astro_report(DOB:str,TOB:str,LOCATION:str)->dict:
         "rashi_all_details" : moon_sign_rashi
     }
     return output
-
-# --- Print Results ---
-# print("\n" + "="*70)
-# print("             Vedic Astrology Birth Chart Report             ")
-# print("="*70 + "\n")
-
-# print("--- Birth Details ---")
-# print(f"Date of Birth: {DOB}")
-# print(f"Time of Birth: {TOB} ({timezone_str} / {utc_dt.strftime('%H:%M UTC')})")
-# print(f"Location: {LOCATION}")
-# print(f"Coordinates: Latitude: {lat:.2f}°, Longitude: {lon:.2f}°")
-# print(f"Julian Day: {jd:.4f}\n")
-# print(f"Ayanamsa Used: {ayanamsa_used_display}\n")
-
-
-# print("--- Panchang Details ---")
-# print(f"{'Vara (Weekday)':<20}: {vara}")
-# print(f"{'Tithi':<20}: {full_tithi_name}")
-# print(f"{'Nakshatra':<20}: (No. {nakshatra_index_1based}) {nakshatra_name} ")
-# print(f"{'Yoga':<20}: {yoga_name}")
-# print(f"{'Karan':<20}: {karan_name}\n")
-
-
-# print(f"\n--- Moon's Details ---")
-# print(f"Moon's Nakshatra: {nakshatra_name} (No. {nakshatra_index_1based})")
-# print(f"Nakshatra Pada: {nakshatra_pada}")
-# print(f"Moon Sign (Chandra Rashi): {moon_sign_rashi}")
-# print(f"Tara (star) : {nakshtra_all_details}\n")
-# person_pada = nakshtra_all_details.get("pada", {}).get(str(nakshatra_pada))
-# print(f"Info of pada-{nakshatra_pada} : {person_pada}")
-
-# print("\n" + "="*70)
-# print("              End of Birth Chart Report             ")
-# print("="*70)
-
