@@ -1,5 +1,5 @@
 import swisseph as swe
-from geopy.geocoders import Nominatim
+from geopy.geocoders import Nominatim ,Photon
 from timezonefinder import TimezoneFinder
 import pytz
 from datetime import datetime, timedelta
@@ -1462,10 +1462,18 @@ LOCATION = "Surat ,Gujarat"
 
 def final_astro_report(DOB:str,TOB:str,LOCATION:str)->dict:
     # ----- Get Geolocation -----
-    geolocator = Nominatim(user_agent="vedic_astrology_app") 
-    location = geolocator.geocode(LOCATION)
+    try:
+        geolocator = Nominatim(user_agent="vedic_astrology_app", timeout=10)
+        location = geolocator.geocode(LOCATION)
+        if not location:
+            raise Exception("Nominatim failed")
+    except Exception:
+        geolocator = Photon(user_agent="vedic_astrology_app", timeout=10)
+        location = geolocator.geocode(LOCATION)
+
     if not location:
         raise ValueError(f"Could not find location for '{LOCATION}'")
+
     lat, lon = location.latitude, location.longitude
 
     # ----- Get Timezone and Local Time to UTC -----
@@ -1486,6 +1494,9 @@ def final_astro_report(DOB:str,TOB:str,LOCATION:str)->dict:
     # --- Ayanamsa Setup ---
     ayanamsa_flag_for_calc = 0 
     ayanamsa_used_display = "Unknown / Default" 
+
+   
+
 
     try:
         if hasattr(swe, 'AYANAMSA_LAHIRI') and callable(getattr(swe, 'set_ayanamsa_arc', None)):
@@ -1529,7 +1540,7 @@ def final_astro_report(DOB:str,TOB:str,LOCATION:str)->dict:
     # ----- Panchang Calculations -----
     sun_long_sidereal = planet_positions_sidereal["Sun"][0]
     moon_long_sidereal = planet_positions_sidereal["Moon"][0]
-    print(f"moon postion array : {planet_positions_sidereal}")
+
 
     vara, tithi_name_simple, paksha_name, karan_name, yoga_name = get_vara_tithi_karan_yoga(jd, sun_long_sidereal, moon_long_sidereal)
     full_tithi_name = f"{tithi_name_simple} ({paksha_name})"
@@ -1540,8 +1551,6 @@ def final_astro_report(DOB:str,TOB:str,LOCATION:str)->dict:
 
     # ----- Ascendant and Houses -----
     cusps, ascmc = swe.houses(jd, lat, lon, b'A') 
-    ascendant_long = ascmc[0] 
-    house_cusps_long = cusps 
 
     output = {
         "DOB":DOB,
@@ -1559,6 +1568,8 @@ def final_astro_report(DOB:str,TOB:str,LOCATION:str)->dict:
         "nakshatra_name" : nakshatra_name,
         "nakshatra_pada" : nakshatra_pada,
         "nakshtra_all_details" :  nakshtra_all_details,
-        "rashi_all_details" : moon_sign_rashi
+        "rashi_all_details" : moon_sign_rashi,
+        "karan_name" : karan_name,
+        "yog_name": yoga_name,
     }
     return output

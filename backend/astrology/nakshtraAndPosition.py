@@ -1,5 +1,5 @@
 import swisseph as swe
-from geopy.geocoders import Nominatim
+from geopy.geocoders import Nominatim ,Photon
 from timezonefinder import TimezoneFinder
 import pytz
 from datetime import datetime, timedelta
@@ -769,10 +769,18 @@ TOB = "07:15"
 LOCATION = "surat ,Gujarat"
 
 # ----- Get Geolocation -----
-geolocator = Nominatim(user_agent="vedic_astrology_app") 
-location = geolocator.geocode(LOCATION)
+try:
+    geolocator = Nominatim(user_agent="vedic_astrology_app", timeout=10)
+    location = geolocator.geocode(LOCATION)
+    if not location:
+        raise Exception("Nominatim failed")
+except Exception:
+    geolocator = Photon(user_agent="vedic_astrology_app", timeout=10)
+    location = geolocator.geocode(LOCATION)
+
 if not location:
     raise ValueError(f"Could not find location for '{LOCATION}'")
+
 lat, lon = location.latitude, location.longitude
 
 # ----- Get Timezone and Local Time to UTC -----
@@ -889,17 +897,17 @@ print(f"{'Yoga':<20}: {yoga_name}")
 print(f"{'Karan':<20}: {karan_name}\n")
 
 
-# print("--- Ascendant and Houses ---")
-# ascendant_rashi, asc_deg, asc_min, asc_sec = format_longitude_to_dms(ascendant_long).split(' ') 
-# print(f"Ascendant (Lagna): {asc_deg} {asc_min} {asc_sec} {ascendant_rashi}")
-# for i, cusp in enumerate(house_cusps_long):
-#     cusp_rashi, cusp_deg, cusp_min, cusp_sec = format_longitude_to_dms(cusp).split(' ')
-#     print(f"House {i+1} Cusp: {cusp_deg} {cusp_min} {cusp_sec} {cusp_rashi}")
+print("--- Ascendant and Houses ---")
+ascendant_rashi, asc_deg, asc_min, asc_sec = format_longitude_to_dms(ascendant_long).split(' ') 
+print(f"Ascendant (Lagna): {asc_deg} {asc_min} {asc_sec} {ascendant_rashi}")
+for i, cusp in enumerate(house_cusps_long):
+    cusp_rashi, cusp_deg, cusp_min, cusp_sec = format_longitude_to_dms(cusp).split(' ')
+    print(f"House {i+1} Cusp: {cusp_deg} {cusp_min} {cusp_sec} {cusp_rashi}")
 
-# print("\n--- Planetary Positions (Sidereal) ---")
-# for name, pos_data in planet_positions_sidereal.items():
-#     lon_str = format_longitude_to_dms(pos_data[0])
-#     print(f"{name:<10}: {lon_str:<20} | Lat: {pos_data[1]:.2f}° | Speed: {pos_data[2]:.2f}°/day")
+print("\n--- Planetary Positions (Sidereal) ---")
+for name, pos_data in planet_positions_sidereal.items():
+    lon_str = format_longitude_to_dms(pos_data[0])
+    print(f"{name:<10}: {lon_str:<20} | Lat: {pos_data[1]:.2f}° | Speed: {pos_data[2]:.2f}°/day")
 
 print(f"\n--- Moon's Details ---")
 print(f"Moon's Nakshatra: {nakshatra_name} (No. {nakshatra_index_1based})")

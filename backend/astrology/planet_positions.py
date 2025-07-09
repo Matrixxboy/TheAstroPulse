@@ -1,50 +1,10 @@
 import swisseph as swe
-from geopy.geocoders import Nominatim
+from geopy.geocoders import Nominatim ,Photon
 from timezonefinder import TimezoneFinder
 import pytz
 from datetime import datetime, timedelta
+import math
 
-# User Inputs
-DOB = "2004-07-14"
-TOB = "07:15"
-LOCATION = "Surat, Gujarat"
-
-# Geolocation and Time
-geolocator = Nominatim(user_agent="vedic_astrology")
-location = geolocator.geocode(LOCATION)
-lat, lon = location.latitude, location.longitude
-
-# Timezone and UTC conversion
-tf = TimezoneFinder()
-timezone_str = tf.timezone_at(lat=lat, lng=lon)
-local_tz = pytz.timezone(timezone_str)
-naive_dt = datetime.strptime(f"{DOB} {TOB}", "%Y-%m-%d %H:%M")
-local_dt = local_tz.localize(naive_dt)
-utc_dt = local_dt.astimezone(pytz.utc)
-
-# Swiss Ephemeris setup
-swe.set_sid_mode(swe.SIDM_LAHIRI)
-jd = swe.julday(utc_dt.year, utc_dt.month, utc_dt.day,
-                utc_dt.hour + utc_dt.minute / 60.0 + utc_dt.second / 3600.0)
-# --- Calculation Flags ---
-flags = (
-    swe.FLG_SWIEPH     # Swiss ephemeris computation
-    | swe.FLG_SIDEREAL # Sidereal zodiac (for Vedic)
-    | swe.FLG_NONUT    # Ignore nutation (used for pure sidereal)
-    | swe.FLG_SPEED    # Return velocity of planets too (for combustion/retro checks)
-)
-
-
-
-cusps, ascmc = swe.houses(jd, lat, lon, b'P')
-ascendant = ascmc[0]
-
-# Planet definitions
-planets = {
-    "Sun": swe.SUN, "Moon": swe.MOON, "Mars": swe.MARS, "Mercury": swe.MERCURY,
-    "Jupiter": swe.JUPITER, "Venus": swe.VENUS, "Saturn": swe.SATURN,
-    "Rahu": swe.MEAN_NODE, "Ketu": swe.MEAN_NODE , "Uranus":swe.URANUS  ,"Neptune":swe.NEPTUNE , "Pluto" :swe.PLUTO
-}
 
 # Sign and Nakshatra lists
 signs = [
@@ -132,44 +92,131 @@ def is_combust(planet, planet_lon, sun_lon):
         diff = 360 - diff
     return diff <= limits.get(planet, 0)
 
-# Get planet positions
-planet_positions = {}
-sun_lon = swe.calc(jd, swe.SUN, flags)[0][0]
 
-for planet, pid in planets.items():
-    if planet == "Ketu":
-        rahu_pos = swe.calc(jd, swe.MEAN_NODE, flags)[0][0]
-        ketu_pos = (rahu_pos + 180) % 360
-        lon = ketu_pos
-    else:
-        lon = swe.calc(jd, pid, flags)[0][0]
 
-    sign_idx = int(lon // 30)
-    sign = signs[sign_idx]
-    nak_idx = int(lon // (360 / 27))
-    nak = nakshatras[nak_idx]
-    nak_lord = nakshatra_lords[nak_idx]
-    deg_in_sign = lon % 30
-    sign_number = sign_idx+1
-    avastha = get_avastha(deg_in_sign,sign_number)
-    status = get_status(planet, sign)
-    combust = is_combust(planet, lon, sun_lon)
+def planet_position_details(DOB,TOB,LOCATION):
+    # Geolocation and Time
+    try:
+        geolocator = Nominatim(user_agent="vedic_astrology_app", timeout=10)
+        location = geolocator.geocode(LOCATION)
+        if not location:
+            raise Exception("Nominatim failed")
+    except Exception:
+        geolocator = Photon(user_agent="vedic_astrology_app", timeout=10)
+        location = geolocator.geocode(LOCATION)
 
-    planet_positions[planet] = {
-        "Longitude": f"{lon:.2f}°", 
-        "DMS": deg_to_dms(deg_in_sign),
-        "Sign": sign,
-        "SignLord": sign_lords[sign],
-        "Nakshatra": nak,
-        "NakLord": nak_lord,
-        "Avastha": avastha,
-        "Combust": "Yes" if combust else "No",
-        "Status": status
+    if not location:
+        raise ValueError(f"Could not find location for '{LOCATION}'")
+
+    lat, lon = location.latitude, location.longitude
+
+    # Timezone and UTC conversion
+    tf = TimezoneFinder()
+    timezone_str = tf.timezone_at(lat=lat, lng=lon)
+    local_tz = pytz.timezone(timezone_str)
+    naive_dt = datetime.strptime(f"{DOB} {TOB}", "%Y-%m-%d %H:%M")
+    local_dt = local_tz.localize(naive_dt)
+    utc_dt = local_dt.astimezone(pytz.utc)
+
+    # Swiss Ephemeris setup
+    swe.set_sid_mode(swe.SIDM_LAHIRI)
+    jd = swe.julday(utc_dt.year, utc_dt.month, utc_dt.day,
+                    utc_dt.hour + utc_dt.minute / 60.0 + utc_dt.second / 3600.0)
+    # --- Calculation Flags ---
+    flags =swe.FLG_SWIEPH | swe.FLG_SIDEREAL| swe.FLG_NONUT    
+
+    # --- CALCULATE HOUSES (Ascendant is index 0) ---
+    cusps, ascmc = swe.houses(jd, lat, lon)
+    ascendant_deg = ascmc[0]
+    rashi_index = int(ascendant_deg / 30)
+    rashi_names = [
+        "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
+        "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
+    ]
+    rising_sign = rashi_names[rashi_index]
+
+    # Planet definitions
+    planets = {
+        "Ascendant": ascendant_deg,"Sun": swe.SUN, "Moon": swe.MOON, "Mars": swe.MARS, "Mercury": swe.MERCURY,
+        "Jupiter": swe.JUPITER, "Venus": swe.VENUS, "Saturn": swe.SATURN,
+        "Rahu": swe.MEAN_NODE, "Ketu": swe.MEAN_NODE , "Uranus":swe.URANUS  ,"Neptune":swe.NEPTUNE , "Pluto" :swe.PLUTO
     }
 
-# --- Display ---
-print("\n--- Planetary Positions ---")
-for planet, data in planet_positions.items():
-    print(f"\n{planet}:")
-    for key, value in data.items():
-        print(f"  {key}: {value}")
+    # Get planet positions
+    planet_positions = {}
+    sun_lon = swe.calc(jd, swe.SUN, flags)[0][0]
+
+    for planet, pid in planets.items():
+        if planet=="Ascendant":
+            lon = ascendant_deg
+            house_number = rashi_index+1
+            nak_idx = int(lon // (360 / 27))
+            nak = nakshatras[nak_idx]
+            nak_lord = nakshatra_lords[nak_idx]
+            deg_in_sign = lon % 30
+            sign_number = rashi_index
+            avastha = get_avastha(deg_in_sign,sign_number)
+            status = get_status(planet, rising_sign)
+            combust = is_combust(planet, lon, sun_lon)
+            planet_positions[planet] = {
+                "house":house_number,
+                "Longitude": f"{lon:.2f}°",
+                "Degree in sign":deg_in_sign, 
+                "DMS": deg_to_dms(deg_in_sign),
+                "Sign": rising_sign,
+                "SignLord": sign_lords[rising_sign],
+                "Nakshatra": nak,
+                "NakLord": nak_lord,
+                "Avastha": avastha,
+                "Combust": "Yes" if combust else "No",
+                "Status": status
+            }
+        else:            
+            if planet == "Ketu":
+                rahu_pos = swe.calc(jd, swe.MEAN_NODE, flags)[0][0]
+                ketu_pos = (rahu_pos + 180) % 360
+                lon = ketu_pos
+            else:
+                lon = swe.calc(jd, pid, flags)[0][0]
+
+            sign_idx = int(lon // 30)
+            sign = signs[sign_idx]
+            house_number = sign_idx+1
+            nak_idx = int(lon // (360 / 27))
+            nak = nakshatras[nak_idx]
+            nak_lord = nakshatra_lords[nak_idx]
+            deg_in_sign = lon % 30
+            sign_number = sign_idx+1
+            avastha = get_avastha(deg_in_sign,sign_number)
+            status = get_status(planet, sign)
+            combust = is_combust(planet, lon, sun_lon)
+            
+
+            planet_positions[planet] = {
+                "house":house_number,
+                "Longitude": f"{lon:.2f}°",
+                "Degree in sign":deg_in_sign, 
+                "DMS": deg_to_dms(deg_in_sign),
+                "Sign": sign,
+                "SignLord": sign_lords[sign],
+                "Nakshatra": nak,
+                "NakLord": nak_lord,
+                "Avastha": avastha,
+                "Combust": "Yes" if combust else "No",
+                "Status": status
+            }
+    
+    return planet_positions
+
+
+
+# DOB = "2004-07-14"
+# TOB = "07:15"
+# LOCATION = "Surat Gujarat"
+
+# planet_positions = planet_position_details(DOB,TOB,LOCATION)
+# print("\n--- Planetary Positions ---")
+# for planet, data in planet_positions.items():
+#     print(f"\n{planet}:")
+#     for key, value in data.items():
+#         print(f"  {key}: {value}")

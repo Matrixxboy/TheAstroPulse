@@ -115,7 +115,7 @@ const Astroreportpage = () => {
               onChange={(e) => handleLobInput(e.target.value)}
               placeholder="e.g. Surat, Gujarat"
               className="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-              autoComplete="off"
+              autoComplete="on"
               required
             />
             {suggestions.length > 0 && (
@@ -169,7 +169,7 @@ const Astroreportpage = () => {
             )}
           </div>
         )}
-      </div>
+      </div>      
     </div>
   );
 };

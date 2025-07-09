@@ -13,9 +13,10 @@ from skimage.restoration import denoise_tv_chambolle
 from flask import Flask, request, jsonify ,send_file
 from skimage.morphology import skeletonize, remove_small_objects
 from astrology.horoscope import fetch_horoscope , get_zodiac_sign
-from chatbotassistant.chatmodelGroq import chat_bot_reply
+# from chatbotassistant.chatmodelGroq import chat_bot_reply
 from numerology.numlogycalcu import name_numlogy_basic_sums , business_numerology_basic_sums
 from astrology.nakshtra_details import final_astro_report
+from astrology.planet_positions import planet_position_details
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from dotenv import load_dotenv
@@ -25,17 +26,8 @@ load_dotenv()  # Load environment variables from .env file
 API_KEY_TOKEN = os.getenv("API_KEY_TOKEN")
 
 app = Flask(__name__)
-valid_add = "http://192.168.1.8:5173" 
+CORS(app, resources={r"/*": {"origins": "*"}})
 
-#secured routes (Allow CORS for specific routes)
-CORS(app, resources={
-    r"/chat": {"origins": [valid_add]},
-    r"/horoscope": {"origins": [valid_add]},
-    r"/astro-report": {"origins": [valid_add]},
-    r"/process-image": {"origins": [valid_add]},
-    r"/name-numerology": {"origins": [valid_add]},
-    r"/business-numerology": {"origins": [valid_add]}
-})  
 
 limiter = Limiter(get_remote_address, app=app, default_limits=["10 per minute"])
 
@@ -232,20 +224,20 @@ def business_numerology():
         return jsonify({"error": str(e)}), 500
 
 # API : /chat?question=this%20is%my%question
-@app.route("/chat", methods=["POST"])
-def chat_bot():
-    client_api = request.headers.get('CHAT-API-KEY') or request.args.get('CHAT-API-KEY')
-    # print(f"{client_api}") use for debugging
-    if client_api != API_KEY_TOKEN:
-        return jsonify({"error":"Unauthorised request"}) , 401
-    req_question = request.args.get('question')
-    if not req_question:
-        return jsonify({"error": "Empty Question"})
-    try:
-        chat_reply =  chat_bot_reply(req_question)
-        return jsonify(chat_reply),200
-    except Exception as e :
-        return jsonify({"error":str(e)}),500
+# @app.route("/chat", methods=["POST"])
+# def chat_bot():
+#     client_api = request.headers.get('CHAT-API-KEY') or request.args.get('CHAT-API-KEY')
+#     # print(f"{client_api}") use for debugging
+#     if client_api != API_KEY_TOKEN:
+#         return jsonify({"error":"Unauthorised request"}) , 401
+#     req_question = request.args.get('question')
+#     if not req_question:
+#         return jsonify({"error": "Empty Question"})
+#     try:
+#         chat_reply =  chat_bot_reply(req_question)
+#         return jsonify(chat_reply),200
+#     except Exception as e :
+#         return jsonify({"error":str(e)}),500
     
 
 
@@ -269,7 +261,10 @@ def final_astro_report_generator():
     if not req_lob:
         return jsonify({"error": "Empty Location of birth"}),400
     try:
-        report =  final_astro_report(req_dob,req_tob,req_lob)
+        report =[]
+        report.append(final_astro_report(req_dob,req_tob,req_lob))
+        report.append(planet_position_details(req_dob,req_tob,req_lob))
+
         return jsonify(report),200
     except Exception as e :
         return jsonify({"error":str(e)}),500
