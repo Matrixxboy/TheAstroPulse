@@ -81,7 +81,6 @@ const Navbar = () => {
                         {isOpen ? <FaTimes /> : <FaBars />}
                     </button>
                 </div>
-
                 {/* Mobile Menu (conditionally rendered with transition classes) */}
                 {/* Added 'top-[calc(100%+1rem)]' for a small gap below the navbar */}
                 {/* Using a basic fade/slide transition with max-h and opacity for smooth animation */}
