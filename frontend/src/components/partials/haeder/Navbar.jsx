@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa"; // Importing icons for hamburger and close
-import './Navbar.css'; // Assuming this contains 'glass-white' and potentially 'phone-menu' transition styles
+
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false); // State to manage mobile menu visibility
