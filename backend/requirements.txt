@@ -12,7 +12,7 @@ beautifulsoup4
 opencv-python
 numpy
 pillow==11.2.1
-mediapipe==0.10.21
+mediapipe==0.10.0
 rembg==2.0.66
 requests==2.32.4
 requests-oauthlib==2.0.0
