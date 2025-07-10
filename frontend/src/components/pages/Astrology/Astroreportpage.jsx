@@ -137,14 +137,15 @@ const Astroreportpage = () => {
               </div>
             )}
           </div>
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="w-full bg-cyan-400 hover:bg-cyan-300 text-black font-semibold py-2 rounded-lg transition"
-          >
-            {loading ? "Calculating..." : "Get Astrology Report"}
-          </button>
+          <div className="relative z-10">
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full bg-cyan-400 hover:bg-cyan-300 text-black font-semibold py-2 rounded-lg transition"
+              >
+              {loading ? "Calculating..." : "Get Astrology Report"}
+            </button>
+            </div>
         </form>
 
         {/* Toast */}

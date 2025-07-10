@@ -19,8 +19,10 @@ const NameNumerology = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        if (!name || !dob) return;
+        console.log("Form submitted");
+        if (!name || !dob) {
+            console.log("Missing values")
+        };
 
         setCuname(name);
         setCudob(dob);
@@ -72,7 +74,7 @@ const NameNumerology = () => {
                     <div>
                         <label className="block text-sm mb-1">Date of Birth</label>
                         <input
-                            type="text"
+                            type="date"
                             value={dob}
                             onChange={(e) => setDob(e.target.value)}
                             placeholder="DD-MM-YYYY"
@@ -91,12 +93,14 @@ const NameNumerology = () => {
                         </select>
                     </div>
 
-                    <button
+                    <div className="relative z-10">
+                        <button
                         type="submit"
-                        className="w-full bg-cyan-400 hover:bg-cyan-300 text-black font-semibold py-2 rounded-lg transition"
-                    >
-                        {loading ? "Calculating..." : "Get Numerology Report"}
-                    </button>
+                        className="w-full bg-cyan-400 hover:bg-cyan-300 text-black font-semibold py-2 rounded-lg transition relative z-10">
+                            {loading ? "Calculating..." : "Get Numerology Report"}
+                        </button>
+                    </div>
+
                 </form>
                 {toast && (
                     <div

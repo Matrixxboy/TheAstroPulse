@@ -15,7 +15,7 @@ const Horoscope = () => {
 
         try {
             const response = await fetch(
-                `http://127.0.0.1:5000/horoscope?dob=${dob}&day=${day}`
+                `${VITE_HOROSCOPE_API_KEY}?dob=${dob}&day=${day}`
             );
             const data = await response.json();
 
@@ -39,7 +39,7 @@ const Horoscope = () => {
                     <div>
                         <label className="block text-sm mb-1">Date of Birth</label>
                         <input
-                            type="text"
+                            type="date"
                             value={dob}
                             onChange={(e) => setDob(e.target.value)}
                             placeholder="e.g. 2002-08-15"
