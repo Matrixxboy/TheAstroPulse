@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import KundaliReportPage from "./Reportpages/KundaliReportPage";
+import SouthIndianChart from "./Charts/SouthIndianChart";
 
 const Astroreportpage = () => {
   const [dob, setDob] = useState("");
@@ -78,10 +80,10 @@ const Astroreportpage = () => {
 
   return (
     <div className="min-h-screen py-12 flex flex-col items-center">
-      <div className="w-full max-w-[95%] sm:max-w-[90%] md:max-w-[80%] lg:max-w-[60%] xl:max-w-[50%] 2xl:max-w-[40%]">
+      <div className="flex flex-col items-center w-full  max-w-[100%] sm:max-w-[95%] md:max-w-[90%] lg:max-w-[80%] xl:max-w-[70%] 2xl:max-w-[60%]">
         <h1 className="text-3xl font-bold text-center text-cyan-300 mb-6">Astrology Report Generator 🔮</h1>
 
-        <form onSubmit={handleSubmit} className="space-y-4 relative">
+        <form onSubmit={handleSubmit} className="flex flex-col w-3/5 space-y-4 relative">
           {/* DOB */}
           <div>
             <label className="block text-sm mb-1 text-white">Date of Birth</label>
@@ -157,18 +159,12 @@ const Astroreportpage = () => {
         )}
 
         {/* Result */}
-        {result && (
-          <div className="mt-6 p-4 rounded-lg bg-white/20 border border-yellow-300 text-white">
-            {result.error ? (
-              <p className="text-red-400">{result.error}</p>
-            ) : (
-              <>
-                <h2 className="text-2xl font-bold text-cyan-200 mb-2">Your Astrology Report</h2>
-                <pre className="whitespace-pre-wrap">{JSON.stringify(result, null, 2)}</pre>
-              </>
-            )}
-          </div>
-        )}
+        {result&& (
+        <div className="mt-8 w-full">
+          <KundaliReportPage reportData={result} />
+          {/* <SouthIndianChart planetsInRashis={result[1]}/> */}
+        </div>
+      )}
       </div>      
     </div>
   );
