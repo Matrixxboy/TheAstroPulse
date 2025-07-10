@@ -14,7 +14,7 @@ const KundaliReportPage = ({ reportData }) => {
   // Helper function to render a detail row
   const DetailRow = ({ label, value }) => (
     <div className="flex justify-between py-2 border-b border-gray-200 last:border-b-0">
-      <span className="font-medium text-white ">{label}:</span>
+      <span className="font-medium text-white ">{label} :</span>
       <span className="text-gray">{value}</span>
     </div>
   );
@@ -52,34 +52,35 @@ const KundaliReportPage = ({ reportData }) => {
           <div className="mb-10 p-6 bg-white/20 rounded-xl shadow-inner">
             <SectionTitle title="Avakhada Details" />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <DetailRow label="Varna" value={basicInfo.nakshtra_all_details.varna} />
               <DetailRow label="Nakshatra Name" value={basicInfo.nakshatra_name} />
               <DetailRow label="Nakshatra Pada" value={basicInfo.nakshatra_pada} />
               <DetailRow label="Nakshatra Index" value={basicInfo.nakshatra_index} />
-              <DetailRow label="Deity" value={basicInfo.nakshtra_all_details.deity} />
-              <DetailRow label="Direction" value={basicInfo.nakshtra_all_details.direction} />
-              <DetailRow label="Dosha" value={basicInfo.nakshtra_all_details.dosha} />
-              <DetailRow label="Fast Day" value={basicInfo.nakshtra_all_details.fast_day} />
-              <DetailRow label="Favorite Alphabet" value={basicInfo.nakshtra_all_details.fav_alphabet?.join(', ')} />
-              <DetailRow label="Favorite Sign" value={basicInfo.nakshtra_all_details.fav_sign} />
               <DetailRow label="Gana" value={basicInfo.nakshtra_all_details.gana} />
+              <DetailRow label="Nadi" value={basicInfo.nakshtra_all_details.nadi} />
+              <DetailRow label="Yoni" value={basicInfo.nakshtra_all_details.yoni} />
               <DetailRow label="Gender" value={basicInfo.nakshtra_all_details.gender} />
               <DetailRow label="Guna" value={basicInfo.nakshtra_all_details.guna} />
-              <DetailRow label="Mantra" value={basicInfo.nakshtra_all_details.mantra} />
-              <DetailRow label="Nadi" value={basicInfo.nakshtra_all_details.nadi} />
               <DetailRow label="Paya" value={basicInfo.nakshtra_all_details.paya} />
+              <DetailRow label="Deity" value={basicInfo.nakshtra_all_details.deity} />
+              <DetailRow label="Fast Day" value={basicInfo.nakshtra_all_details.fast_day} />
+              <DetailRow label="Dosha" value={basicInfo.nakshtra_all_details.dosha} />
+              <DetailRow label="Direction" value={basicInfo.nakshtra_all_details.direction} />
+              <DetailRow label="Favorite Alphabet" value={basicInfo.nakshtra_all_details.fav_alphabet?.join(', ')} />
+              <DetailRow label="Favorite Sign" value={basicInfo.nakshtra_all_details.fav_sign} />
+              <DetailRow label="Mantra" value={basicInfo.nakshtra_all_details.mantra} />
               <DetailRow label="Ruling Planet" value={basicInfo.nakshtra_all_details.ruling_planet} />
               <DetailRow label="Symbol" value={basicInfo.nakshtra_all_details.symbol} />
               <DetailRow label="Tara" value={basicInfo.nakshtra_all_details.tara} />
-              <DetailRow label="Varna" value={basicInfo.nakshtra_all_details.varna} />
-              <DetailRow label="Yoni" value={basicInfo.nakshtra_all_details.yoni} />
+              <DetailRow label="Yog" value={basicInfo.yog_name} />
             </div>
             {basicInfo.nakshtra_all_details.pada && (
               <div className="mt-6">
-                <h3 className="text-xl font-semibold text-gray-800 mb-3">Nakshatra Pada Details:</h3>
+                <h3 className="text-xl font-semibold text-[#9CE2ED] mb-3">Nakshatra Pada Details:</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {Object.entries(basicInfo.nakshtra_all_details.pada).map(([key, value]) => (
                     <div key={key} className="bg-white/20 p-4 rounded-lg shadow-sm border border-gray-200">
-                      <h4 className="font-bold text-lg text-indigo-600 mb-2">Pada {key}</h4>
+                      <h4 className="font-bold text-lg text-[#9CE2ED] mb-2">Pada {key}</h4>
                       <DetailRow label="Akshara" value={value.akshara} />
                       <DetailRow label="Navamsa Sign" value={value.navamsa_sign} />
                       <DetailRow label="Rashi" value={value.rashi} />
@@ -90,7 +91,7 @@ const KundaliReportPage = ({ reportData }) => {
             )}
             {basicInfo.rashi_all_details && Object.keys(basicInfo.rashi_all_details).length > 0 && (
               <div className="mt-6">
-                <h3 className="text-xl font-semibold text-gray-800 mb-3">Rashi Details:</h3>
+                <h3 className="text-xl font-semibold text-[#9CE2ED] mb-3">Rashi Details:</h3>
                 {Object.entries(basicInfo.rashi_all_details).map(([rashiName, rashiDetails]) => (
                   <div key={rashiName} className="bg-white/20    p-4 rounded-lg shadow-sm border border-gray-200 mt-4">
                     <h4 className="font-bold text-lg text-indigo-600 mb-2">{rashiName}</h4>
@@ -116,7 +117,7 @@ const KundaliReportPage = ({ reportData }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <DetailRow label="Vara" value={basicInfo.vara} />
             <DetailRow label="Tithi" value={basicInfo.tithi} />
-            <DetailRow label="Karan" value={basicInfo.karan} />
+            <DetailRow label="Karan" value={basicInfo.karan_name} />
           </div>
         </div>
 
@@ -131,7 +132,7 @@ const KundaliReportPage = ({ reportData }) => {
                   <DetailRow label="Avastha" value={details.Avastha} />
                   <DetailRow label="Combust" value={details.Combust} />
                   <DetailRow label="DMS" value={details.DMS} />
-                  <DetailRow label="Degree in Sign" value={details['Degree in sign']} />
+                  <DetailRow label="Degree in Sign" value={details['Degree in sign'].toString().substring(0,5)} />
                   <DetailRow label="Longitude" value={details.Longitude} />
                   <DetailRow label="Nakshatra Lord" value={details.NakLord} />
                   <DetailRow label="Nakshatra" value={details.Nakshatra} />
@@ -145,7 +146,7 @@ const KundaliReportPage = ({ reportData }) => {
           </div>
         )}
         <div>
-            <SouthIndianChart planetsInRashis={planetDetails} />
+            <SouthIndianChart planets={planetDetails} lagnaSign={planetDetails.Ascendant.Sign} />
         </div>
       </div>
   );
