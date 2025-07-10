@@ -43,7 +43,6 @@ const Horoscope = () => {
                             value={dob}
                             onChange={(e) => setDob(e.target.value)}
                             placeholder="e.g. 2002-08-15"
-                            className="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                         />
                     </div>
 

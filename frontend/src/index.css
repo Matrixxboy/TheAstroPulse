@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input[type="date"],
+input[type="time"] {
+  -webkit-appearance: none; /* iOS Safari fix */
+  background-color: rgba(255, 255, 255, 0.2); /* matches bg-white/20 */
+  color: white;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* makes calendar icon white for dark UI */
+}
