@@ -9,12 +9,12 @@ from astrology.nakshtra_details import final_astro_report
 from astrology.planet_positions import planet_position_details
 from flask import Flask, request, jsonify ,send_file
 import numpy as np
-from PIL import Image
-from rembg import remove
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from dotenv import load_dotenv
 load_dotenv()  # Load environment variables from .env file
+# from PIL import Image
+# from rembg import remove
 # from chatbotassistant.chatmodelGroq import chat_bot_reply
 # from skimage.filters import meijering
 # from skimage.util import img_as_ubyte
