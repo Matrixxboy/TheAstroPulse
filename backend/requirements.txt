@@ -7,7 +7,7 @@ beautifulsoup4
 opencv-python
 numpy
 Pillow
-mediapipe
+mediapipe==0.10.0
 rembg
 Flask-Cors
 scikit-image
