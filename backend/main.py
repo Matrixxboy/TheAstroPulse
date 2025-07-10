@@ -1,26 +1,26 @@
 import io
 import os
 import cv2
-import numpy as np
-from PIL import Image
-import mediapipe as mp
-from rembg import remove
 from flask_cors import CORS
 from datetime import datetime
-from skimage.filters import meijering
-from skimage.util import img_as_ubyte
-from skimage.restoration import denoise_tv_chambolle
-from flask import Flask, request, jsonify ,send_file
-from skimage.morphology import skeletonize, remove_small_objects
 from astrology.horoscope import fetch_horoscope , get_zodiac_sign
-# from chatbotassistant.chatmodelGroq import chat_bot_reply
 from numerology.numlogycalcu import name_numlogy_basic_sums , business_numerology_basic_sums
 from astrology.nakshtra_details import final_astro_report
 from astrology.planet_positions import planet_position_details
+from flask import Flask, request, jsonify ,send_file
+import numpy as np
+from PIL import Image
+from rembg import remove
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from dotenv import load_dotenv
 load_dotenv()  # Load environment variables from .env file
+# from chatbotassistant.chatmodelGroq import chat_bot_reply
+# from skimage.filters import meijering
+# from skimage.util import img_as_ubyte
+# from skimage.restoration import denoise_tv_chambolle
+# from skimage.morphology import skeletonize, remove_small_objects
+# import mediapipe as mp
 
 # toekn for api verification
 API_KEY_TOKEN = os.getenv("API_KEY_TOKEN")
@@ -90,83 +90,83 @@ def get_horoscope():
         return jsonify({"error": "Could not fetch horoscope. Please check the DOB and try again.", "dob": dob_str, "day_type": day_type}), 500
 
 
-@app.route('/process-image', methods=['POST'])
-@limiter.limit("5 per minute")  # Limit to 5 requests per minute
-def process_image():
-    if 'image' not in request.files:
-        return {"error": "No image file provided"}, 400
+# @app.route('/process-image', methods=['POST'])
+# @limiter.limit("5 per minute")  # Limit to 5 requests per minute
+# def process_image():
+#     if 'image' not in request.files:
+#         return {"error": "No image file provided"}, 400
 
-    file = request.files['image']
-    if file.filename == '':
-        return {"error": "Empty filename"}, 400
+#     file = request.files['image']
+#     if file.filename == '':
+#         return {"error": "Empty filename"}, 400
 
-    try:
-        # Decode the uploaded image
-        image = np.frombuffer(file.read(), np.uint8)
-        img = cv2.imdecode(image, cv2.IMREAD_COLOR)
-        original = img.copy()
-        if img is None:
-            return {"error": "Invalid image format"}, 400
+#     try:
+#         # Decode the uploaded image
+#         image = np.frombuffer(file.read(), np.uint8)
+#         img = cv2.imdecode(image, cv2.IMREAD_COLOR)
+#         original = img.copy()
+#         if img is None:
+#             return {"error": "Invalid image format"}, 400
 
-        # 2. Background removal using MediaPipe
-        img = remove_background_opencv(img)
+#         # 2. Background removal using MediaPipe
+#         img = remove_background_opencv(img)
         
-        # 3. Negative filter + grayscale
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        gray = cv2.GaussianBlur(gray, (1, 1), 0)
+#         # 3. Negative filter + grayscale
+#         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+#         gray = cv2.GaussianBlur(gray, (1, 1), 0)
 
-        # 4. Remove small noise (initial)
-        cleaned = remove_small_objects(gray.astype(bool), min_size=50, connectivity=2)
-        cleaned = (cleaned * 255).astype(np.uint8)
+#         # 4. Remove small noise (initial)
+#         cleaned = remove_small_objects(gray.astype(bool), min_size=50, connectivity=2)
+#         cleaned = (cleaned * 255).astype(np.uint8)
 
 
-        # 6. CLAHE + TopHat
-        clahe = cv2.createCLAHE(clipLimit=5.0, tileGridSize=(13, 13))
-        enhanced = clahe.apply(gray)
-        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (7, 12))
-        tophat = cv2.morphologyEx(enhanced, cv2.MORPH_TOPHAT, kernel)
-        combined = cv2.addWeighted(enhanced, 0.8, tophat, 0.8, 0)
-        combined = cv2.GaussianBlur(combined, (3, 3), 0)
-        combined = denoise_tv_chambolle(combined / 255.0, weight=0.2)
-        combined = (combined * 255).astype(np.uint8)
+#         # 6. CLAHE + TopHat
+#         clahe = cv2.createCLAHE(clipLimit=5.0, tileGridSize=(13, 13))
+#         enhanced = clahe.apply(gray)
+#         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (7, 12))
+#         tophat = cv2.morphologyEx(enhanced, cv2.MORPH_TOPHAT, kernel)
+#         combined = cv2.addWeighted(enhanced, 0.8, tophat, 0.8, 0)
+#         combined = cv2.GaussianBlur(combined, (3, 3), 0)
+#         combined = denoise_tv_chambolle(combined / 255.0, weight=0.2)
+#         combined = (combined * 255).astype(np.uint8)
         
 
-        # 7. Meijering line enhancement
-        meij = meijering(combined / 255.0, sigmas=range(4, 8), black_ridges=True)
-        meij = img_as_ubyte(meij)
+#         # 7. Meijering line enhancement
+#         meij = meijering(combined / 255.0, sigmas=range(4, 8), black_ridges=True)
+#         meij = img_as_ubyte(meij)
 
-        # 8. Threshold + Skeleton
-        _, binary = cv2.threshold(meij, 50, 255, cv2.THRESH_BINARY)
-        skeleton = skeletonize(binary // 255).astype(np.uint8) * 255
-        # ✅ Make skeleton lines thicker
-        kernel_thick = cv2.getStructuringElement(cv2.MORPH_RECT, (5,5))  # or (5, 5)
-        skeleton = cv2.dilate(skeleton, kernel_thick, iterations=1)
+#         # 8. Threshold + Skeleton
+#         _, binary = cv2.threshold(meij, 50, 255, cv2.THRESH_BINARY)
+#         skeleton = skeletonize(binary // 255).astype(np.uint8) * 255
+#         # ✅ Make skeleton lines thicker
+#         kernel_thick = cv2.getStructuringElement(cv2.MORPH_RECT, (5,5))  # or (5, 5)
+#         skeleton = cv2.dilate(skeleton, kernel_thick, iterations=1)
 
-        # 9. Apply mask again
-        skeleton = cv2.bitwise_and(skeleton, skeleton, mask=cleaned)
+#         # 9. Apply mask again
+#         skeleton = cv2.bitwise_and(skeleton, skeleton, mask=cleaned)
         
-        # 10. Remove small objects after skeleton
-        cleaned = remove_small_objects(skeleton.astype(bool), min_size=500, connectivity=1)
-        cleaned = (cleaned * 255).astype(np.uint8)
+#         # 10. Remove small objects after skeleton
+#         cleaned = remove_small_objects(skeleton.astype(bool), min_size=500, connectivity=1)
+#         cleaned = (cleaned * 255).astype(np.uint8)
         
-        # 11. Overlay result on original
-        result_img = cv2.cvtColor(cleaned, cv2.COLOR_GRAY2BGR)
-        overlay = cv2.addWeighted(original, 0.6, result_img, 0.6, 0)
+#         # 11. Overlay result on original
+#         result_img = cv2.cvtColor(cleaned, cv2.COLOR_GRAY2BGR)
+#         overlay = cv2.addWeighted(original, 0.6, result_img, 0.6, 0)
 
-        # ------------------ 7. Return the Result ------------------
-        success, encoded_image = cv2.imencode('.png', overlay)
-        if not success:
-            return {"error": "Failed to encode image"}, 500
+#         # ------------------ 7. Return the Result ------------------
+#         success, encoded_image = cv2.imencode('.png', overlay)
+#         if not success:
+#             return {"error": "Failed to encode image"}, 500
 
-        return send_file(
-            io.BytesIO(encoded_image.tobytes()),
-            mimetype='image/png',
-            as_attachment=False,
-            download_name='palm_lines_highlighted.png'
-        )
+#         return send_file(
+#             io.BytesIO(encoded_image.tobytes()),
+#             mimetype='image/png',
+#             as_attachment=False,
+#             download_name='palm_lines_highlighted.png'
+#         )
 
-    except Exception as e:
-        return {"error": str(e)}, 500
+#     except Exception as e:
+#         return {"error": str(e)}, 500
 
 #api = /numerology?fname=Utsavlankapati&dob=14-07-2004
 @app.route('/name-numerology', methods=['GET'])
