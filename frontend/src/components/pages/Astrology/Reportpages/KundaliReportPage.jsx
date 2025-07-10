@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import SouthIndianChart from '../Charts/SouthIndianChart';
+import NorthIndianChart from '../Charts/NorthIndianChart';
 
 // ReportPage component - This will display the fetched data
 const KundaliReportPage = ({ reportData }) => {
@@ -145,8 +146,9 @@ const KundaliReportPage = ({ reportData }) => {
             </div>
           </div>
         )}
-        <div>
+        <div className="flex flex-wrap justify-around gap-4">
             <SouthIndianChart planets={planetDetails} lagnaSign={planetDetails.Ascendant.Sign} />
+            {/* <NorthIndianChart planets={planetDetails} lagnaSign={planetDetails.Ascendant.Sign} /> */}
         </div>
       </div>
   );

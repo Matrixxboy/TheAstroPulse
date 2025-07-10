@@ -64,6 +64,7 @@ const SouthIndianChart = ({ planets, lagnaSign }) => {
           const houseNumber = (rashiIndex - lagnaIndex + 12) % 12 + 1;
           const isLagna = rashi === lagnaSign;
           const rashiPlanets = planetsInRashis[rashi] || [];
+          const asc_angle = planets["Ascendant"].DMS.toString().substring(0,7)
 
           return (
             <div
@@ -71,17 +72,14 @@ const SouthIndianChart = ({ planets, lagnaSign }) => {
               className={`border border-gray-500 p-2 flex flex-col ${isLagna ? 'bg-indigo-900' : ''}`}
             >
               <div className="text-xs font-semibold text-cyan-300 flex justify-between">
-                <span>{rashi} ({signNumber})</span>
+                <span className="text-xs">{rashi} ({signNumber})</span>
                 <span className='text-yellow-400'>{houseNumber}</span>
               </div>
-              <div className="flex-grow flex flex-col items-center justify-center text-center">
-                {isLagna && <span className="text-red-500 font-bold">Asc</span>}
-                <div className="w-full mt-1">
+              <div className="flex-grow flex flex-col items-start text-center">
+                <div className="mt-1  flex flex-col">
+                  {isLagna && <p className=" text-xs text-red-500 font-bold">Asc {asc_angle}</p>}
                   {rashiPlanets.map(({ planet, angle }, i) => (
-                    <div key={i} className="grid grid-cols-2 text-xs gap-x-2">
-                      <span className="font-semibold text-left">{planet}</span>
-                      <span className="text-gray-400 text-right">{angle}</span>
-                    </div>
+                    <p key={i} className="text-xs m-0 p-0 leading-tight">{planet} {angle}</p>
                   ))}
                 </div>
               </div>
