@@ -48,7 +48,7 @@ function drawChart(ctx, size, backendData) {
 //   ctx.fillRect(0, 0, size, size);
 
   ctx.strokeStyle = STROKE_COLOR;
-  ctx.lineWidth =3;
+  ctx.lineWidth =2;
   ctx.strokeRect(0, 0, size, size);
 
   // Diamond shape
