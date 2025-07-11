@@ -43,8 +43,8 @@ const Test1 = ({ data }) => {
 
 function drawChart(ctx, size, backendData) {
   const center = size / 2;
-//   ctx.fillStyle = BG_COLOR;
-//   ctx.fillRect(0, 0, size, size);
+  ctx.fillStyle = BG_COLOR;
+  ctx.fillRect(0, 0, size, size);
 
   ctx.strokeStyle = STROKE_COLOR;
   ctx.lineWidth = 2;
@@ -64,10 +64,18 @@ function drawChart(ctx, size, backendData) {
 
   const scale = size / 600;
   const fixedHouseCoords = [
-    { x: 300, y: 90 }, { x: 150, y: 40 }, { x: 50, y: 110 },
-    { x: 150, y: 220 }, { x: 50, y: 400 }, { x: 150, y: 500 },
-    { x: 300, y: 400 }, { x: 450, y: 520 }, { x: 550, y: 450 },
-    { x: 450, y: 350 }, { x: 550, y: 150 }, { x: 450, y: 30 }
+    { x: 300, y: 90 }, 
+    { x: 150, y: 40 }, 
+    { x: 50, y: 110 },
+    { x: 150, y: 220 }, 
+    { x: 50, y: 400 }, 
+    { x: 150, y: 500 },
+    { x: 300, y: 400 }, 
+    { x: 450, y: 520 }, 
+    { x: 550, y: 450 },
+    { x: 450, y: 220 }, 
+    { x: 550, y: 100 }, 
+    { x: 450, y: 30 }
   ].map(pt => ({ x: pt.x * scale, y: pt.y * scale }));
 
   let ascHouse = 1;
@@ -91,7 +99,7 @@ function drawChart(ctx, size, backendData) {
     }
   }
 
-  ctx.font = `${Math.floor(size * 0.035)}px ${FONT}`;
+  ctx.font = `${Math.floor(size * 0.03)}px ${FONT}`;
   ctx.textAlign = "center";
 
   for (let i = 0; i < 12; i++) {

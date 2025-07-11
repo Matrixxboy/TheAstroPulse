@@ -35,9 +35,10 @@ const NorthIndianChart = ({ data }) => {
   }, [data]);
 
   return (
-    <div className="flex flex-col justify-center items-center p-4">
-      <canvas ref={canvasRef} className="rounded shadow-lg" />
-    </div>
+    <div className="flex flex-col items-center justify-center p-4 font-inter text-white">
+      <h2 className="text-2xl font-bold mb-6">North Indian Rasi Chart</h2>
+      <canvas ref={canvasRef} className="w-full h-auto rounded shadow-lg" />
+  </div>
   );
 };
 
@@ -47,7 +48,7 @@ function drawChart(ctx, size, backendData) {
 //   ctx.fillRect(0, 0, size, size);
 
   ctx.strokeStyle = STROKE_COLOR;
-  ctx.lineWidth = 2;
+  ctx.lineWidth =3;
   ctx.strokeRect(0, 0, size, size);
 
   // Diamond shape
@@ -64,10 +65,18 @@ function drawChart(ctx, size, backendData) {
 
   const scale = size / 600;
   const fixedHouseCoords = [
-    { x: 300, y: 90 }, { x: 150, y: 40 }, { x: 50, y: 110 },
-    { x: 150, y: 220 }, { x: 50, y: 400 }, { x: 150, y: 500 },
-    { x: 300, y: 400 }, { x: 450, y: 520 }, { x: 550, y: 450 },
-    { x: 450, y: 350 }, { x: 550, y: 150 }, { x: 450, y: 30 }
+    { x: 300, y: 90 }, 
+    { x: 150, y: 40 }, 
+    { x: 50, y: 110 },
+    { x: 150, y: 220 }, 
+    { x: 50, y: 400 }, 
+    { x: 150, y: 500 },
+    { x: 300, y: 400 }, 
+    { x: 450, y: 520 }, 
+    { x: 550, y: 450 },
+    { x: 450, y: 220 }, 
+    { x: 550, y: 100 }, 
+    { x: 450, y: 30 }
   ].map(pt => ({ x: pt.x * scale, y: pt.y * scale }));
 
   let ascHouse = 1;
@@ -91,7 +100,7 @@ function drawChart(ctx, size, backendData) {
     }
   }
 
-  ctx.font = `${Math.floor(size * 0.035)}px ${FONT}`;
+  ctx.font = `${Math.floor(size * 0.03)}px ${FONT}`;
   ctx.textAlign = "center";
 
   for (let i = 0; i < 12; i++) {

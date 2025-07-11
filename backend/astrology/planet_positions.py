@@ -159,7 +159,7 @@ def planet_position_details(DOB,TOB,LOCATION):
     for planet, pid in planets.items():
         if planet=="Ascendant":
             lon = ascendant_deg
-            house_number = rashi_index+1
+            house_number = rashi_index
             nak_idx = int(lon // (360 / 27))
             nak = nakshatras[nak_idx]
             nak_lord = nakshatra_lords[nak_idx]

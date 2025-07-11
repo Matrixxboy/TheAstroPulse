@@ -32,7 +32,15 @@ const KundaliReportPage = ({ reportData }) => {
         <h1 className="text-4xl font-extrabold text-center text-[#22d3ee] mb-8 tracking-tight">
           Astrology Birth Report
         </h1>
-
+        <div className="flex flex-wrap justify-center gap-4 p-4">
+          <div className="w-full sm:w-[70%] max-w-[450px]">
+            <NorthIndianChart data={planetDetails} />
+          </div>
+          <div className="w-full sm:w-[50%] max-w-[400px]">
+            <SouthIndianChart planets={planetDetails} lagnaSign={planetDetails.Ascendant.Sign} />
+          </div>
+        </div>
+        
         {/* Basic Information Section */}
         <div className="mb-10 p-6 bg-white/20 rounded-xl shadow-inner">
           <SectionTitle title="Basic Information" />
@@ -146,10 +154,6 @@ const KundaliReportPage = ({ reportData }) => {
             </div>
           </div>
         )}
-        <div className="flex flex-wrap justify-around gap-4">
-            <SouthIndianChart planets={planetDetails} lagnaSign={planetDetails.Ascendant.Sign} />
-            <NorthIndianChart data={planetDetails}  />
-        </div>
       </div>
   );
 };
