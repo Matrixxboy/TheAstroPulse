@@ -15,6 +15,7 @@ import Palmreading from './components/pages/palmreading/Palmreading';
 import Astrology from './components/pages/Astrology/Astrology';
 import Astroinfo from './components/pages/Astrology/Astroinfo';
 import Astroreportpage from './components/pages/Astrology/Astroreportpage';
+import Test from './components/pages/Astrology/Test';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
         <Route path='/astrology' element={<MainLayout><Astrology /></MainLayout>} />
         <Route path='/astrology/astrologyinfo' element={<MainLayout><Astroinfo /></MainLayout>} />
         <Route path='/astrology/astrologyreport' element={<MainLayout><Astroreportpage /></MainLayout>} />
+        <Route path="/test" element={<Test />} />
 
       </Routes>
     </Router>

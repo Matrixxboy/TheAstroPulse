@@ -15,7 +15,7 @@ const ASC_BORDER_COLOR = "#FFD700";
 const ASC_TEXT_COLOR = "#FFD700";
 const FONT = "Arial";
 
-const NorthIndianChart = ({ data }) => {
+const Test1 = ({ data }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -116,4 +116,23 @@ function drawChart(ctx, size, backendData) {
   }
 }
 
-export default NorthIndianChart;
+const Test = () => {
+  const data = {
+    "Ascendant": { "DMS": "21° 27' 46\"", "house": 12 },
+    "Jupiter": { "DMS": "21° 27' 46\"", "house": 5 },
+    "Ketu": { "DMS": "13° 27' 19\"", "house": 7 },
+    "Mars": { "DMS": "18° 48' 26\"", "house": 4 },
+    "Mercury": { "DMS": "21° 34' 38\"", "house": 4 },
+    "Moon": { "DMS": "20° 50' 52\"", "house": 2 },
+    "Neptune": { "DMS": "20° 40' 57\"", "house": 10 },
+    "Pluto": { "DMS": "26° 10' 48\"", "house": 1 },
+    "Rahu": { "DMS": "13° 27' 19\"", "house": 8 },
+    "Saturn": { "DMS": "23° 36' 41\"", "house": 3 },
+    "Sun": { "DMS": "28° 2' 37\"", "house": 3 },
+    "Uranus": { "DMS": "12° 26' 52\"", "house": 11 },
+    "Venus": { "DMS": "19° 10' 17\"", "house": 2 }
+  };
+  return <Test1 data={data} />;
+};
+
+export default Test;
