@@ -1356,7 +1356,6 @@ def get_rashi_from_nakshatra_pada(nakshatra_num, pada_num):
 
     total_pada_index = (nakshatra_num - 1) * 4 + (pada_num - 1)
     rashi_index = total_pada_index // 9
-    print(f"total pada index : {total_pada_index}")
     if 0 <= rashi_index < 12:
         return RASHI_DETAILS.get(rashi_index)
     else:
