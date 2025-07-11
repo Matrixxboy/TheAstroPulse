@@ -163,7 +163,6 @@ const Astroreportpage = () => {
         {result&& (
         <div className="mt-8 w-full">
           <KundaliReportPage reportData={result} />
-          {/* <SouthIndianChart planetsInRashis={result[1]}/> */}
         </div>
       )}
       </div>      

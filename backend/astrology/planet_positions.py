@@ -47,8 +47,18 @@ planet_friends = {
 
 def deg_to_dms(deg):
     d = int(deg)
-    m = int((deg - d) * 60)
-    s = int(((deg - d) * 60 - m) * 60)
+    remainder = abs(deg - d) * 60
+    m = int(remainder)
+    s = round((remainder - m) * 60)
+
+    # Correct rounding overflow (e.g., 59.999 -> 60)
+    if s == 60:
+        s = 0
+        m += 1
+    if m == 60:
+        m = 0
+        d += 1
+
     return f"{d}° {m}' {s}\""
 
 def get_avastha(deg, sign_number):

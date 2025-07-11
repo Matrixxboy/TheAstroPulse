@@ -1,116 +1,121 @@
-import React from 'react';
+import React, { useEffect, useRef } from "react";
 
-const RASHI_NAMES = [
-  "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
-  "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
-];
+// Short codes for planet names
+const planetShort = {
+  "Ascendant": "ASC",
+  "Sun": "SU",
+  "Moon": "MO",
+  "Mars": "MA",
+  "Mercury": "ME",
+  "Jupiter": "JU",
+  "Venus": "VE",
+  "Saturn": "SA",
+  "Rahu": "RA",
+  "Ketu": "KE",
+  "Uranus": "UR",
+  "Neptune": "NE",
+  "Pluto": "PL"
+};
 
-// This array defines the fixed positions of the houses in the North Indian chart.
-// The `gridArea` corresponds to a 4x4 grid that creates the diamond shape.
-const HOUSE_POSITIONS = [
-    { house: 1, gridArea: '1 / 1 / 3 / 3' },
-    { house: 2, gridArea: '1 / 3 / 3 / 5' },
-    { house: 3, gridArea: '3 / 3 / 5 / 5' },
-    { house: 4, gridArea: '3 / 1 / 5 / 3' },
-    { house: 5, gridArea: '3 / 2 / 4 / 3' },
-    { house: 6, gridArea: '2 / 2 / 3 / 3' },
-    { house: 7, gridArea: '2 / 1 / 3 / 2' },
-    { house: 8, gridArea: '1 / 2 / 2 / 3' },
-    { house: 9, gridArea: '2 / 3 / 3 / 4' },
-    { house: 10, gridArea: '3 / 3 / 4 / 4' },
-    { house: 11, gridArea: '3 / 4 / 4 / 5' },
-    { house: 12, gridArea: '2 / 4 / 3 / 5' },
-];
+const NorthIndianChart = ({ data }) => {
+  const canvasRef = useRef(null);
 
-const NorthIndianChart = ({ planets, lagnaSign }) => {
-  const lagnaRashiIndex = RASHI_NAMES.indexOf(lagnaSign);
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
 
-  if (lagnaRashiIndex === -1) {
-    return <div className="text-red-500">Invalid Lagna Sign: {lagnaSign}</div>;
-  }
+    const resizeCanvas = () => {
+      const size = Math.min(window.innerWidth, 600);
+      canvas.width = size;
+      canvas.height = size;
+      drawChart(ctx, size, data);
+    };
 
-  // Group planets by the house they are in.
-  const planetsByHouse = {};
-  for (let i = 1; i <= 12; i++) {
-    planetsByHouse[i] = [];
-  }
-
-  if (planets) {
-    Object.entries(planets).forEach(([planet, details]) => {
-      if (planet.toLowerCase() !== 'ascendant') {
-        const house = details.house;
-        if (planetsByHouse[house]) {
-          const shortName = planet.substring(0, 2).toUpperCase();
-          planetsByHouse[house].push(shortName);
-        }
-      }
-    });
-  }
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+    return () => window.removeEventListener("resize", resizeCanvas);
+  }, [data]);
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gray-900 p-4 font-inter text-white">
-      <h2 className="text-2xl font-bold mb-6">North Indian Chart</h2>
-      <div className="relative w-[400px] h-[400px]">
-        {/* Create the diamond shape with rotated divs */}
-        <div className="absolute w-full h-full transform rotate-45">
-          <div className="grid grid-cols-2 grid-rows-2 w-full h-full">
-            <div className="border-2 border-white"></div>
-            <div className="border-2 border-white"></div>
-            <div className="border-2 border-white"></div>
-            <div className="border-2 border-white"></div>
-          </div>
-        </div>
-
-        {/* Place houses within the chart */}
-        <div className="absolute w-full h-full">
-          {HOUSE_POSITIONS.map(({ house }) => {
-            const rashiIndex = (lagnaRashiIndex + house - 1) % 12;
-            const rashiNumber = rashiIndex + 1;
-            const housePlanets = planetsByHouse[house] || [];
-            
-            // This mapping is for positioning the houses visually in the grid
-            const positionMap = {
-                1: { top: '5%', left: '40%' },
-                2: { top: '20%', left: '60%' },
-                3: { top: '40%', left: '75%' },
-                4: { top: '60%', left: '60%' },
-                5: { top: '75%', left: '40%' },
-                6: { top: '60%', left: '20%' },
-                7: { top: '40%', left: '5%' },
-                8: { top: '20%', left: '20%' },
-                9: { top: '27%', left: '40%' },
-                10: { top: '40%', left: '52%' },
-                11: { top: '52%', left: '40%' },
-                12: { top: '40%', left: '27%' },
-            };
-            
-            // A different positioning for the central houses
-            if(house > 8){
-                 positionMap[9] = { top: '27%', left: '52%' };
-                 positionMap[10] = { top: '40%', left: '65%' };
-                 positionMap[11] = { top: '52%', left: '52%' };
-                 positionMap[12] = { top: '52%', left: '40%' };
-            }
-
-
-            return (
-              <div
-                key={house}
-                className="absolute text-center"
-                style={positionMap[house]}
-              >
-                <div className="text-cyan-400 text-xs mb-1">({rashiNumber})</div>
-                <div className="font-bold text-sm">
-                  {house === 1 && <span className="text-red-500">As </span>}
-                  {housePlanets.join(' ')}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+    <div className="flex justify-center items-center p-4">
+      <canvas ref={canvasRef} className="border border-gray-400" />
     </div>
   );
 };
+
+function drawChart(ctx, size, backendData) {
+  const center = size / 2;
+  const step = size / 3;
+
+  ctx.clearRect(0, 0, size, size);
+  ctx.strokeStyle = "#000";
+  ctx.lineWidth = 2;
+
+  // Draw square border
+  ctx.strokeRect(0, 0, size, size);
+
+  // Inner lines (diamond + cross)
+  ctx.beginPath();
+  ctx.moveTo(0, center); ctx.lineTo(center, 0);
+  ctx.lineTo(size, center); ctx.lineTo(center, size);
+  ctx.closePath();
+  ctx.stroke();
+
+  // X across the square
+  ctx.beginPath();
+  ctx.moveTo(0, 0); ctx.lineTo(size, size);
+  ctx.moveTo(size, 0); ctx.lineTo(0, size);
+  ctx.stroke();
+
+  // Label positions (house numbers)
+  const houseCoords = [
+    { x: 300 , y: 90  },  //1
+    { x: 150, y: 40 },    //2
+    { x: 50, y: 110 },    //3
+    { x: 150, y: 220 },   //4
+    { x: 50, y: 400 },    //5
+    { x: 150, y: 500 },   //6
+    { x: 300, y: 400 },   //7
+    { x: 450, y: 520 },   //8
+    { x: 550, y: 450 },   //9
+    { x: 450, y: 350 },   //10
+    { x: 550, y: 150 },   //11
+    { x: 450, y: 30 },    //12
+  ];
+
+  // Re-map planets by house
+  const planetsByHouse = {};
+  for (const [planet, details] of Object.entries(backendData)) {
+    const house = details.house.toString();
+    const short = planetShort[planet] || planet.slice(0, 2).toUpperCase();
+    const dms = details.DMS.split(" ")[0] + " " + details.DMS.split(" ")[1];
+    const label = `${short} ${dms}`;
+    if (!planetsByHouse[house]) planetsByHouse[house] = [];
+    planetsByHouse[house].push(label);
+  }
+
+  // Draw house numbers and planet texts
+  ctx.font = `${Math.floor(size * 0.03)}px Arial`;
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#ffffff";
+
+  for (let i = 0; i < 12; i++) {
+    const houseNum = (i + 1).toString();
+    const { x, y } = houseCoords[i];
+
+    // House number
+    ctx.fillText(houseNum, x, y);
+
+    // Planets
+    if (planetsByHouse[houseNum]) {
+      planetsByHouse[houseNum].forEach((p, idx) => {
+        ctx.fillStyle = "#ffffff";
+        ctx.fillText(p, x, y + (idx + 1) * size * 0.04);
+      });
+    }
+
+    ctx.fillStyle = "#DDE6E1";
+  }
+}
 
 export default NorthIndianChart;

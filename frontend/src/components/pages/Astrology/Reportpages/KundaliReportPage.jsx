@@ -148,7 +148,7 @@ const KundaliReportPage = ({ reportData }) => {
         )}
         <div className="flex flex-wrap justify-around gap-4">
             <SouthIndianChart planets={planetDetails} lagnaSign={planetDetails.Ascendant.Sign} />
-            {/* <NorthIndianChart planets={planetDetails} lagnaSign={planetDetails.Ascendant.Sign} /> */}
+            <NorthIndianChart data={planetDetails}  />
         </div>
       </div>
   );
