@@ -1337,7 +1337,6 @@ def get_nakshatra_info(moon_long_sidereal):
     moon_long_sidereal = moon_long_sidereal % 360
     
     nak_index = int(moon_long_sidereal / NAKSHATRA_SPAN_DEG) 
-    print(f"nak_index : {nak_index}")
     nakshatra_remainder_deg = moon_long_sidereal % NAKSHATRA_SPAN_DEG
     pada_index = int(nakshatra_remainder_deg / PADA_SPAN_DEG) 
     
