@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import KundaliReportPage from "./Reportpages/KundaliReportPage";
-import SouthIndianChart from "./Charts/SouthIndianChart";
 
 const Astroreportpage = () => {
   const [dob, setDob] = useState("");

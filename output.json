@@ -73,7 +73,8 @@
     "timezone": "Asia/Kolkata",
     "tithi": "Dwadashi (Krishna Paksha (Waning))",
     "vara": "Wednesday",
-    "karan": "example"
+    "karan_name": "example",
+    "yog_name": "example"
   },
     {
       "Jupiter": {

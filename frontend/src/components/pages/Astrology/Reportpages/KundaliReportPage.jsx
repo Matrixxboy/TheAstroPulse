@@ -1,56 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { createRoot } from 'react-dom/client';
+import { flushSync } from 'react-dom';
 import SouthIndianChart from '../Charts/SouthIndianChart';
 import NorthIndianChart from '../Charts/NorthIndianChart';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import AstroReport from './AstroReport';
+
 
 // ReportPage component - This will display the fetched data
 const KundaliReportPage = ({ reportData }) => {
   const reportRef = useRef();
   const [isPdfMode, setIsPdfMode] = useState(false);
-
-  const handleDownloadPDF = () => {
-    setIsPdfMode(true);
-  };
-
-  useEffect(() => {
-    if (isPdfMode) {
-      const input = reportRef.current;
-      html2canvas(input, {
-        useCORS: true,
-        scale: 1.5, // Reduced scale for smaller file size
-        onclone: (document) => {
-          document.getElementById('pdf-container').style.backgroundColor = 'white';
-        }
-      }).then((canvas) => {
-        const imgData = canvas.toDataURL('image/jpeg', 0.7); // Use compressed JPEG
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
-        const canvasWidth = canvas.width;
-        const canvasHeight = canvas.height;
-        const ratio = canvasWidth / canvasHeight;
-        const width = pdfWidth;
-        const height = width / ratio;
-
-        let position = 0;
-        let heightLeft = height;
-
-        pdf.addImage(imgData, 'JPEG', 0, position, width, height);
-        heightLeft -= pdfHeight;
-
-        while (heightLeft > 0) {
-          position = heightLeft - height;
-          pdf.addPage();
-          pdf.addImage(imgData, 'JPEG', 0, position, width, height);
-          heightLeft -= pdfHeight;
-        }
-
-        pdf.save('astrology-report.pdf');
-        setIsPdfMode(false);
-      });
-    }
-  }, [isPdfMode]);
 
   // Ensure reportData is valid before rendering
   if (!reportData || !Array.isArray(reportData) || reportData.length < 2) {
@@ -62,6 +21,7 @@ const KundaliReportPage = ({ reportData }) => {
     );
   }
 
+  const backend_data = reportData;
   const basicInfo = reportData[0];
   const planetDetails = reportData[1];
 
@@ -93,7 +53,21 @@ const KundaliReportPage = ({ reportData }) => {
     <>
       <div className="text-center mb-4">
         <button
-          onClick={handleDownloadPDF}
+          onClick={() => {
+            console.log("Download PDF button clicked");
+            const astroReportRef = React.createRef();
+            const astroReport = document.createElement('div');
+            astroReport.style.position = 'absolute';
+            astroReport.style.left = '-9999px';
+            astroReport.style.top = '-9999px';
+            document.body.appendChild(astroReport);
+            flushSync(() => {
+              const root = createRoot(astroReport);
+              root.render(<AstroReport ref={astroReportRef} data={reportData} />);
+            });
+            console.log("Calling handleDownloadPDF from AstroReport");
+            astroReportRef.current.handleDownloadPDF();
+          }}
           className="bg-cyan-400 hover:bg-cyan-300 text-black font-semibold py-2 px-6 rounded-lg transition"
         >
           Download PDF
