@@ -18,12 +18,12 @@ const KundaliReportPage = ({ reportData }) => {
       const input = reportRef.current;
       html2canvas(input, {
         useCORS: true,
-        scale: 2,
+        scale: 1.5, // Reduced scale for smaller file size
         onclone: (document) => {
           document.getElementById('pdf-container').style.backgroundColor = 'white';
         }
       }).then((canvas) => {
-        const imgData = canvas.toDataURL('image/png');
+        const imgData = canvas.toDataURL('image/jpeg', 0.7); // Use compressed JPEG
         const pdf = new jsPDF('p', 'mm', 'a4');
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = pdf.internal.pageSize.getHeight();
@@ -36,17 +36,17 @@ const KundaliReportPage = ({ reportData }) => {
         let position = 0;
         let heightLeft = height;
 
-        pdf.addImage(imgData, 'PNG', 0, position, width, height);
+        pdf.addImage(imgData, 'JPEG', 0, position, width, height);
         heightLeft -= pdfHeight;
 
         while (heightLeft > 0) {
           position = heightLeft - height;
           pdf.addPage();
-          pdf.addImage(imgData, 'PNG', 0, position, width, height);
+          pdf.addImage(imgData, 'JPEG', 0, position, width, height);
           heightLeft -= pdfHeight;
         }
 
-        pdf.save(`astrology-report.pdf`);
+        pdf.save('astrology-report.pdf');
         setIsPdfMode(false);
       });
     }
