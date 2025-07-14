@@ -32,12 +32,12 @@ const KundaliReportPage = ({ reportData }) => {
         <h1 className="text-4xl font-extrabold text-center text-[#22d3ee] mb-8 tracking-tight">
           Astrology Birth Report
         </h1>
-        <div className="flex flex-wrap justify-center gap-4 p-4">
+        <div className="flex flex-wrap justify-center gap-1 p-2">
           <div className="w-full sm:w-[70%] max-w-[450px]">
             <NorthIndianChart data={planetDetails} />
           </div>
-          <div className="w-full sm:w-[50%] max-w-[400px]">
-            <SouthIndianChart planets={planetDetails} lagnaSign={planetDetails.Ascendant.Sign} />
+          <div className="w-full sm:w-[70%] max-w-[450px]">
+            <SouthIndianChart data={planetDetails} />
           </div>
         </div>
         

@@ -8,7 +8,7 @@ const planetShort = {
 };
 
 const BG_COLOR = "#C29DE6";
-const STROKE_COLOR = "#fefefe";
+const STROKE_COLOR = "#1b1919ff";
 const TEXT_COLOR = "#02d1e4";
 const PLANET_COLOR = "#00eaff";
 const ASC_BORDER_COLOR = "#FFD700";
@@ -21,9 +21,10 @@ const Test1 = ({ data }) => {
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-
+    
     const resizeCanvas = () => {
       const size = Math.min(window.innerWidth, 600);
+      console.log(size)
       canvas.width = size;
       canvas.height = size;
       drawChart(ctx, size, data);
@@ -42,40 +43,65 @@ const Test1 = ({ data }) => {
 };
 
 function drawChart(ctx, size, backendData) {
-  const center = size / 2;
-  ctx.fillStyle = BG_COLOR;
-  ctx.fillRect(0, 0, size, size);
+  const cell = size / 4;
+  const fontSize = cell * 0.22;
 
   ctx.strokeStyle = STROKE_COLOR;
-  ctx.lineWidth = 2;
-  ctx.strokeRect(0, 0, size, size);
-
-  // Diamond shape
+  ctx.lineWidth = 3;
+  ctx.strokeRect(2, 2, size-4, size-4);
+  
   ctx.beginPath();
-  ctx.moveTo(0, center); ctx.lineTo(center, 0);
-  ctx.lineTo(size, center); ctx.lineTo(center, size);
-  ctx.closePath(); ctx.stroke();
-
-  // Cross lines
-  ctx.beginPath();
-  ctx.moveTo(0, 0); ctx.lineTo(size, size);
-  ctx.moveTo(size, 0); ctx.lineTo(0, size);
+  ctx.moveTo(size/2 , size/2 + size/4);      
+  ctx.lineTo(size / 2, size);             
   ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(size/2 , 0);      
+  ctx.lineTo(size/2, size/4);             
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(size/2+size/4,size/2);      
+  ctx.lineTo(size, size/2);             
+  ctx.stroke();
+
+
+  ctx.beginPath();
+  ctx.moveTo(0 , size/2);      
+  ctx.lineTo(size/4, size/2);             
+  ctx.stroke();
+
+  // Draw grid
+  for (let i = 0; i < 5; i++) {
+    if(i == 1 || i == 3){
+      const pos = i * cell;
+      ctx.beginPath();
+      ctx.moveTo(pos, 0);
+      ctx.lineTo(pos, size);
+      ctx.stroke();
+  
+      ctx.beginPath();
+      ctx.moveTo(0, pos);
+      ctx.lineTo(size, pos);
+      ctx.stroke();
+    }
+  }
+
 
   const scale = size / 600;
   const fixedHouseCoords = [
-    { x: 300, y: 90 }, 
-    { x: 150, y: 40 }, 
-    { x: 50, y: 110 },
-    { x: 150, y: 220 }, 
-    { x: 50, y: 400 }, 
-    { x: 150, y: 500 },
-    { x: 300, y: 400 }, 
-    { x: 450, y: 520 }, 
-    { x: 550, y: 450 },
-    { x: 450, y: 220 }, 
-    { x: 550, y: 100 }, 
-    { x: 450, y: 30 }
+   { x: 225, y: 25 }, 
+    { x: 375, y: 25 }, 
+    { x: 525, y: 25 },
+    { x: 525, y: 170 }, 
+    { x: 525, y: 320 }, 
+    { x: 525, y: 470 },
+    { x: 375, y: 470 }, 
+    { x: 225, y: 470 }, 
+    { x: 75, y: 470 },
+    { x: 75, y: 320 }, 
+    { x: 75, y: 170 }, 
+    { x: 75, y: 25 }
   ].map(pt => ({ x: pt.x * scale, y: pt.y * scale }));
 
   let ascHouse = 1;

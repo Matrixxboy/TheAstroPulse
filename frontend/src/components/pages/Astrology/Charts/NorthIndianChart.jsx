@@ -17,39 +17,53 @@ const FONT = "Arial";
 
 const NorthIndianChart = ({ data }) => {
   const canvasRef = useRef(null);
+  const containerRef = useRef(null); // Ref for the parent container
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
     const resizeCanvas = () => {
-      const size = Math.min(window.innerWidth, 600);
+      // Get the current computed size of the parent container
+      const containerWidth = containerRef.current.clientWidth;
+      const containerHeight = containerRef.current.clientHeight;
+
+      // Use the minimum of the container's width and height to maintain aspect ratio
+      // This ensures the chart scales down gracefully on smaller screens
+      const size = Math.min(containerWidth, containerHeight);
+      
       canvas.width = size;
       canvas.height = size;
       drawChart(ctx, size, data);
     };
 
+    // Initial resize and draw
     resizeCanvas();
+
+    // Add event listener for window resize
     window.addEventListener("resize", resizeCanvas);
+
+    // Clean up the event listener on component unmount
     return () => window.removeEventListener("resize", resizeCanvas);
-  }, [data]);
+  }, [data]); // Depend on data to redraw if data changes
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 font-inter text-white">
-      <h2 className="text-2xl font-bold mb-6">North Indian Rasi Chart</h2>
+    <div ref={containerRef} className="flex flex-col items-center justify-center p-2 font-inter text-white">
+      <h2 className="text-lg lg:text-2xl font-bold mb-6">North Indian Rasi Chart</h2>
+      {/* The canvas should fill its parent, and the parent's size will be managed by Tailwind's flex/p-4 */}
       <canvas ref={canvasRef} className="w-full h-auto rounded shadow-lg" />
-  </div>
+    </div>
   );
 };
 
 function drawChart(ctx, size, backendData) {
   const center = size / 2;
-//   ctx.fillStyle = BG_COLOR;
-//   ctx.fillRect(0, 0, size, size);
+  // ctx.fillStyle = BG_COLOR; // This was commented out in original, keeping it that way
+  // ctx.fillRect(0, 0, size, size);
 
-  ctx.strokeStyle = STROKE_COLOR;
-  ctx.lineWidth =3;
-  ctx.strokeRect(0, 0, size, size);
+ ctx.strokeStyle = STROKE_COLOR;
+  ctx.lineWidth = 3;
+  ctx.strokeRect(2, 2, size-4, size-4);
 
   // Diamond shape
   ctx.beginPath();
@@ -63,7 +77,7 @@ function drawChart(ctx, size, backendData) {
   ctx.moveTo(size, 0); ctx.lineTo(0, size);
   ctx.stroke();
 
-  const scale = size / 600;
+  const scale = size / 600; // Scale relative to an assumed base size of 600px
   const fixedHouseCoords = [
     { x: 300, y: 90 }, 
     { x: 150, y: 40 }, 
@@ -112,7 +126,7 @@ function drawChart(ctx, size, backendData) {
 
     if (i === 0) {
       ctx.beginPath();
-      ctx.arc(x+1, y - 8, 14 * scale, 0, 2 * Math.PI);
+      ctx.arc(x + 1, y - 8, 14 * scale, 0, 2 * Math.PI);
       ctx.strokeStyle = ASC_BORDER_COLOR;
       ctx.lineWidth = 3;
       ctx.stroke();
