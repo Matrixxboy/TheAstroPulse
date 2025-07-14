@@ -5,8 +5,13 @@ import NorthIndianChart from '../Charts/NorthIndianChart';
 // ReportPage component - This will display the fetched data
 const KundaliReportPage = ({ reportData }) => {
   // Ensure reportData is valid before rendering
-  if (!reportData || reportData.length === 0) {
-    return <div className="text-center text-gray-600 p-8">No report data to display.</div>;
+  if (!reportData || !Array.isArray(reportData) || reportData.length < 2) {
+    return (
+      <div className="text-center text-red-500 bg-red-100 p-4 rounded-lg">
+        <p className="font-bold">Error:</p>
+        <p>Invalid report data received. Please try again.</p>
+      </div>
+    );
   }
 
   const basicInfo = reportData[0];

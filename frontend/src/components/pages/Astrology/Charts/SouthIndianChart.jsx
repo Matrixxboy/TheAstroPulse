@@ -49,7 +49,7 @@ const SouthIndianChart = ({ data }) => {
 
   return (
     <div ref={containerRef} className="flex flex-col items-center justify-center p-2 font-inter text-white">
-      <h2 className="text-lg lg:text-2xl font-bold mb-6">North Indian Rasi Chart</h2>
+      <h2 className="text-lg lg:text-2xl font-bold mb-6">South Indian Rashi Chart</h2>
       {/* The canvas should fill its parent, and the parent's size will be managed by Tailwind's flex/p-4 */}
       <canvas ref={canvasRef} className="w-full h-auto rounded shadow-lg" />
     </div>

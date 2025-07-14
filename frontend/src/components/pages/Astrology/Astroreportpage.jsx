@@ -160,11 +160,18 @@ const Astroreportpage = () => {
         )}
 
         {/* Result */}
-        {result&& (
-        <div className="mt-8 w-full">
-          <KundaliReportPage reportData={result} />
-        </div>
-      )}
+        {result && (
+          <div className="mt-8 w-full">
+            {result.error ? (
+              <div className="text-center text-red-500 bg-red-100 p-4 rounded-lg">
+                <p className="font-bold">Error:</p>
+                <p>{result.error}</p>
+              </div>
+            ) : (
+              <KundaliReportPage reportData={result} />
+            )}
+          </div>
+        )}
       </div>      
     </div>
   );
