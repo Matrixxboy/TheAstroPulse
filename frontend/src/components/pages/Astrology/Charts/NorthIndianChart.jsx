@@ -15,7 +15,7 @@ const ASC_BORDER_COLOR = "#FFD700";
 const ASC_TEXT_COLOR = "#FFD700";
 const FONT = "Arial";
 
-const NorthIndianChart = ({ data }) => {
+const NorthIndianChart = ({ data, isPdfMode }) => {
   const canvasRef = useRef(null);
   const containerRef = useRef(null); // Ref for the parent container
 
@@ -34,7 +34,7 @@ const NorthIndianChart = ({ data }) => {
       
       canvas.width = size;
       canvas.height = size;
-      drawChart(ctx, size, data);
+      drawChart(ctx, size, data, isPdfMode);
     };
 
     // Initial resize and draw
@@ -45,7 +45,7 @@ const NorthIndianChart = ({ data }) => {
 
     // Clean up the event listener on component unmount
     return () => window.removeEventListener("resize", resizeCanvas);
-  }, [data]); // Depend on data to redraw if data changes
+  }, [data, isPdfMode]); // Depend on data and isPdfMode to redraw if data changes
 
   return (
     <div ref={containerRef} className="flex flex-col items-center justify-center p-2 font-inter text-white">
@@ -56,12 +56,12 @@ const NorthIndianChart = ({ data }) => {
   );
 };
 
-function drawChart(ctx, size, backendData) {
+function drawChart(ctx, size, backendData, isPdfMode) {
   const center = size / 2;
   // ctx.fillStyle = BG_COLOR; // This was commented out in original, keeping it that way
   // ctx.fillRect(0, 0, size, size);
 
- ctx.strokeStyle = STROKE_COLOR;
+  ctx.strokeStyle = isPdfMode ? "#000000" : STROKE_COLOR;
   ctx.lineWidth = 3;
   ctx.strokeRect(2, 2, size-4, size-4);
 
@@ -121,19 +121,19 @@ function drawChart(ctx, size, backendData) {
     const { x, y } = fixedHouseCoords[i];
     const houseNum = ((ascHouse - 1 + i) % 12) + 1;
 
-    ctx.fillStyle = TEXT_COLOR;
+    ctx.fillStyle = isPdfMode ? "#000000" : TEXT_COLOR;
     ctx.fillText(houseNum.toString(), x, y);
 
     if (i === 0) {
       ctx.beginPath();
       ctx.arc(x + 1, y - 8, 14 * scale, 0, 2 * Math.PI);
-      ctx.strokeStyle = ASC_BORDER_COLOR;
+      ctx.strokeStyle = isPdfMode ? "#000000" : ASC_BORDER_COLOR;
       ctx.lineWidth = 3;
       ctx.stroke();
     }
 
     planetsByPosition[i].forEach((p, idx) => {
-      ctx.fillStyle = p.isAsc ? ASC_TEXT_COLOR : PLANET_COLOR;
+      ctx.fillStyle = isPdfMode ? "#000000" : (p.isAsc ? ASC_TEXT_COLOR : PLANET_COLOR);
       ctx.fillText(p.label, x, y + (idx + 1) * (size * 0.04));
     });
   }

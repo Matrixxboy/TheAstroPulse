@@ -1,9 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import SouthIndianChart from '../Charts/SouthIndianChart';
 import NorthIndianChart from '../Charts/NorthIndianChart';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 // ReportPage component - This will display the fetched data
 const KundaliReportPage = ({ reportData }) => {
+  const reportRef = useRef();
+  const [isPdfMode, setIsPdfMode] = useState(false);
+
+  const handleDownloadPDF = () => {
+    setIsPdfMode(true);
+  };
+
+  useEffect(() => {
+    if (isPdfMode) {
+      const input = reportRef.current;
+      html2canvas(input, {
+        useCORS: true,
+        scale: 2,
+        onclone: (document) => {
+          document.getElementById('pdf-container').style.backgroundColor = 'white';
+        }
+      }).then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+        const ratio = canvasWidth / canvasHeight;
+        const width = pdfWidth;
+        const height = width / ratio;
+
+        let position = 0;
+        let heightLeft = height;
+
+        pdf.addImage(imgData, 'PNG', 0, position, width, height);
+        heightLeft -= pdfHeight;
+
+        while (heightLeft > 0) {
+          position = heightLeft - height;
+          pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 0, position, width, height);
+          heightLeft -= pdfHeight;
+        }
+
+        pdf.save(`astrology-report.pdf`);
+        setIsPdfMode(false);
+      });
+    }
+  }, [isPdfMode]);
+
   // Ensure reportData is valid before rendering
   if (!reportData || !Array.isArray(reportData) || reportData.length < 2) {
     return (
@@ -20,34 +68,52 @@ const KundaliReportPage = ({ reportData }) => {
   // Helper function to render a detail row
   const DetailRow = ({ label, value }) => (
     <div className="flex justify-between py-2 border-b border-gray-200 last:border-b-0">
-      <span className="font-medium text-white ">{label} :</span>
-      <span className="text-gray">{value}</span>
+      <span className={`font-medium ${textColorClass}`}>{label} :</span>
+      <span className={detailRowColorClass}>{value}</span>
     </div>
   );
 
   // Helper function to render a section title
   const SectionTitle = ({ title }) => (
-    <h2 className="text-2xl font-semibold text-white mb-4 pb-2 border-b-2 border-indigo-300">
+    <h2 className={`text-2xl font-semibold mb-4 pb-2 border-b-2 border-indigo-300 ${sectionTitleColorClass}`}>
       {title}
     </h2>
   );
 
+  const pdfContainerClass = isPdfMode ? 'bg-white text-black' : 'bg-white/20 rounded-2xl';
+  const textColorClass = isPdfMode ? 'text-black' : 'text-white';
+  const sectionTitleColorClass = isPdfMode ? 'text-black' : 'text-white';
+  const detailRowColorClass = isPdfMode ? 'text-black' : 'text-gray';
+  const rashiDetailsColorClass = isPdfMode ? 'text-black' : 'text-indigo-600';
+  const padaDetailsColorClass = isPdfMode ? 'text-black' : 'text-[#9CE2ED]';
+  const planetDetailsColorClass = isPdfMode ? 'text-black' : 'text-indigo-700';
+
+
   return (
-      <div className="min-h-screen min-w-screen bg-white/20 rounded-2xl p-6 sm:p-8 lg:p-10">
-        <h1 className="text-4xl font-extrabold text-center text-[#22d3ee] mb-8 tracking-tight">
+    <>
+      <div className="text-center mb-4">
+        <button
+          onClick={handleDownloadPDF}
+          className="bg-cyan-400 hover:bg-cyan-300 text-black font-semibold py-2 px-6 rounded-lg transition"
+        >
+          Download PDF
+        </button>
+      </div>
+      <div id="pdf-container" ref={reportRef} className={`min-h-screen min-w-screen p-6 sm:p-8 lg:p-10 ${pdfContainerClass}`}>
+        <h1 className={`text-4xl font-extrabold text-center mb-8 tracking-tight ${isPdfMode ? 'text-black' : 'text-[#22d3ee]'}`}>
           Astrology Birth Report
         </h1>
         <div className="flex flex-wrap justify-center gap-1 p-2">
           <div className="w-full sm:w-[70%] max-w-[450px]">
-            <NorthIndianChart data={planetDetails} />
+            <NorthIndianChart data={planetDetails} isPdfMode={isPdfMode} />
           </div>
           <div className="w-full sm:w-[70%] max-w-[450px]">
-            <SouthIndianChart data={planetDetails} />
+            <SouthIndianChart data={planetDetails} isPdfMode={isPdfMode} />
           </div>
         </div>
         
         {/* Basic Information Section */}
-        <div className="mb-10 p-6 bg-white/20 rounded-xl shadow-inner">
+        <div className={`mb-10 p-6 rounded-xl shadow-inner ${isPdfMode ? 'bg-white' : 'bg-white/20'}`}>
           <SectionTitle title="Basic Information" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <DetailRow label="Date of Birth" value={basicInfo.DOB} />
@@ -63,7 +129,7 @@ const KundaliReportPage = ({ reportData }) => {
 
         {/* Avakhada Details Section */}
         {basicInfo.nakshtra_all_details && (
-          <div className="mb-10 p-6 bg-white/20 rounded-xl shadow-inner">
+          <div className={`mb-10 p-6 rounded-xl shadow-inner ${isPdfMode ? 'bg-white' : 'bg-white/20'}`}>
             <SectionTitle title="Avakhada Details" />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <DetailRow label="Varna" value={basicInfo.nakshtra_all_details.varna} />
@@ -90,11 +156,11 @@ const KundaliReportPage = ({ reportData }) => {
             </div>
             {basicInfo.nakshtra_all_details.pada && (
               <div className="mt-6">
-                <h3 className="text-xl font-semibold text-[#9CE2ED] mb-3">Nakshatra Pada Details:</h3>
+                <h3 className={`text-xl font-semibold mb-3 ${padaDetailsColorClass}`}>Nakshatra Pada Details:</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {Object.entries(basicInfo.nakshtra_all_details.pada).map(([key, value]) => (
-                    <div key={key} className="bg-white/20 p-4 rounded-lg shadow-sm border border-gray-200">
-                      <h4 className="font-bold text-lg text-[#9CE2ED] mb-2">Pada {key}</h4>
+                    <div key={key} className={`p-4 rounded-lg shadow-sm border border-gray-200 ${isPdfMode ? 'bg-white' : 'bg-white/20'}`}>
+                      <h4 className={`font-bold text-lg mb-2 ${padaDetailsColorClass}`}>Pada {key}</h4>
                       <DetailRow label="Akshara" value={value.akshara} />
                       <DetailRow label="Navamsa Sign" value={value.navamsa_sign} />
                       <DetailRow label="Rashi" value={value.rashi} />
@@ -105,10 +171,10 @@ const KundaliReportPage = ({ reportData }) => {
             )}
             {basicInfo.rashi_all_details && Object.keys(basicInfo.rashi_all_details).length > 0 && (
               <div className="mt-6">
-                <h3 className="text-xl font-semibold text-[#9CE2ED] mb-3">Rashi Details:</h3>
+                <h3 className={`text-xl font-semibold mb-3 ${rashiDetailsColorClass}`}>Rashi Details:</h3>
                 {Object.entries(basicInfo.rashi_all_details).map(([rashiName, rashiDetails]) => (
-                  <div key={rashiName} className="bg-white/20    p-4 rounded-lg shadow-sm border border-gray-200 mt-4">
-                    <h4 className="font-bold text-lg text-indigo-600 mb-2">{rashiName}</h4>
+                  <div key={rashiName} className={`p-4 rounded-lg shadow-sm border border-gray-200 mt-4 ${isPdfMode ? 'bg-white' : 'bg-white/20'}`}>
+                    <h4 className={`font-bold text-lg mb-2 ${rashiDetailsColorClass}`}>{rashiName}</h4>
                     <DetailRow label="Body Part" value={rashiDetails.body_part} />
                     <DetailRow label="Direction" value={rashiDetails.direction} />
                     <DetailRow label="Dosha" value={rashiDetails.dosha} />
@@ -126,7 +192,7 @@ const KundaliReportPage = ({ reportData }) => {
         )}
 
         {/* Panchang Details Section */}
-        <div className="p-6 p-6 bg-white/20 rounded-xl shadow-inner">
+        <div className={`p-6 rounded-xl shadow-inner ${isPdfMode ? 'bg-white' : 'bg-white/20'}`}>
           <SectionTitle title="Panchang Details" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <DetailRow label="Vara" value={basicInfo.vara} />
@@ -137,12 +203,12 @@ const KundaliReportPage = ({ reportData }) => {
 
         {/* Planet Details Section (Optional, if you want to include it) */}
         {planetDetails && (
-          <div className="mt-10 p-6 bg-white/20 rounded-xl shadow-inner">
+          <div className={`mt-10 p-6 rounded-xl shadow-inner ${isPdfMode ? 'bg-white' : 'bg-white/20'}`}>
             <SectionTitle title="Planet Details" />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {Object.entries(planetDetails).map(([planetName, details]) => (
-                <div key={planetName} className="bg-white/20 p-4 rounded-lg shadow-md border border-gray-200">
-                  <h3 className="text-xl font-bold text-indigo-700 mb-3">{planetName}</h3>
+                <div key={planetName} className={`p-4 rounded-lg shadow-md border border-gray-200 ${isPdfMode ? 'bg-white' : 'bg-white/20'}`}>
+                  <h3 className={`text-xl font-bold mb-3 ${planetDetailsColorClass}`}>{planetName}</h3>
                   <DetailRow label="Avastha" value={details.Avastha} />
                   <DetailRow label="Combust" value={details.Combust} />
                   <DetailRow label="DMS" value={details.DMS} />
@@ -160,6 +226,7 @@ const KundaliReportPage = ({ reportData }) => {
           </div>
         )}
       </div>
+    </>
   );
 };
 
