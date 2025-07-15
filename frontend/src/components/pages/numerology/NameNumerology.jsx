@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import LoShuGrid from "./Report/chart/LoShuGrid";
 
 const NameNumerology = () => {
     const [name, setName] = useState("");
@@ -170,6 +171,10 @@ const NameNumerology = () => {
                                     <p><strong>Personality type : </strong>{result.personality_traits.nickname}</p>
                                     {result.personality_traits?.vibe}{result.personality_traits?.how_people_see_you}{result.life_path_number?.strengths}{result.life_path_number?.challenges}{result.life_path_number?.life_purpose}{result.soul_urge_number?.description}
                                 </p>
+                                <div className=" flex flex-col items-center justify-center">
+                                    <h1 className="text-2xl font-bold">Lo Shu Grid</h1>
+                                    <LoShuGrid gridData={result.lo_shu_grid} />
+                                </div>
                             </>
                         )}
                     </div>
