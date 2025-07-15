@@ -19,9 +19,9 @@ const NameNumerology = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Form submitted");
+        // console.log("Form submitted");
         if (!name || !dob) {
-            console.log("Missing values")
+            // console.log("Missing values")
         };
 
         setCuname(name);
