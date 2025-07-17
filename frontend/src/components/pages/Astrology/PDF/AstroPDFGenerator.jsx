@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
-import SouthIndianChart from '../Charts/SouthIndianChart'
+import NorthIndianChartPDF from './NorthchartPDF';
+import SouthIndianChartPDF from './SouthchartPDF';
 
 const AstroPDFGenerator = () => {
   const pdfRef = useRef();
@@ -94,8 +95,12 @@ const AstroPDFGenerator = () => {
 
         {/* Personal Information Page */}
         <div className="pdf-page p-12">
+          <h2 className="text-3xl font-bold text-red-800 border-b-2 border-red-200 pb-2 mb-6">Charts</h2>
+          <div className="flex justify-around">
+            <NorthIndianChartPDF data={planetData} />
+            <SouthIndianChartPDF data={planetData} />
+          </div>
           <h2 className="text-3xl font-bold text-purple-800 border-b-2 border-purple-200 pb-2 mb-6">Personal Information</h2>
-          
           <div className="grid grid-cols-2 gap-x-8 gap-y-4 text-lg">
             <p><strong>Name :</strong> {personalData.DOB}</p>
             <p><strong>Date of Birth:</strong> {personalData.DOB}</p>
@@ -148,9 +153,14 @@ const AstroPDFGenerator = () => {
               <tr className="bg-green-100">
                 <th className="p-3 border">Planet</th>
                 <th className="p-3 border">Sign</th>
-                <th className="p-3 border">Longitude</th>
+                <th className="p-3 border">Sign Lord</th>
                 <th className="p-3 border">Nakshatra</th>
+                <th className="p-3 border">Nakshatra Lord</th>
+                <th className="p-3 border">Degree</th>
+                <th className="p-3 border">Combust</th>   
+                <th className="p-3 border">Avastha</th>
                 <th className="p-3 border">House</th>
+                <th className="p-3 border">Status</th>
               </tr>
             </thead>
             <tbody>
@@ -158,9 +168,14 @@ const AstroPDFGenerator = () => {
                 <tr key={planet} className="border-b">
                   <td className="p-3 border">{planet}</td>
                   <td className="p-3 border">{details.Sign}</td>
-                  <td className="p-3 border">{details.Longitude}</td>
+                  <td className="p-3 border">{details.SignLord}</td>
                   <td className="p-3 border">{details.Nakshatra}</td>
+                  <td className="p-3 border">{details.NakLord}</td>
+                  <td className="p-3 border">{details.DMS}</td>
+                  <td className="p-3 border">{details.Combust}</td>
+                  <td className="p-3 border">{details.Avastha}</td>
                   <td className="p-3 border">{details.house}</td>
+                  <td className="p-3 border">{details.Status}</td>
                 </tr>
               ))}
             </tbody>

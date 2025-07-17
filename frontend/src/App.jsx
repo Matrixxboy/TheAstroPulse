@@ -16,7 +16,7 @@ import Astrology from './components/pages/Astrology/Astrology';
 import Astroinfo from './components/pages/Astrology/Astroinfo';
 import Astroreportpage from './components/pages/Astrology/Astroreportpage';
 import Test from './components/pages/Astrology/Test';
-import AstroPDFGenerator from './components/pages/Astrology/Reportpages/AstroPDFGenerator';
+import AstroPDFGenerator from './components/pages/Astrology/PDF/AstroPDFGenerator';
 
 
 function App() {

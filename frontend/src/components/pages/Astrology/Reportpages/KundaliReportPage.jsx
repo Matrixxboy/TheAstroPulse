@@ -4,7 +4,7 @@ import { flushSync } from 'react-dom';
 import SouthIndianChart from '../Charts/SouthIndianChart';
 import NorthIndianChart from '../Charts/NorthIndianChart';
 import AstroReport from './AstroReport';
-import AstroPDFGenerator from './AstroPDFGenerator';
+import AstroPDFGenerator from '../PDF/AstroPDFGenerator';
 
 
 // ReportPage component - This will display the fetched data
