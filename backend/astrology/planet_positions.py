@@ -102,9 +102,39 @@ def is_combust(planet, planet_lon, sun_lon):
         diff = 360 - diff
     return diff <= limits.get(planet, 0)
 
+def calculate_vedic_lagna(dob, tob, location, lat, lon):
+    # Step 1: Parse datetime and timezone
+    dt_str = f"{dob} {tob}"
+    naive_dt = datetime.strptime(dt_str, "%Y-%m-%d %H:%M")
+    timezone = pytz.timezone(location)
+    aware_dt = timezone.localize(naive_dt)
+    
+    # Step 2: Convert to UTC
+    utc_dt = aware_dt.astimezone(pytz.utc)
+    
+    # Step 3: Julian Day for UTC
+    jd_ut = swe.julday(utc_dt.year, utc_dt.month, utc_dt.day, utc_dt.hour + utc_dt.minute / 60)
+    
+    # Step 4: Set Ayanamsa (Lahiri = traditional Indian)
+    swe.set_sid_mode(swe.SIDM_LAHIRI)
+    
+    # Step 5: Calculate Houses with sidereal mode
+    cusps, ascmc = swe.houses(jd_ut, lat, lon, b'W')  # You can also try 'E' or 'P'
+    
+    # Step 6: Ascendant Degree (Sidereal)
+    asc_sidereal = (ascmc[0] - swe.get_ayanamsa(jd_ut)) % 360
+    
+    # Step 7: Map to Rashi
+    rashis = [
+        "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
+        "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
+    ]
+    rashi_index = int(asc_sidereal // 30)
+    return asc_sidereal,rashis[rashi_index] , rashi_index
 
 
-def planet_position_details(DOB,TOB,LOCATION):
+
+def planet_position_details(DOB,TOB,LOCATION,TIMEZONE):
     # Geolocation and Time
     try:
         geolocator = Nominatim(user_agent="vedic_astrology_app", timeout=10)
@@ -127,7 +157,8 @@ def planet_position_details(DOB,TOB,LOCATION):
     naive_dt = datetime.strptime(f"{DOB} {TOB}", "%Y-%m-%d %H:%M")
     local_dt = local_tz.localize(naive_dt)
     utc_dt = local_dt.astimezone(pytz.utc)
-
+    asc_aide , asc_rashi , asc_rashi_index_number  = calculate_vedic_lagna(DOB,TOB,TIMEZONE,lat,lon)
+    print(asc_rashi)
     # Swiss Ephemeris setup
     swe.set_sid_mode(swe.SIDM_LAHIRI)
     jd = swe.julday(utc_dt.year, utc_dt.month, utc_dt.day,
@@ -136,7 +167,7 @@ def planet_position_details(DOB,TOB,LOCATION):
     flags =swe.FLG_SWIEPH | swe.FLG_SIDEREAL| swe.FLG_NONUT    
 
     # --- CALCULATE HOUSES (Ascendant is index 0) ---
-    cusps, ascmc = swe.houses(jd, lat, lon)
+    cusps, ascmc = swe.houses(jd, lat, lon, b'P')
     ascendant_deg = ascmc[0]
     rashi_index = int(ascendant_deg / 30)
     rashi_names = [
@@ -158,13 +189,13 @@ def planet_position_details(DOB,TOB,LOCATION):
 
     for planet, pid in planets.items():
         if planet=="Ascendant":
-            lon = ascendant_deg
-            house_number = rashi_index
+            lon = asc_aide
+            house_number = asc_rashi_index_number+1
             nak_idx = int(lon // (360 / 27))
             nak = nakshatras[nak_idx]
             nak_lord = nakshatra_lords[nak_idx]
             deg_in_sign = lon % 30
-            sign_number = rashi_index
+            sign_number = asc_rashi_index_number
             avastha = get_avastha(deg_in_sign,sign_number)
             status = get_status(planet, rising_sign)
             combust = is_combust(planet, lon, sun_lon)
@@ -173,8 +204,8 @@ def planet_position_details(DOB,TOB,LOCATION):
                 "Longitude": f"{lon:.2f}°",
                 "Degree in sign":deg_in_sign, 
                 "DMS": deg_to_dms(deg_in_sign),
-                "Sign": rising_sign,
-                "SignLord": sign_lords[rising_sign],
+                "Sign": asc_rashi,
+                "SignLord": sign_lords[asc_rashi],
                 "Nakshatra": nak,
                 "NakLord": nak_lord,
                 "Avastha": avastha,

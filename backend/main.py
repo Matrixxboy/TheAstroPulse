@@ -253,6 +253,7 @@ def final_astro_report_generator():
     req_dob = request.args.get('dob') #date of birth
     req_tob = request.args.get('tob') #time of birth
     req_lob = request.args.get('lob')#location of birth
+    req_timezone = request.args.get('timezone')
     
     if not req_dob:
         return jsonify({"error": "Empty Date of birth"}),400
@@ -263,7 +264,7 @@ def final_astro_report_generator():
     try:
         report =[]
         report.append(final_astro_report(req_dob,req_tob,req_lob))
-        report.append(planet_position_details(req_dob,req_tob,req_lob))
+        report.append(planet_position_details(req_dob,req_tob,req_lob,req_timezone))
 
         return jsonify(report),200
     except Exception as e :

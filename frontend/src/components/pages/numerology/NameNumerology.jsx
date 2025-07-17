@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import LoShuGrid from "./Report/chart/LoShuGrid";
+import LoShuReport from "./Report/LoShuReport";
 
 const NameNumerology = () => {
     const [name, setName] = useState("");
@@ -174,6 +175,7 @@ const NameNumerology = () => {
                                 <div className=" flex flex-col items-center justify-center">
                                     <h1 className="text-2xl font-bold">Lo Shu Grid</h1>
                                     <LoShuGrid gridData={result.lo_shu_grid} />
+                                    {/* <LoShuReport gridData={result.lo_shu_grid} /> */}
                                 </div>
                             </>
                         )}

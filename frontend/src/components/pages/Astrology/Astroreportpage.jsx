@@ -5,11 +5,8 @@ const Astroreportpage = () => {
   const [dob, setDob] = useState("");
   const [tob, setTob] = useState("");
   const [lob, setLob] = useState("");
+  const [timezone,setTimezone] =useState("Asia/Kolkata");
   const [suggestions, setSuggestions] = useState([]);
-
-  const [cdob, setCdob] = useState("");
-  const [ctob, setCtob] = useState("");
-  const [clob, setClob] = useState("");
 
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -41,19 +38,14 @@ const Astroreportpage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!dob || !tob || !lob) return;
+    if (!dob || !tob || !lob || !timezone) return;
 
-    setCdob(dob);
-    setCtob(tob);
-    setClob(lob);
     setLoading(true);
     setResult(null);
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_ASTRO_API_KEY}?dob=${dob}&tob=${tob}&lob=${encodeURIComponent(
-          lob
-        )}`,
+        `${import.meta.env.VITE_ASTRO_API_URL}?dob=${dob}&tob=${tob}&lob=${encodeURIComponent(lob)}&timezone=${timezone}`,
         {
           headers: {
             "Astro-API-KEY": import.meta.env.VITE_API_KEY_TOKEN,
@@ -135,6 +127,27 @@ const Astroreportpage = () => {
                 ))}
               </div>
             )}
+          </div>
+          <div className="relative">
+            <label className="block text-sm mb-1 text-white">Select Timezone:</label>
+            <select 
+            className="w-full px-4 py-2 rounded-lg bg-white/20 text-white cursor-pointer backdrop-black focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            onChange={(e) => setTimezone(e.target.value)}
+            id="timezone" name="timezone"
+            >
+              <option value="Asia/Kolkata">Asia/Kolkata</option>
+              <option value="America/New_York">America/New_York</option>
+              <option value="America/Chicago">America/Chicago</option>
+              <option value="America/Denver">America/Denver</option>
+              <option value="America/Los_Angeles">America/Los_Angeles</option>
+              <option value="Europe/London">Europe/London</option>
+              <option value="Europe/Berlin">Europe/Berlin</option>
+              <option value="Asia/Dubai">Asia/Dubai</option>
+              <option value="Asia/Singapore">Asia/Singapore</option>
+              <option value="Asia/Tokyo">Asia/Tokyo</option>
+              <option value="Australia/Sydney">Australia/Sydney</option>
+              <option value="UTC">UTC</option>
+            </select>
           </div>
           <div className="relative z-10">
             {/* Submit Button */}
