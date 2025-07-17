@@ -4,6 +4,7 @@ import { flushSync } from 'react-dom';
 import SouthIndianChart from '../Charts/SouthIndianChart';
 import NorthIndianChart from '../Charts/NorthIndianChart';
 import AstroReport from './AstroReport';
+import AstroPDFGenerator from './AstroPDFGenerator';
 
 
 // ReportPage component - This will display the fetched data
@@ -202,6 +203,7 @@ const KundaliReportPage = ({ reportData }) => {
           </div>
         )}
       </div>
+      <AstroPDFGenerator data={reportData}  />
     </>
   );
 };

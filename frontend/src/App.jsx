@@ -16,6 +16,7 @@ import Astrology from './components/pages/Astrology/Astrology';
 import Astroinfo from './components/pages/Astrology/Astroinfo';
 import Astroreportpage from './components/pages/Astrology/Astroreportpage';
 import Test from './components/pages/Astrology/Test';
+import AstroPDFGenerator from './components/pages/Astrology/Reportpages/AstroPDFGenerator';
 
 
 function App() {
@@ -36,6 +37,8 @@ function App() {
         <Route path='/astrology/astrologyinfo' element={<MainLayout><Astroinfo /></MainLayout>} />
         <Route path='/astrology/astrologyreport' element={<MainLayout><Astroreportpage /></MainLayout>} />
         <Route path="/test" element={<Test />} />
+        <Route path="/pdf" element={<AstroPDFGenerator />} />
+
 
       </Routes>
     </Router>
