@@ -24,6 +24,7 @@ const KundaliReportPage = ({ reportData }) => {
   const backend_data = reportData;
   const basicInfo = reportData[0];
   const planetDetails = reportData[1];
+  const ascHouse = planetDetails['Ascendant']?.house || 1;
 
   // Helper function to render a detail row
   const DetailRow = ({ label, value }) => (
@@ -183,17 +184,18 @@ const KundaliReportPage = ({ reportData }) => {
               {Object.entries(planetDetails).map(([planetName, details]) => (
                 <div key={planetName} className={`p-4 rounded-lg shadow-md border border-gray-200 ${isPdfMode ? 'bg-white' : 'bg-white/20'}`}>
                   <h3 className={`text-xl font-bold mb-3 ${planetDetailsColorClass}`}>{planetName}</h3>
-                  <DetailRow label="Avastha" value={details.Avastha} />
-                  <DetailRow label="Combust" value={details.Combust} />
+                  <DetailRow label="Sign" value={details.Sign} />
+                  <DetailRow label="Sign Lord" value={details.SignLord} />
+                  <DetailRow label="Nakshatra Lord" value={details.NakLord} />
+                  <DetailRow label="Nakshatra" value={details.Nakshatra} />
                   <DetailRow label="DMS" value={details.DMS} />
                   <DetailRow label="Degree in Sign" value={details['Degree in sign'].toString().substring(0,5)} />
                   <DetailRow label="Longitude" value={details.Longitude} />
-                  <DetailRow label="Nakshatra Lord" value={details.NakLord} />
-                  <DetailRow label="Nakshatra" value={details.Nakshatra} />
-                  <DetailRow label="Sign" value={details.Sign} />
-                  <DetailRow label="Sign Lord" value={details.SignLord} />
+                  <DetailRow label="Avastha" value={details.Avastha} />
                   <DetailRow label="Status" value={details.Status} />
-                  <DetailRow label="House" value={details.house} />
+                  <DetailRow label="Combust" value={details.Combust} />
+                  <DetailRow label="Sign House" value={details.house} />
+                  <DetailRow label="Actual House" value={((details.house - ascHouse + 12) % 12) + 1} />
                 </div>
               ))}
             </div>

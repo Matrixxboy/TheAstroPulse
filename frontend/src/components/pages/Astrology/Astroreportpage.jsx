@@ -129,26 +129,30 @@ const Astroreportpage = () => {
             )}
           </div>
           <div className="relative">
-            <label className="block text-sm mb-1 text-white">Select Timezone:</label>
-            <select 
-            className="w-full px-4 py-2 rounded-lg bg-white/20 text-white cursor-pointer backdrop-black focus:outline-none focus:ring-2 focus:ring-cyan-400"
-            onChange={(e) => setTimezone(e.target.value)}
-            id="timezone" name="timezone"
-            >
-              <option value="Asia/Kolkata">Asia/Kolkata</option>
-              <option value="America/New_York">America/New_York</option>
-              <option value="America/Chicago">America/Chicago</option>
-              <option value="America/Denver">America/Denver</option>
-              <option value="America/Los_Angeles">America/Los_Angeles</option>
-              <option value="Europe/London">Europe/London</option>
-              <option value="Europe/Berlin">Europe/Berlin</option>
-              <option value="Asia/Dubai">Asia/Dubai</option>
-              <option value="Asia/Singapore">Asia/Singapore</option>
-              <option value="Asia/Tokyo">Asia/Tokyo</option>
-              <option value="Australia/Sydney">Australia/Sydney</option>
-              <option value="UTC">UTC</option>
-            </select>
-          </div>
+  <label className="block text-sm mb-2 text-violet-300 font-medium tracking-wide">
+    Select Timezone:
+  </label>
+  <select
+    id="timezone"
+    name="timezone"
+    onChange={(e) => setTimezone(e.target.value)}
+    className="w-full px-4 py-2 rounded-xl bg-white/20 backdrop-blur-md text-violet-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-violet-500 transition duration-200 cursor-pointer"
+  >
+    <option value="Asia/Kolkata">Asia/Kolkata</option>
+    <option value="America/New_York">America/New_York</option>
+    <option value="America/Chicago">America/Chicago</option>
+    <option value="America/Denver">America/Denver</option>
+    <option value="America/Los_Angeles">America/Los_Angeles</option>
+    <option value="Europe/London">Europe/London</option>
+    <option value="Europe/Berlin">Europe/Berlin</option>
+    <option value="Asia/Dubai">Asia/Dubai</option>
+    <option value="Asia/Singapore">Asia/Singapore</option>
+    <option value="Asia/Tokyo">Asia/Tokyo</option>
+    <option value="Australia/Sydney">Australia/Sydney</option>
+    <option value="UTC">UTC</option>
+  </select>
+</div>
+
           <div className="relative z-10">
             {/* Submit Button */}
             <button

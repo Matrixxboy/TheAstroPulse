@@ -136,6 +136,28 @@ function drawChart(ctx, size, backendData, isPdfMode) {
       ctx.fillStyle = isPdfMode ? "#000000" : (p.isAsc ? ASC_TEXT_COLOR : PLANET_COLOR);
       ctx.fillText(p.label, x, y + (idx + 1) * (size * 0.04));
     });
+
+    const fixedNumbers = [
+      { num: "1", x: 300, y: 280 },
+      { num: "2", x: 150, y: 135 },
+      { num: "3", x: 130, y: 155 },
+      { num: "4", x: 280, y: 305 },
+      { num: "5", x: 130, y: 455 },
+      { num: "6", x: 150, y: 475 },
+      { num: "7", x: 300, y: 325 },
+      { num: "8", x: 450, y: 475 },
+      { num: "9", x: 465, y: 455 },
+      { num: "10", x: 320, y: 305 },
+      { num: "11", x: 470, y: 155 },
+      { num: "12", x: 450, y: 135 }
+    ].map(({ num, x, y }) => ({ num, x: x * scale, y: y * scale }));
+
+    // Draw fixed house numbers
+    ctx.font = `${Math.floor(size * 0.020)}px ${FONT}`;
+    ctx.fillStyle = isPdfMode ? "#000000" : "#fefefe";
+    fixedNumbers.forEach(({ num, x, y }) => {
+      ctx.fillText(num, x, y);
+    });
   }
 }
 
