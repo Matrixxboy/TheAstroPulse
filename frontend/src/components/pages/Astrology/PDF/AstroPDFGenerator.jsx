@@ -2,9 +2,10 @@ import React, { useRef, useEffect, useState } from "react";
 import NorthIndianChartPDF from './NorthchartPDF';
 import SouthIndianChartPDF from './SouthchartPDF';
 
-const AstroPDFGenerator = ({ allData }) => {
+const AstroPDFGenerator = React.forwardRef(({ allData }, ref) => {
   const pdfRef = useRef();
   const [isClient, setIsClient] = useState(false);
+  const [scriptLoaded, setScriptLoaded] = useState(false);
   const [personalData, setPersonalData] = useState(null);
   const [planetData, setPlanetData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -15,6 +16,8 @@ const AstroPDFGenerator = ({ allData }) => {
     script.src =
       "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
     script.async = true;
+    script.onload = () => setScriptLoaded(true);
+    script.onerror = () => console.error("Failed to load html2pdf.js");
     document.body.appendChild(script);
 
     if (allData && allData.length > 1) {
@@ -23,16 +26,15 @@ const AstroPDFGenerator = ({ allData }) => {
     }
     setLoading(false);
 
-    return () => {
-      const existingScript = document.querySelector(`script[src="${script.src}"]`);
-      if (existingScript) {
-        document.body.removeChild(existingScript);
-      }
-    };
+    // Removed the cleanup function that removes the script
   }, [allData]);
 
+  React.useImperativeHandle(ref, () => ({
+    handleDownloadPDF: downloadPDF
+  }));
+
   const downloadPDF = () => {
-    if (!isClient || typeof window.html2pdf === 'undefined' || !personalData || !planetData) {
+    if (!isClient || !scriptLoaded || !personalData || !planetData) {
       console.error("PDF generation prerequisites not met.");
       return;
     }
@@ -75,7 +77,7 @@ const AstroPDFGenerator = ({ allData }) => {
   const rashi =Object.keys(personalData.rashi_all_details)[0];
   
   return (
-    <div className="flex flex-col items-center font-sans text-gray-800">
+    <div className="absolute flex flex-col items-center font-sans text-gray-800">
       <div ref={pdfRef} className="hidden-for-screen-only">
         {/* Cover Page */}
         <div className="bg-gradient-to-br from-purple-500 to-indigo-600 text-white flex flex-col justify-center items-center"
@@ -191,6 +193,6 @@ const AstroPDFGenerator = ({ allData }) => {
       `}</style>
     </div>
   );
-};
+});
 
 export default AstroPDFGenerator;

@@ -10,6 +10,7 @@ import AstroPDFGenerator from '../PDF/AstroPDFGenerator';
 // ReportPage component - This will display the fetched data
 const KundaliReportPage = ({ reportData }) => {
   const reportRef = useRef();
+  const astroPDFGeneratorRef = useRef();
   const [isPdfMode, setIsPdfMode] = useState(false);
 
   // Ensure reportData is valid before rendering
@@ -57,27 +58,18 @@ const KundaliReportPage = ({ reportData }) => {
         <button
           onClick={() => {
             console.log("Download PDF button clicked");
-            const astroReportRef = React.createRef();
-            const astroReport = document.createElement('div');
-            astroReport.style.position = 'absolute';
-            astroReport.style.left = '-9999px';
-            astroReport.style.top = '-9999px';
-            document.body.appendChild(astroReport);
-            flushSync(() => {
-              const root = createRoot(astroReport);
-              root.render(<AstroReport ref={astroReportRef} data={reportData} />);
-            });
-            console.log("Calling handleDownloadPDF from AstroReport");
-            astroReportRef.current.handleDownloadPDF();
+            if (astroPDFGeneratorRef.current) {
+              astroPDFGeneratorRef.current.handleDownloadPDF();
+            }
           }}
           className="bg-cyan-400 hover:bg-cyan-300 text-black font-semibold py-2 px-6 rounded-lg transition"
         >
           Download PDF
         </button>
       </div>
-      <div className='relative'>
+      {/* <div className=''>
         <AstroPDFGenerator allData={reportData} />
-      </div>
+      </div> */}
       <div id="pdf-container" ref={reportRef} className={`min-h-screen min-w-screen p-6 sm:p-8 lg:p-10 ${pdfContainerClass}`}>
         <h1 className={`text-4xl font-extrabold text-center mb-8 tracking-tight ${isPdfMode ? 'text-black' : 'text-[#22d3ee]'}`}>
           Astrology Birth Report
@@ -206,7 +198,7 @@ const KundaliReportPage = ({ reportData }) => {
           </div>
         )}
       </div>
-      <AstroPDFGenerator data={reportData}  />
+      <AstroPDFGenerator allData={reportData} ref={astroPDFGeneratorRef} />
     </>
   );
 };
