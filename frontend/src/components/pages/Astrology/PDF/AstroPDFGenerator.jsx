@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import NorthIndianChartPDF from './NorthchartPDF';
 import SouthIndianChartPDF from './SouthchartPDF';
 
-const AstroPDFGenerator = () => {
+const AstroPDFGenerator = ({ allData }) => {
   const pdfRef = useRef();
   const [isClient, setIsClient] = useState(false);
   const [personalData, setPersonalData] = useState(null);
@@ -11,34 +11,25 @@ const AstroPDFGenerator = () => {
 
   useEffect(() => {
     setIsClient(true);
-    const script = document.createElement('script');
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+    const script = document.createElement("script");
+    script.src =
+      "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
     script.async = true;
     document.body.appendChild(script);
 
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/output.json');
-        const data = await response.json();
-        if (data && Array.isArray(data) && data.length > 1) {
-          setPersonalData(data[0]);
-          setPlanetData(data[1]);
-        } else {
-          console.error("Invalid data structure in output.json:", data);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+    if (allData && allData.length > 1) {
+      setPersonalData(allData[0]);
+      setPlanetData(allData[1]);
+    }
+    setLoading(false);
 
     return () => {
-      document.body.removeChild(script);
+      const existingScript = document.querySelector(`script[src="${script.src}"]`);
+      if (existingScript) {
+        document.body.removeChild(existingScript);
+      }
     };
-  }, []);
+  }, [allData]);
 
   const downloadPDF = () => {
     if (!isClient || typeof window.html2pdf === 'undefined' || !personalData || !planetData) {
@@ -84,7 +75,7 @@ const AstroPDFGenerator = () => {
   const rashi =Object.keys(personalData.rashi_all_details)[0];
   
   return (
-    <div className="p-4 flex flex-col items-center min-h-screen bg-gray-100 font-sans text-gray-800">
+    <div className="flex flex-col items-center font-sans text-gray-800">
       <div ref={pdfRef} className="hidden-for-screen-only">
         {/* Cover Page */}
         <div className="bg-gradient-to-br from-purple-500 to-indigo-600 text-white flex flex-col justify-center items-center"
@@ -181,10 +172,6 @@ const AstroPDFGenerator = () => {
             </tbody>
           </table>
         </div>
-      </div>
-
-      <div className="bg-white text-black p-10 rounded-xl shadow-lg max-w-3xl mx-auto font-serif mb-6">
-        <h1 className="text-3xl font-bold text-center text-purple-800 mb-4">Astrology Report Preview</h1>
       </div>
 
       <button

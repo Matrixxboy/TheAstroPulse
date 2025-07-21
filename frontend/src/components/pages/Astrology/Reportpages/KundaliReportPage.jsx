@@ -75,6 +75,9 @@ const KundaliReportPage = ({ reportData }) => {
           Download PDF
         </button>
       </div>
+      <div className='relative'>
+        <AstroPDFGenerator allData={reportData} />
+      </div>
       <div id="pdf-container" ref={reportRef} className={`min-h-screen min-w-screen p-6 sm:p-8 lg:p-10 ${pdfContainerClass}`}>
         <h1 className={`text-4xl font-extrabold text-center mb-8 tracking-tight ${isPdfMode ? 'text-black' : 'text-[#22d3ee]'}`}>
           Astrology Birth Report
