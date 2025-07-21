@@ -117,7 +117,7 @@ function drawChart(ctx, size, backendData) {
       { num: "11", x: 470, y: 155 }, { num: "12", x: 450, y: 135 }
     ].map(({ num, x, y }) => ({ num, x: x * scale, y: y * scale }));
 
-    ctx.font = `${Math.floor(size * 0.020)}px ${FONT}`;
+    ctx.font = `${Math.floor(size * 0.030)}px ${FONT}`;
     ctx.fillStyle = "#000000";
     fixedNumbers.forEach(({ num, x, y }) => {
       ctx.fillText(num, x, y);

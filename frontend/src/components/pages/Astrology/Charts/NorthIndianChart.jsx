@@ -153,7 +153,7 @@ function drawChart(ctx, size, backendData, isPdfMode) {
     ].map(({ num, x, y }) => ({ num, x: x * scale, y: y * scale }));
 
     // Draw fixed house numbers
-    ctx.font = `${Math.floor(size * 0.020)}px ${FONT}`;
+    ctx.font = `${Math.floor(size * 0.030)}px ${FONT}`;
     ctx.fillStyle = isPdfMode ? "#000000" : "#fefefe";
     fixedNumbers.forEach(({ num, x, y }) => {
       ctx.fillText(num, x, y);
