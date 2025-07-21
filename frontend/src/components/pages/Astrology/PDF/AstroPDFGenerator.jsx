@@ -141,34 +141,34 @@ const AstroPDFGenerator = React.forwardRef(({ allData }, ref) => {
         {/* Planetary Positions Page */}
         <div className="pdf-page p-12">
           <h2 className="text-3xl font-bold text-green-800 border-b-2 border-green-200 pb-2 mb-6">Planetary Positions</h2>
-          <table className="w-full text-left border-collapse">
+          <table className="w-full text-left border-collapse text-xs">
             <thead>
               <tr className="bg-green-100">
-                <th className="p-3 border">Planet</th>
-                <th className="p-3 border">Sign</th>
-                <th className="p-3 border">Sign Lord</th>
-                <th className="p-3 border">Nakshatra</th>
-                <th className="p-3 border">Nakshatra Lord</th>
-                <th className="p-3 border">Degree</th>
-                <th className="p-3 border">Combust</th>   
-                <th className="p-3 border">Avastha</th>
-                <th className="p-3 border">House</th>
-                <th className="p-3 border">Status</th>
+                <th className="p-1 border">Planet</th>
+                <th className="p-1 border">Sign</th>
+                <th className="p-1 border">Sign Lord</th>
+                <th className="p-1 border">Nakshatra</th>
+                <th className="p-1 border">Nakshatra Lord</th>
+                <th className="p-1 border">Degree</th>
+                <th className="p-1 border">Combust</th>   
+                <th className="p-1 border">Avastha</th>
+                <th className="p-1 border">House</th>
+                <th className="p-1 border">Status</th>
               </tr>
             </thead>
             <tbody>
               {Object.entries(planetData).map(([planet, details]) => (
                 <tr key={planet} className="border-b">
-                  <td className="p-3 border">{planet}</td>
-                  <td className="p-3 border">{details.Sign}</td>
-                  <td className="p-3 border">{details.SignLord}</td>
-                  <td className="p-3 border">{details.Nakshatra}</td>
-                  <td className="p-3 border">{details.NakLord}</td>
-                  <td className="p-3 border">{details.DMS}</td>
-                  <td className="p-3 border">{details.Combust}</td>
-                  <td className="p-3 border">{details.Avastha}</td>
-                  <td className="p-3 border">{details.house}</td>
-                  <td className="p-3 border">{details.Status}</td>
+                  <td className="p-1 border">{planet}</td>
+                  <td className="p-1 border">{details.Sign}</td>
+                  <td className="p-1 border">{details.SignLord}</td>
+                  <td className="p-1 border">{details.Nakshatra}</td>
+                  <td className="p-1 border">{details.NakLord}</td>
+                  <td className="p-1 border">{details['Degree in sign'].toString().substring(0,5)}</td>
+                  <td className="p-1 border">{details.Combust}</td>
+                  <td className="p-1 border">{details.Avastha}</td>
+                  <td className="p-1 border">{details.house}</td>
+                  <td className="p-1 border">{details.Status}</td>
                 </tr>
               ))}
             </tbody>
@@ -189,6 +189,13 @@ const AstroPDFGenerator = React.forwardRef(({ allData }, ref) => {
         }
         .hidden-for-screen-only {
           display: none;
+        }
+        table {
+          table-layout: fixed;
+          width: 100%;
+        }
+        td, th {
+          word-wrap: break-word;
         }
       `}</style>
     </div>
