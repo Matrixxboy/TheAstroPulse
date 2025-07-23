@@ -198,7 +198,7 @@ const KundaliReportPage = ({ reportData }) => {
           </div>
         )}
       </div>
-      <AstroPDFGenerator allData={reportData} ref={astroPDFGeneratorRef} />
+     // <AstroPDFGenerator allData={reportData} ref={astroPDFGeneratorRef} />
     </>
   );
 };
