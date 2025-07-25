@@ -10,7 +10,8 @@ import AstroPDFGenerator from '../PDF/AstroPDFGenerator';
 // ReportPage component - This will display the fetched data
 const KundaliReportPage = ({ reportData }) => {
   const reportRef = useRef();
-  const astroPDFGeneratorRef = useRef();
+  const astroPDFGeneratorRef = useRef(null);
+
   const [isPdfMode, setIsPdfMode] = useState(false);
 
   // Ensure reportData is valid before rendering
@@ -198,7 +199,9 @@ const KundaliReportPage = ({ reportData }) => {
           </div>
         )}
       </div>
-      <AstroPDFGenerator allData={reportData} ref={astroPDFGeneratorRef} />
+      <div style={{ display: 'none' }}>
+        <AstroPDFGenerator allData={reportData} ref={astroPDFGeneratorRef} />
+      </div>
     </>
   );
 };

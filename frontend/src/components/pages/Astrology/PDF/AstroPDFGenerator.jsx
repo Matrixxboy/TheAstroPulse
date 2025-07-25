@@ -77,7 +77,7 @@ const AstroPDFGenerator = React.forwardRef(({ allData }, ref) => {
   const rashi =Object.keys(personalData.rashi_all_details)[0];
   
   return (
-    <div className="absolute flex flex-col items-center font-sans text-gray-800">
+    <div className="absolute flex flex-col items-center font-sans text-gray-800" style={{ zIndex: -1 }}>
       <div ref={pdfRef} className="hidden-for-screen-only">
         {/* Cover Page */}
         <div className="bg-gradient-to-br from-purple-500 to-indigo-600 text-white flex flex-col justify-center items-center"
@@ -175,13 +175,6 @@ const AstroPDFGenerator = React.forwardRef(({ allData }, ref) => {
           </table>
         </div>
       </div>
-
-      <button
-        onClick={downloadPDF}
-        className="mt-6 bg-purple-700 text-white py-3 px-6 rounded-full hover:bg-purple-800 transition duration-300"
-      >
-        Download Styled Astrology PDF
-      </button>
 
       <style jsx>{`
         .pdf-page {
