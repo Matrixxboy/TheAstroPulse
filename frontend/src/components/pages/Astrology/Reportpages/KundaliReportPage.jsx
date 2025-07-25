@@ -14,7 +14,7 @@ const KundaliReportPage = ({ reportData, p_name1 }) => {
 
   const [isPdfMode, setIsPdfMode] = useState(false);
 
-  const handleDownloadPDF = () => {
+  const handleDownloadPDF = async () => {
     const iframe = document.createElement('iframe');
     iframe.style.position = 'absolute';
     iframe.style.left = '-9999px';
@@ -23,26 +23,24 @@ const KundaliReportPage = ({ reportData, p_name1 }) => {
 
     const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
 
-    const printContent = (
-        <AstroPDFGenerator allData={reportData} p_name={p_name1} />
-    );
-
-    const printContainer = iframeDoc.createElement('div');
-    iframeDoc.body.appendChild(printContainer);
-
-    // Copy styles
-    Array.from(document.styleSheets).forEach(sheet => {
+    // --- Start of new CSS handling ---
+    const stylePromises = Array.from(document.styleSheets).map(sheet => {
         if (sheet.href) {
-            const link = iframeDoc.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = sheet.href;
-            iframeDoc.head.appendChild(link);
-        } else if (sheet.cssRules) {
-            const style = iframeDoc.createElement('style');
-            style.textContent = Array.from(sheet.cssRules).map(rule => rule.cssText).join('');
-            iframeDoc.head.appendChild(style);
+            return fetch(sheet.href).then(res => res.text());
+        } else {
+            return Promise.resolve(Array.from(sheet.cssRules).map(rule => rule.cssText).join('\n'));
         }
     });
+
+    const styles = await Promise.all(stylePromises);
+    const styleEl = iframeDoc.createElement('style');
+    styleEl.textContent = styles.join('\n');
+    iframeDoc.head.appendChild(styleEl);
+    // --- End of new CSS handling ---
+
+    const printContent = <AstroPDFGenerator allData={reportData} p_name={p_name1} />;
+    const printContainer = iframeDoc.createElement('div');
+    iframeDoc.body.appendChild(printContainer);
 
     const root = createRoot(printContainer);
     flushSync(() => {
@@ -54,14 +52,14 @@ const KundaliReportPage = ({ reportData, p_name1 }) => {
             margin: 0,
             filename: 'Astrology_Report.pdf',
             image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true },
+            html2canvas: { scale: 2, useCORS: true, logging: false },
             jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
         };
 
         window.html2pdf().set(opt).from(iframe.contentDocument.body).save().then(() => {
             document.body.removeChild(iframe);
         });
-    }, 1000); // Delay to ensure rendering
+    }, 1500); // Increased delay for production
   };
 
   // Ensure reportData is valid before rendering
