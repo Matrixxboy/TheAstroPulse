@@ -19,3 +19,10 @@ input[type="date"]::-webkit-calendar-picker-indicator,
 input[type="time"]::-webkit-calendar-picker-indicator {
   filter: invert(1); /* makes calendar icon white for dark UI */
 }
+
+.pdf-render-container {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    z-index: -1; /* Ensure it's not interactive */
+  }

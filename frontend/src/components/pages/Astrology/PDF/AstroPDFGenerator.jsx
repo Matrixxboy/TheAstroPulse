@@ -77,7 +77,7 @@ const AstroPDFGenerator = React.forwardRef(({ allData }, ref) => {
   const rashi =Object.keys(personalData.rashi_all_details)[0];
   
   return (
-    <div className="absolute flex flex-col items-center font-sans text-gray-800" style={{ zIndex: -1 }}>
+    <div className="font-sans text-gray-800">
       <div ref={pdfRef} className="hidden-for-screen-only">
         {/* Cover Page */}
         <div className="bg-gradient-to-br from-purple-500 to-indigo-600 text-white flex flex-col justify-center items-center"

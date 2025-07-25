@@ -24,7 +24,6 @@ const KundaliReportPage = ({ reportData }) => {
     );
   }
 
-  const backend_data = reportData;
   const basicInfo = reportData[0];
   const planetDetails = reportData[1];
   const ascHouse = planetDetails['Ascendant']?.house || 1;
@@ -199,7 +198,7 @@ const KundaliReportPage = ({ reportData }) => {
           </div>
         )}
       </div>
-      <div style={{ display: 'none' }}>
+      <div className="pdf-render-container">
         <AstroPDFGenerator allData={reportData} ref={astroPDFGeneratorRef} />
       </div>
     </>
