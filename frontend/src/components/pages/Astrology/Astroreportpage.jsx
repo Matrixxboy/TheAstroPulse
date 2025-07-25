@@ -7,6 +7,7 @@ const Astroreportpage = () => {
   const [lob, setLob] = useState("");
   const [timezone,setTimezone] =useState("Asia/Kolkata");
   const [suggestions, setSuggestions] = useState([]);
+  const [fullName , setFullName] = useState("");
 
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -75,6 +76,17 @@ const Astroreportpage = () => {
         <h1 className="text-3xl font-bold text-center text-cyan-300 mb-6">Astrology Report Generator 🔮</h1>
 
         <form onSubmit={handleSubmit} className="flex flex-col w-3/5 space-y-4 relative">
+          {/* DOB */}
+          <div>
+            <label className="block text-sm mb-1 text-white">Full Name</label>
+            <input
+              type="text"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              className="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+              required
+            />
+          </div>
           {/* DOB */}
           <div>
             <label className="block text-sm mb-1 text-white">Date of Birth</label>
@@ -184,7 +196,7 @@ const Astroreportpage = () => {
                 <p>{result.error}</p>
               </div>
             ) : (
-              <KundaliReportPage reportData={result} />
+              <KundaliReportPage reportData={result} p_name1 = {fullName}/>
             )}
           </div>
         )}
