@@ -1337,7 +1337,7 @@ def get_nakshatra_info(moon_long_sidereal):
     moon_long_sidereal = moon_long_sidereal % 360
     
     nak_index = int(moon_long_sidereal / NAKSHATRA_SPAN_DEG) 
-    print(f"nak_index : {nak_index}")
+    # print(f"nak_index : {nak_index}")
     nakshatra_remainder_deg = moon_long_sidereal % NAKSHATRA_SPAN_DEG
     pada_index = int(nakshatra_remainder_deg / PADA_SPAN_DEG) 
     
@@ -1357,7 +1357,7 @@ def get_rashi_from_nakshatra_pada(nakshatra_num, pada_num):
 
     total_pada_index = (nakshatra_num - 1) * 4 + (pada_num - 1)
     rashi_index = total_pada_index // 9
-    print(f"total pada index : {total_pada_index}")
+    # print(f"total pada index : {total_pada_index}")
     if 0 <= rashi_index < 12:
         return RASHI_DETAILS.get(rashi_index)
     else:

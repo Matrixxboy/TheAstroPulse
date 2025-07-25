@@ -158,7 +158,7 @@ def planet_position_details(DOB,TOB,LOCATION,TIMEZONE):
     local_dt = local_tz.localize(naive_dt)
     utc_dt = local_dt.astimezone(pytz.utc)
     asc_aide , asc_rashi , asc_rashi_index_number  = calculate_vedic_lagna(DOB,TOB,TIMEZONE,lat,lon)
-    print(asc_rashi)
+    # print(asc_rashi)
     # Swiss Ephemeris setup
     swe.set_sid_mode(swe.SIDM_LAHIRI)
     jd = swe.julday(utc_dt.year, utc_dt.month, utc_dt.day,
