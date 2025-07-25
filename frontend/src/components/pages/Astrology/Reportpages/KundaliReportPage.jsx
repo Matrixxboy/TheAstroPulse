@@ -14,6 +14,56 @@ const KundaliReportPage = ({ reportData }) => {
 
   const [isPdfMode, setIsPdfMode] = useState(false);
 
+  const handleDownloadPDF = () => {
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'absolute';
+    iframe.style.left = '-9999px';
+    iframe.style.top = '-9999px';
+    document.body.appendChild(iframe);
+
+    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+    const printContent = (
+        <AstroPDFGenerator allData={reportData} />
+    );
+
+    const printContainer = iframeDoc.createElement('div');
+    iframeDoc.body.appendChild(printContainer);
+
+    // Copy styles
+    Array.from(document.styleSheets).forEach(sheet => {
+        if (sheet.href) {
+            const link = iframeDoc.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = sheet.href;
+            iframeDoc.head.appendChild(link);
+        } else if (sheet.cssRules) {
+            const style = iframeDoc.createElement('style');
+            style.textContent = Array.from(sheet.cssRules).map(rule => rule.cssText).join('');
+            iframeDoc.head.appendChild(style);
+        }
+    });
+
+    const root = createRoot(printContainer);
+    flushSync(() => {
+        root.render(printContent);
+    });
+
+    setTimeout(() => {
+        const opt = {
+            margin: 0,
+            filename: 'Astrology_Report.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
+        };
+
+        window.html2pdf().set(opt).from(iframe.contentDocument.body).save().then(() => {
+            document.body.removeChild(iframe);
+        });
+    }, 1000); // Delay to ensure rendering
+  };
+
   // Ensure reportData is valid before rendering
   if (!reportData || !Array.isArray(reportData) || reportData.length < 2) {
     return (
@@ -56,12 +106,7 @@ const KundaliReportPage = ({ reportData }) => {
     <>
       <div className="text-center mb-4">
         <button
-          onClick={() => {
-            console.log("Download PDF button clicked");
-            if (astroPDFGeneratorRef.current) {
-              astroPDFGeneratorRef.current.handleDownloadPDF();
-            }
-          }}
+          onClick={handleDownloadPDF}
           className="bg-cyan-400 hover:bg-cyan-300 text-black font-semibold py-2 px-6 rounded-lg transition"
         >
           Download PDF

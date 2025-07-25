@@ -1,93 +1,56 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useImperativeHandle } from "react";
 import NorthIndianChartPDF from './NorthchartPDF';
 import SouthIndianChartPDF from './SouthchartPDF';
 
 const AstroPDFGenerator = React.forwardRef(({ allData }, ref) => {
   const pdfRef = useRef();
-  const [isClient, setIsClient] = useState(false);
-  const [scriptLoaded, setScriptLoaded] = useState(false);
   const [personalData, setPersonalData] = useState(null);
   const [planetData, setPlanetData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setIsClient(true);
-    const script = document.createElement("script");
-    script.src =
-      "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
-    script.async = true;
-    script.onload = () => setScriptLoaded(true);
-    script.onerror = () => console.error("Failed to load html2pdf.js");
-    document.body.appendChild(script);
-
     if (allData && allData.length > 1) {
       setPersonalData(allData[0]);
       setPlanetData(allData[1]);
     }
     setLoading(false);
-
-    // Removed the cleanup function that removes the script
   }, [allData]);
 
-  React.useImperativeHandle(ref, () => ({
-    handleDownloadPDF: downloadPDF
+  useImperativeHandle(ref, () => ({
+    getPDFContent: () => {
+        return pdfRef.current;
+    }
   }));
 
-  const downloadPDF = () => {
-    if (!isClient || !scriptLoaded || !personalData || !planetData) {
-      console.error("PDF generation prerequisites not met.");
-      return;
-    }
 
-    const element = pdfRef.current;
-    element.style.display = 'block';
+    const A4_WIDTH_PX = 794;   // ≈ 794
+    const A4_HEIGHT_PX = 1121; // ≈ 1123
 
-    const opt = {
-      margin: 0,
-      filename: "Astrology_Report.pdf",
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2, logging: true, useCORS: true },
-      jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
-      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-    };
-
-    window.html2pdf().set(opt).from(element).save().then(() => {
-      element.style.display = 'none';
-    });
-  };
-
-  const A4_WIDTH_PX = 8.27 * 96;
-  const A4_HEIGHT_PX = 11.69 * 96;
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-100">
-        <p className="text-xl text-gray-700">Loading astrology data...</p>
-      </div>
+      <div></div>
     );
   }
 
   if (!personalData || !planetData) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-100">
-        <p className="text-xl text-red-500">Error: Could not load astrology data.</p>
-      </div>
+        <div></div>
     );
   }
   const rashi =Object.keys(personalData.rashi_all_details)[0];
   
   return (
-    <div className="font-sans text-gray-800">
-      <div ref={pdfRef} className="hidden-for-screen-only">
+    <div ref={pdfRef}>
         {/* Cover Page */}
         <div className="bg-gradient-to-br from-purple-500 to-indigo-600 text-white flex flex-col justify-center items-center"
-             style={{ width: `${A4_WIDTH_PX}px`, height: `${A4_HEIGHT_PX}px` }}>
+             style={{ width: `${A4_WIDTH_PX}px`, height: `${A4_HEIGHT_PX}px`, pageBreakAfter: 'always' }}>
           <h1 className="text-6xl font-extrabold">Astrology Report</h1>
           <p className="text-3xl mt-4">{personalData.DOB}</p>
         </div>
 
         {/* Personal Information Page */}
-        <div className="pdf-page p-12">
+        <div className="pdf-page p-12" style={{ pageBreakAfter: 'always' }}>
           <h2 className="text-3xl font-bold text-red-800 border-b-2 border-red-200 pb-2 mb-6">Charts</h2>
           <div className="flex justify-around">
             <NorthIndianChartPDF data={planetData} />
@@ -113,7 +76,7 @@ const AstroPDFGenerator = React.forwardRef(({ allData }, ref) => {
           </div>
         </div>
 
-        <div className="pdf-page p-12">
+        <div className="pdf-page p-12" style={{ pageBreakAfter: 'always' }}>
           <h2 className="text-3xl font-bold text-blue-800 border-b-2 border-blue-200 pb-2 mb-6">Avakhada Details</h2>
           <div className="grid grid-cols-2 gap-x-8 gap-y-4 text-lg">
             <p><strong>Varna:</strong> {personalData.nakshtra_all_details.varna}</p>
@@ -174,23 +137,6 @@ const AstroPDFGenerator = React.forwardRef(({ allData }, ref) => {
             </tbody>
           </table>
         </div>
-      </div>
-
-      <style jsx>{`
-        .pdf-page {
-          page-break-after: always;
-        }
-        .hidden-for-screen-only {
-          display: none;
-        }
-        table {
-          table-layout: fixed;
-          width: 100%;
-        }
-        td, th {
-          word-wrap: break-word;
-        }
-      `}</style>
     </div>
   );
 });
