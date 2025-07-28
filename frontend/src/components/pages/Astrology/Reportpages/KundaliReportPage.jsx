@@ -50,7 +50,7 @@ const KundaliReportPage = ({ reportData, p_name1 }) => {
       iframe.contentWindow.scrollTo(0, 0);
         const opt = {
             margin: 0,
-            filename: 'Astrology_Report.pdf',
+            filename: `${p_name1}_Astrology_Report.pdf`,
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { 
               scale: 2, 
@@ -251,18 +251,15 @@ const KundaliReportPage = ({ reportData, p_name1 }) => {
           <div className={`mt-10 p-6 rounded-xl shadow-inner ${isPdfMode ? 'bg-white' : 'bg-white/20'}`}>
             <SectionTitle title="Vimshottari Dasha Periods" />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[
-                "Moon", "Mars", "Rahu", "Jupiter", "Saturn", 
-                "Mercury", "Ketu", "Venus", "Sun"
-              ].map((planetName) => {
-                const dasha = vimshottariDetails.vimshottari_dasha[planetName];
-                return dasha ? (
-                  <div key={planetName} className={`p-4 rounded-lg shadow-md border border-gray-200 ${isPdfMode ? 'bg-white' : 'bg-white/20'}`}>
-                    <h3 className={`text-xl font-bold mb-3 text-indigo-600`}>{planetName}</h3>
-                    <DetailRow label="Start Date" value={dasha.start_date} />
-                    <DetailRow label="End Date" value={dasha.end_date} />
+              {Object.keys(vimshottariDetails.vimshottari_dasha).map((planet) => {
+              const details = vimshottariDetails.vimshottari_dasha[planet];
+              return (
+                  <div key={planet} className={`p-4 rounded-lg shadow-md border border-gray-200 ${isPdfMode ? 'bg-white' : 'bg-white/20'}`}>
+                    <h3 className={`text-xl font-bold mb-3 text-indigo-600`}>{planet}</h3>
+                    <DetailRow label="Start Date" value={details.start_date} />
+                    <DetailRow label="End Date" value={details.end_date} />
                   </div>
-                ) : null;
+                );
               })}
             </div>
           </div>

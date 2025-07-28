@@ -7,6 +7,7 @@ const AstroPDFGenerator = React.forwardRef(({ allData, p_name }, ref) => {
   const pdfRef = useRef();
   const [personalData, setPersonalData] = useState(null);
   const [planetData, setPlanetData] = useState(null);
+  const [vimshottari,SetVimshottari] = useState(null)
   const [loading, setLoading] = useState(true);
   
 
@@ -14,6 +15,7 @@ const AstroPDFGenerator = React.forwardRef(({ allData, p_name }, ref) => {
     if (allData && allData.length > 1) {
       setPersonalData(allData[0]);
       setPlanetData(allData[1]);
+      SetVimshottari(allData[2]);
     }
     setLoading(false);
   }, [allData]);
@@ -155,6 +157,32 @@ const AstroPDFGenerator = React.forwardRef(({ allData, p_name }, ref) => {
               ))}
             </tbody>
           </table>
+          <h2 className="text-3xl font-bold text-red-900 border-b-2 border-red-200 pb-2 mb-6">
+            Vimshottari Dasha
+          </h2>
+
+          <table className="w-full text-left border-collapse text-sm">
+            <thead>
+              <tr className="bg-green-100">
+                <th className="p-2 border">Planet</th>
+                <th className="p-2 border">Start Date</th>
+                <th className="p-2 border">End Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.keys(vimshottari.vimshottari_dasha).map((planet) => {
+                const details = vimshottari.vimshottari_dasha[planet];
+                return (
+                  <tr key={planet} className="border-b hover:bg-green-50">
+                    <td className="p-2 border font-semibold">{planet}</td>
+                    <td className="p-2 border">{details.start_date}</td>
+                    <td className="p-2 border">{details.end_date}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+
         </div>
     </div>
   );

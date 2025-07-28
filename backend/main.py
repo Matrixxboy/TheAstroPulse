@@ -272,7 +272,7 @@ def final_astro_report_generator():
         moon_nak_lord = moon_info["NakLord"]
         rashi_sign = next(iter(report[0]["rashi_all_details"]))
         dasha_data = find_vimashotry_dasha(req_dob, req_tob, moon_nak_deg, rashi_sign, moon_nak_lord)
-        report.append({"vimshottari_dasha": dasha_data})
+        report.append(dasha_data)
         
         return app.response_class(
             response=json.dumps(report, indent=2, sort_keys=False),
