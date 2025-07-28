@@ -59,7 +59,7 @@ const KundaliReportPage = ({ reportData, p_name1 }) => {
         window.html2pdf().set(opt).from(iframe.contentDocument.body).save().then(() => {
             document.body.removeChild(iframe);
         });
-    }, 100); // Increased delay for production
+    }, 10); // Increased delay for production
   };
 
   // Ensure reportData is valid before rendering
