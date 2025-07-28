@@ -250,14 +250,3 @@ def planet_position_details(DOB,TOB,LOCATION,TIMEZONE):
     return planet_positions
 
 
-
-# DOB = "2004-07-14"
-# TOB = "07:15"
-# LOCATION = "Surat Gujarat"
-
-# planet_positions = planet_position_details(DOB,TOB,LOCATION)
-# print("\n--- Planetary Positions ---")
-# for planet, data in planet_positions.items():
-#     print(f"\n{planet}:")
-#     for key, value in data.items():
-#         print(f"  {key}: {value}")

@@ -80,6 +80,7 @@ const KundaliReportPage = ({ reportData, p_name1 }) => {
 
   const basicInfo = reportData[0];
   const planetDetails = reportData[1];
+  const vimshottariDetails = reportData[2];
   const ascHouse = planetDetails['Ascendant']?.house || 1;
 
   // Helper function to render a detail row
@@ -246,6 +247,27 @@ const KundaliReportPage = ({ reportData, p_name1 }) => {
             </div>
           </div>
         )}
+        {vimshottariDetails?.vimshottari_dasha && (
+          <div className={`mt-10 p-6 rounded-xl shadow-inner ${isPdfMode ? 'bg-white' : 'bg-white/20'}`}>
+            <SectionTitle title="Vimshottari Dasha Periods" />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                "Moon", "Mars", "Rahu", "Jupiter", "Saturn", 
+                "Mercury", "Ketu", "Venus", "Sun"
+              ].map((planetName) => {
+                const dasha = vimshottariDetails.vimshottari_dasha[planetName];
+                return dasha ? (
+                  <div key={planetName} className={`p-4 rounded-lg shadow-md border border-gray-200 ${isPdfMode ? 'bg-white' : 'bg-white/20'}`}>
+                    <h3 className={`text-xl font-bold mb-3 text-indigo-600`}>{planetName}</h3>
+                    <DetailRow label="Start Date" value={dasha.start_date} />
+                    <DetailRow label="End Date" value={dasha.end_date} />
+                  </div>
+                ) : null;
+              })}
+            </div>
+          </div>
+        )}
+
       </div>
       <div className="pdf-render-container">
         <AstroPDFGenerator allData={reportData} p_name={p_name1} ref={astroPDFGeneratorRef} />

@@ -1,12 +1,14 @@
 import io
 import os
 import cv2
+import json
 from flask_cors import CORS
 from datetime import datetime
 from astrology.horoscope import fetch_horoscope , get_zodiac_sign
 from numerology.numlogycalcu import name_numlogy_basic_sums , business_numerology_basic_sums
 from astrology.nakshtra_details import final_astro_report
 from astrology.planet_positions import planet_position_details
+from astrology.Dasha.vimashotryDasha import find_vimashotry_dasha
 from flask import Flask, request, jsonify ,send_file
 import numpy as np
 from flask_limiter import Limiter
@@ -265,8 +267,18 @@ def final_astro_report_generator():
         report =[]
         report.append(final_astro_report(req_dob,req_tob,req_lob))
         report.append(planet_position_details(req_dob,req_tob,req_lob,req_timezone))
-
-        return jsonify(report),200
+        moon_info = report[1]["Moon"]
+        moon_nak_deg = moon_info["Degree in sign"]
+        moon_nak_lord = moon_info["NakLord"]
+        rashi_sign = next(iter(report[0]["rashi_all_details"]))
+        dasha_data = find_vimashotry_dasha(req_dob, req_tob, moon_nak_deg, rashi_sign, moon_nak_lord)
+        report.append({"vimshottari_dasha": dasha_data})
+        
+        return app.response_class(
+            response=json.dumps(report, indent=2, sort_keys=False),
+            status=200,
+            mimetype='application/json'
+        )
     except Exception as e :
         return jsonify({"error":str(e)}),500
     
