@@ -47,6 +47,7 @@ const KundaliReportPage = ({ reportData, p_name1 }) => {
     });
 
     setTimeout(() => {
+      iframe.contentWindow.scrollTo(0, 0);
         const opt = {
             margin: 0,
             filename: 'Astrology_Report.pdf',
