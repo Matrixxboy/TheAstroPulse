@@ -3,9 +3,8 @@ import { createRoot } from 'react-dom/client';
 import { flushSync } from 'react-dom';
 import SouthIndianChart from '../Charts/SouthIndianChart';
 import NorthIndianChart from '../Charts/NorthIndianChart';
-import AstroReport from './AstroReport';
 import AstroPDFGenerator from '../PDF/AstroPDFGenerator';
-
+import '../PDF/astroPDF.css';
 
 // ReportPage component - This will display the fetched data
 const KundaliReportPage = ({ reportData, p_name1 }) => {
@@ -52,14 +51,20 @@ const KundaliReportPage = ({ reportData, p_name1 }) => {
             margin: 0,
             filename: 'Astrology_Report.pdf',
             image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, logging: false },
+            html2canvas: { 
+              scale: 2, 
+              useCORS: true,
+              scrollY: 0, 
+              scrollX: 0, 
+              logging: false 
+            },
             jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
         };
 
         window.html2pdf().set(opt).from(iframe.contentDocument.body).save().then(() => {
             document.body.removeChild(iframe);
         });
-    }, 10); // Increased delay for production
+    }, 3000); // Increased delay for production
   };
 
   // Ensure reportData is valid before rendering

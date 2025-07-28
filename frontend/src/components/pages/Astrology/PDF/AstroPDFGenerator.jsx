@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState, useImperativeHandle } from "react";
 import NorthIndianChartPDF from './NorthchartPDF';
 import SouthIndianChartPDF from './SouthchartPDF';
+import './astroPDF.css'
 
 const AstroPDFGenerator = React.forwardRef(({ allData, p_name }, ref) => {
   const pdfRef = useRef();
