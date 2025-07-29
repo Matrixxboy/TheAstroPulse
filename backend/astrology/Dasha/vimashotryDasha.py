@@ -91,9 +91,13 @@ def get_antardasha_dates(maha, start_date, end_date):
         end = current + timedelta(days=duration)
 
         # Use cross-platform date formatting
-        formatted_date = end.strftime('%d-%m-%Y').lstrip("0").replace("/0", "/")
+        formatted_date_start = current.strftime('%d-%m-%Y').lstrip("0").replace("/0", "/")
+        formatted_date_end = end.strftime('%d-%m-%Y').lstrip("0").replace("/0", "/")
 
-        results[antar] = formatted_date
+        results[antar] = {
+            "start_date":formatted_date_start,
+            "end_date":formatted_date_end,
+        }
         current = end
 
     return results
