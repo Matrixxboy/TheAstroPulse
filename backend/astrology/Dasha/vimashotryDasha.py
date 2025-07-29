@@ -133,7 +133,7 @@ def find_vimashotry_dasha(DOB, TOB, MOON_DEG, SIGN_NAME, MOON_NAKSHATRA_LORD):
         full_dasha[maha_lord] = {
             "start_date": period["start_date"],
             "end_date": period["end_date"],
-            # "antardashas": antardashas
+            "antardashas": antardashas
         }
 
     return {"vimshottari_dasha": full_dasha}

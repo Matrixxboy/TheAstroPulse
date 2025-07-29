@@ -72,11 +72,11 @@ def get_vimshottari_dasha_from_dms(dob_str, tob_str, d, m, s, sign_index, moon_n
 
 
 # === 🧾 INPUT ===
-DOB = "01-01-1990" #done
-TOB = "15:22"   #done
-D, M, S = 8, 21, 1      #done
-SIGN_INDEX = 10   #done        # 0 = Aries, so Moon is in Aries
-MOON_NAKSHATRA_LORD = "Rahu"  #done
+DOB = "14-07-2004" #done
+TOB = "7:15"   #done
+D, M, S = 20, 50, 53      #done
+SIGN_INDEX = 1   #done        # 0 = Aries, so Moon is in Aries
+MOON_NAKSHATRA_LORD = "Moon"  #done
 
 # === 🔍 RUN ===
 dasha_result, moon_abs_deg, nakshatra_start_deg = get_vimshottari_dasha_from_dms(
