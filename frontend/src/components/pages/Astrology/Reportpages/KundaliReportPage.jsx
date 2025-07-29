@@ -4,6 +4,7 @@ import { flushSync } from 'react-dom';
 import SouthIndianChart from '../Charts/SouthIndianChart';
 import NorthIndianChart from '../Charts/NorthIndianChart';
 import AstroPDFGenerator from '../PDF/AstroPDFGenerator';
+import VimshottariDashaTable from './VimshotarriDasha/VimshottariTable ';
 import '../PDF/astroPDF.css';
 
 // ReportPage component - This will display the fetched data
@@ -247,24 +248,9 @@ const KundaliReportPage = ({ reportData, p_name1 }) => {
             </div>
           </div>
         )}
-        {vimshottariDetails?.vimshottari_dasha && (
-          <div className={`mt-10 p-6 rounded-xl shadow-inner ${isPdfMode ? 'bg-white' : 'bg-white/20'}`}>
-            <SectionTitle title="Vimshottari Dasha Periods" />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {Object.keys(vimshottariDetails.vimshottari_dasha).map((planet) => {
-              const details = vimshottariDetails.vimshottari_dasha[planet];
-              return (
-                  <div key={planet} className={`p-4 rounded-lg shadow-md border border-gray-200 ${isPdfMode ? 'bg-white' : 'bg-white/20'}`}>
-                    <h3 className={`text-xl font-bold mb-3 text-indigo-600`}>{planet}</h3>
-                    <DetailRow label="Start Date" value={details.start_date} />
-                    <DetailRow label="End Date" value={details.end_date} />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
+        <div>
+          <VimshottariDashaTable data={vimshottariDetails.vimshottariDasha} />
+        </div>
       </div>
       <div className="pdf-render-container">
         <AstroPDFGenerator allData={reportData} p_name={p_name1} ref={astroPDFGeneratorRef} />

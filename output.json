@@ -4,7 +4,7 @@
     "TOB": "07:15",
     "timezone": "Asia/Kolkata",
     "UTC_time": "01:45 UTC",
-    "location": "Surat",
+    "location": "Surat, Gujarat, India",
     "latitude": 21.2094892,
     "longitude": 72.8317058,
     "julian_Day": 2453200.5729166665,
@@ -248,42 +248,3462 @@
     }
   },
   {
-    "vimshottari_dasha": {
+    "vimshottariDasha": {
       "Moon": {
-        "start_date": "14-Jul-2004",
-        "end_date": "25-May-2006"
+        "start_date": "14-07-2004",
+        "end_date": "25-05-2006",
+        "antarDasha": {
+          "Moon": {
+            "start_date": "14-07-2004",
+            "end_date": "9-09-2004",
+            "pratyantarDasha": {
+              "Moon": {
+                "start_date": "14-07-2004",
+                "end_date": "19-07-2004"
+              },
+              "Mars": {
+                "start_date": "19-07-2004",
+                "end_date": "22-07-2004"
+              },
+              "Rahu": {
+                "start_date": "22-07-2004",
+                "end_date": "31-07-2004"
+              },
+              "Jupiter": {
+                "start_date": "31-07-2004",
+                "end_date": "08-08-2004"
+              },
+              "Saturn": {
+                "start_date": "08-08-2004",
+                "end_date": "17-08-2004"
+              },
+              "Mercury": {
+                "start_date": "17-08-2004",
+                "end_date": "25-08-2004"
+              },
+              "Ketu": {
+                "start_date": "25-08-2004",
+                "end_date": "28-08-2004"
+              },
+              "Venus": {
+                "start_date": "28-08-2004",
+                "end_date": "07-09-2004"
+              },
+              "Sun": {
+                "start_date": "07-09-2004",
+                "end_date": "10-09-2004"
+              }
+            }
+          },
+          "Mars": {
+            "start_date": "9-09-2004",
+            "end_date": "19-10-2004",
+            "pratyantarDasha": {
+              "Mars": {
+                "start_date": "09-09-2004",
+                "end_date": "11-09-2004"
+              },
+              "Rahu": {
+                "start_date": "11-09-2004",
+                "end_date": "17-09-2004"
+              },
+              "Jupiter": {
+                "start_date": "17-09-2004",
+                "end_date": "22-09-2004"
+              },
+              "Saturn": {
+                "start_date": "22-09-2004",
+                "end_date": "28-09-2004"
+              },
+              "Mercury": {
+                "start_date": "28-09-2004",
+                "end_date": "04-10-2004"
+              },
+              "Ketu": {
+                "start_date": "04-10-2004",
+                "end_date": "06-10-2004"
+              },
+              "Venus": {
+                "start_date": "06-10-2004",
+                "end_date": "13-10-2004"
+              },
+              "Sun": {
+                "start_date": "13-10-2004",
+                "end_date": "15-10-2004"
+              },
+              "Moon": {
+                "start_date": "15-10-2004",
+                "end_date": "18-10-2004"
+              }
+            }
+          },
+          "Rahu": {
+            "start_date": "19-10-2004",
+            "end_date": "29-01-2005",
+            "pratyantarDasha": {
+              "Rahu": {
+                "start_date": "19-10-2004",
+                "end_date": "03-11-2004"
+              },
+              "Jupiter": {
+                "start_date": "03-11-2004",
+                "end_date": "17-11-2004"
+              },
+              "Saturn": {
+                "start_date": "17-11-2004",
+                "end_date": "03-12-2004"
+              },
+              "Mercury": {
+                "start_date": "03-12-2004",
+                "end_date": "17-12-2004"
+              },
+              "Ketu": {
+                "start_date": "17-12-2004",
+                "end_date": "23-12-2004"
+              },
+              "Venus": {
+                "start_date": "23-12-2004",
+                "end_date": "09-01-2005"
+              },
+              "Sun": {
+                "start_date": "09-01-2005",
+                "end_date": "14-01-2005"
+              },
+              "Moon": {
+                "start_date": "14-01-2005",
+                "end_date": "22-01-2005"
+              },
+              "Mars": {
+                "start_date": "22-01-2005",
+                "end_date": "28-01-2005"
+              }
+            }
+          },
+          "Jupiter": {
+            "start_date": "29-01-2005",
+            "end_date": "30-04-2005",
+            "pratyantarDasha": {
+              "Jupiter": {
+                "start_date": "29-01-2005",
+                "end_date": "10-02-2005"
+              },
+              "Saturn": {
+                "start_date": "10-02-2005",
+                "end_date": "24-02-2005"
+              },
+              "Mercury": {
+                "start_date": "24-02-2005",
+                "end_date": "09-03-2005"
+              },
+              "Ketu": {
+                "start_date": "09-03-2005",
+                "end_date": "14-03-2005"
+              },
+              "Venus": {
+                "start_date": "14-03-2005",
+                "end_date": "29-03-2005"
+              },
+              "Sun": {
+                "start_date": "29-03-2005",
+                "end_date": "03-04-2005"
+              },
+              "Moon": {
+                "start_date": "03-04-2005",
+                "end_date": "11-04-2005"
+              },
+              "Mars": {
+                "start_date": "11-04-2005",
+                "end_date": "16-04-2005"
+              },
+              "Rahu": {
+                "start_date": "16-04-2005",
+                "end_date": "30-04-2005"
+              }
+            }
+          },
+          "Saturn": {
+            "start_date": "30-04-2005",
+            "end_date": "16-08-2005",
+            "pratyantarDasha": {
+              "Saturn": {
+                "start_date": "30-04-2005",
+                "end_date": "17-05-2005"
+              },
+              "Mercury": {
+                "start_date": "17-05-2005",
+                "end_date": "01-06-2005"
+              },
+              "Ketu": {
+                "start_date": "01-06-2005",
+                "end_date": "07-06-2005"
+              },
+              "Venus": {
+                "start_date": "07-06-2005",
+                "end_date": "25-06-2005"
+              },
+              "Sun": {
+                "start_date": "25-06-2005",
+                "end_date": "30-06-2005"
+              },
+              "Moon": {
+                "start_date": "30-06-2005",
+                "end_date": "09-07-2005"
+              },
+              "Mars": {
+                "start_date": "09-07-2005",
+                "end_date": "15-07-2005"
+              },
+              "Rahu": {
+                "start_date": "15-07-2005",
+                "end_date": "31-07-2005"
+              },
+              "Jupiter": {
+                "start_date": "31-07-2005",
+                "end_date": "14-08-2005"
+              }
+            }
+          },
+          "Mercury": {
+            "start_date": "16-08-2005",
+            "end_date": "20-11-2005",
+            "pratyantarDasha": {
+              "Mercury": {
+                "start_date": "16-08-2005",
+                "end_date": "30-08-2005"
+              },
+              "Ketu": {
+                "start_date": "30-08-2005",
+                "end_date": "05-09-2005"
+              },
+              "Venus": {
+                "start_date": "05-09-2005",
+                "end_date": "21-09-2005"
+              },
+              "Sun": {
+                "start_date": "21-09-2005",
+                "end_date": "26-09-2005"
+              },
+              "Moon": {
+                "start_date": "26-09-2005",
+                "end_date": "04-10-2005"
+              },
+              "Mars": {
+                "start_date": "04-10-2005",
+                "end_date": "10-10-2005"
+              },
+              "Rahu": {
+                "start_date": "10-10-2005",
+                "end_date": "24-10-2005"
+              },
+              "Jupiter": {
+                "start_date": "24-10-2005",
+                "end_date": "06-11-2005"
+              },
+              "Saturn": {
+                "start_date": "06-11-2005",
+                "end_date": "21-11-2005"
+              }
+            }
+          },
+          "Ketu": {
+            "start_date": "20-11-2005",
+            "end_date": "30-12-2005",
+            "pratyantarDasha": {
+              "Ketu": {
+                "start_date": "20-11-2005",
+                "end_date": "22-11-2005"
+              },
+              "Venus": {
+                "start_date": "22-11-2005",
+                "end_date": "29-11-2005"
+              },
+              "Sun": {
+                "start_date": "29-11-2005",
+                "end_date": "01-12-2005"
+              },
+              "Moon": {
+                "start_date": "01-12-2005",
+                "end_date": "04-12-2005"
+              },
+              "Mars": {
+                "start_date": "04-12-2005",
+                "end_date": "06-12-2005"
+              },
+              "Rahu": {
+                "start_date": "06-12-2005",
+                "end_date": "12-12-2005"
+              },
+              "Jupiter": {
+                "start_date": "12-12-2005",
+                "end_date": "17-12-2005"
+              },
+              "Saturn": {
+                "start_date": "17-12-2005",
+                "end_date": "23-12-2005"
+              },
+              "Mercury": {
+                "start_date": "23-12-2005",
+                "end_date": "29-12-2005"
+              }
+            }
+          },
+          "Venus": {
+            "start_date": "30-12-2005",
+            "end_date": "22-04-2006",
+            "pratyantarDasha": {
+              "Venus": {
+                "start_date": "30-12-2005",
+                "end_date": "18-01-2006"
+              },
+              "Sun": {
+                "start_date": "18-01-2006",
+                "end_date": "24-01-2006"
+              },
+              "Moon": {
+                "start_date": "24-01-2006",
+                "end_date": "02-02-2006"
+              },
+              "Mars": {
+                "start_date": "02-02-2006",
+                "end_date": "09-02-2006"
+              },
+              "Rahu": {
+                "start_date": "09-02-2006",
+                "end_date": "26-02-2006"
+              },
+              "Jupiter": {
+                "start_date": "26-02-2006",
+                "end_date": "13-03-2006"
+              },
+              "Saturn": {
+                "start_date": "13-03-2006",
+                "end_date": "31-03-2006"
+              },
+              "Mercury": {
+                "start_date": "31-03-2006",
+                "end_date": "16-04-2006"
+              },
+              "Ketu": {
+                "start_date": "16-04-2006",
+                "end_date": "23-04-2006"
+              }
+            }
+          },
+          "Sun": {
+            "start_date": "22-04-2006",
+            "end_date": "26-05-2006",
+            "pratyantarDasha": {
+              "Sun": {
+                "start_date": "22-04-2006",
+                "end_date": "24-04-2006"
+              },
+              "Moon": {
+                "start_date": "24-04-2006",
+                "end_date": "27-04-2006"
+              },
+              "Mars": {
+                "start_date": "27-04-2006",
+                "end_date": "29-04-2006"
+              },
+              "Rahu": {
+                "start_date": "29-04-2006",
+                "end_date": "04-05-2006"
+              },
+              "Jupiter": {
+                "start_date": "04-05-2006",
+                "end_date": "09-05-2006"
+              },
+              "Saturn": {
+                "start_date": "09-05-2006",
+                "end_date": "14-05-2006"
+              },
+              "Mercury": {
+                "start_date": "14-05-2006",
+                "end_date": "19-05-2006"
+              },
+              "Ketu": {
+                "start_date": "19-05-2006",
+                "end_date": "21-05-2006"
+              },
+              "Venus": {
+                "start_date": "21-05-2006",
+                "end_date": "27-05-2006"
+              }
+            }
+          }
+        }
       },
       "Mars": {
-        "start_date": "25-May-2006",
-        "end_date": "25-May-2013"
+        "start_date": "25-05-2006",
+        "end_date": "25-05-2013",
+        "antarDasha": {
+          "Mars": {
+            "start_date": "25-05-2006",
+            "end_date": "21-10-2006",
+            "pratyantarDasha": {
+              "Mars": {
+                "start_date": "25-05-2006",
+                "end_date": "03-06-2006"
+              },
+              "Rahu": {
+                "start_date": "03-06-2006",
+                "end_date": "25-06-2006"
+              },
+              "Jupiter": {
+                "start_date": "25-06-2006",
+                "end_date": "15-07-2006"
+              },
+              "Saturn": {
+                "start_date": "15-07-2006",
+                "end_date": "08-08-2006"
+              },
+              "Mercury": {
+                "start_date": "08-08-2006",
+                "end_date": "29-08-2006"
+              },
+              "Ketu": {
+                "start_date": "29-08-2006",
+                "end_date": "07-09-2006"
+              },
+              "Venus": {
+                "start_date": "07-09-2006",
+                "end_date": "02-10-2006"
+              },
+              "Sun": {
+                "start_date": "02-10-2006",
+                "end_date": "09-10-2006"
+              },
+              "Moon": {
+                "start_date": "09-10-2006",
+                "end_date": "21-10-2006"
+              }
+            }
+          },
+          "Rahu": {
+            "start_date": "21-10-2006",
+            "end_date": "9-11-2007",
+            "pratyantarDasha": {
+              "Rahu": {
+                "start_date": "21-10-2006",
+                "end_date": "18-12-2006"
+              },
+              "Jupiter": {
+                "start_date": "18-12-2006",
+                "end_date": "07-02-2007"
+              },
+              "Saturn": {
+                "start_date": "07-02-2007",
+                "end_date": "09-04-2007"
+              },
+              "Mercury": {
+                "start_date": "09-04-2007",
+                "end_date": "02-06-2007"
+              },
+              "Ketu": {
+                "start_date": "02-06-2007",
+                "end_date": "24-06-2007"
+              },
+              "Venus": {
+                "start_date": "24-06-2007",
+                "end_date": "27-08-2007"
+              },
+              "Sun": {
+                "start_date": "27-08-2007",
+                "end_date": "15-09-2007"
+              },
+              "Moon": {
+                "start_date": "15-09-2007",
+                "end_date": "17-10-2007"
+              },
+              "Mars": {
+                "start_date": "17-10-2007",
+                "end_date": "08-11-2007"
+              }
+            }
+          },
+          "Jupiter": {
+            "start_date": "9-11-2007",
+            "end_date": "15-10-2008",
+            "pratyantarDasha": {
+              "Jupiter": {
+                "start_date": "09-11-2007",
+                "end_date": "24-12-2007"
+              },
+              "Saturn": {
+                "start_date": "24-12-2007",
+                "end_date": "16-02-2008"
+              },
+              "Mercury": {
+                "start_date": "16-02-2008",
+                "end_date": "04-04-2008"
+              },
+              "Ketu": {
+                "start_date": "04-04-2008",
+                "end_date": "24-04-2008"
+              },
+              "Venus": {
+                "start_date": "24-04-2008",
+                "end_date": "20-06-2008"
+              },
+              "Sun": {
+                "start_date": "20-06-2008",
+                "end_date": "07-07-2008"
+              },
+              "Moon": {
+                "start_date": "07-07-2008",
+                "end_date": "04-08-2008"
+              },
+              "Mars": {
+                "start_date": "04-08-2008",
+                "end_date": "24-08-2008"
+              },
+              "Rahu": {
+                "start_date": "24-08-2008",
+                "end_date": "14-10-2008"
+              }
+            }
+          },
+          "Saturn": {
+            "start_date": "15-10-2008",
+            "end_date": "24-11-2009",
+            "pratyantarDasha": {
+              "Saturn": {
+                "start_date": "15-10-2008",
+                "end_date": "18-12-2008"
+              },
+              "Mercury": {
+                "start_date": "18-12-2008",
+                "end_date": "13-02-2009"
+              },
+              "Ketu": {
+                "start_date": "13-02-2009",
+                "end_date": "09-03-2009"
+              },
+              "Venus": {
+                "start_date": "09-03-2009",
+                "end_date": "16-05-2009"
+              },
+              "Sun": {
+                "start_date": "16-05-2009",
+                "end_date": "05-06-2009"
+              },
+              "Moon": {
+                "start_date": "05-06-2009",
+                "end_date": "09-07-2009"
+              },
+              "Mars": {
+                "start_date": "09-07-2009",
+                "end_date": "02-08-2009"
+              },
+              "Rahu": {
+                "start_date": "02-08-2009",
+                "end_date": "02-10-2009"
+              },
+              "Jupiter": {
+                "start_date": "02-10-2009",
+                "end_date": "25-11-2009"
+              }
+            }
+          },
+          "Mercury": {
+            "start_date": "24-11-2009",
+            "end_date": "21-11-2010",
+            "pratyantarDasha": {
+              "Mercury": {
+                "start_date": "24-11-2009",
+                "end_date": "14-01-2010"
+              },
+              "Ketu": {
+                "start_date": "14-01-2010",
+                "end_date": "04-02-2010"
+              },
+              "Venus": {
+                "start_date": "04-02-2010",
+                "end_date": "05-04-2010"
+              },
+              "Sun": {
+                "start_date": "05-04-2010",
+                "end_date": "23-04-2010"
+              },
+              "Moon": {
+                "start_date": "23-04-2010",
+                "end_date": "23-05-2010"
+              },
+              "Mars": {
+                "start_date": "23-05-2010",
+                "end_date": "13-06-2010"
+              },
+              "Rahu": {
+                "start_date": "13-06-2010",
+                "end_date": "06-08-2010"
+              },
+              "Jupiter": {
+                "start_date": "06-08-2010",
+                "end_date": "23-09-2010"
+              },
+              "Saturn": {
+                "start_date": "23-09-2010",
+                "end_date": "19-11-2010"
+              }
+            }
+          },
+          "Ketu": {
+            "start_date": "21-11-2010",
+            "end_date": "19-04-2011",
+            "pratyantarDasha": {
+              "Ketu": {
+                "start_date": "21-11-2010",
+                "end_date": "30-11-2010"
+              },
+              "Venus": {
+                "start_date": "30-11-2010",
+                "end_date": "25-12-2010"
+              },
+              "Sun": {
+                "start_date": "25-12-2010",
+                "end_date": "01-01-2011"
+              },
+              "Moon": {
+                "start_date": "01-01-2011",
+                "end_date": "13-01-2011"
+              },
+              "Mars": {
+                "start_date": "13-01-2011",
+                "end_date": "22-01-2011"
+              },
+              "Rahu": {
+                "start_date": "22-01-2011",
+                "end_date": "13-02-2011"
+              },
+              "Jupiter": {
+                "start_date": "13-02-2011",
+                "end_date": "05-03-2011"
+              },
+              "Saturn": {
+                "start_date": "05-03-2011",
+                "end_date": "29-03-2011"
+              },
+              "Mercury": {
+                "start_date": "29-03-2011",
+                "end_date": "19-04-2011"
+              }
+            }
+          },
+          "Venus": {
+            "start_date": "19-04-2011",
+            "end_date": "18-06-2012",
+            "pratyantarDasha": {
+              "Venus": {
+                "start_date": "19-04-2011",
+                "end_date": "29-06-2011"
+              },
+              "Sun": {
+                "start_date": "29-06-2011",
+                "end_date": "20-07-2011"
+              },
+              "Moon": {
+                "start_date": "20-07-2011",
+                "end_date": "25-08-2011"
+              },
+              "Mars": {
+                "start_date": "25-08-2011",
+                "end_date": "19-09-2011"
+              },
+              "Rahu": {
+                "start_date": "19-09-2011",
+                "end_date": "22-11-2011"
+              },
+              "Jupiter": {
+                "start_date": "22-11-2011",
+                "end_date": "18-01-2012"
+              },
+              "Saturn": {
+                "start_date": "18-01-2012",
+                "end_date": "25-03-2012"
+              },
+              "Mercury": {
+                "start_date": "25-03-2012",
+                "end_date": "24-05-2012"
+              },
+              "Ketu": {
+                "start_date": "24-05-2012",
+                "end_date": "18-06-2012"
+              }
+            }
+          },
+          "Sun": {
+            "start_date": "18-06-2012",
+            "end_date": "24-10-2012",
+            "pratyantarDasha": {
+              "Sun": {
+                "start_date": "18-06-2012",
+                "end_date": "24-06-2012"
+              },
+              "Moon": {
+                "start_date": "24-06-2012",
+                "end_date": "05-07-2012"
+              },
+              "Mars": {
+                "start_date": "05-07-2012",
+                "end_date": "12-07-2012"
+              },
+              "Rahu": {
+                "start_date": "12-07-2012",
+                "end_date": "31-07-2012"
+              },
+              "Jupiter": {
+                "start_date": "31-07-2012",
+                "end_date": "17-08-2012"
+              },
+              "Saturn": {
+                "start_date": "17-08-2012",
+                "end_date": "06-09-2012"
+              },
+              "Mercury": {
+                "start_date": "06-09-2012",
+                "end_date": "24-09-2012"
+              },
+              "Ketu": {
+                "start_date": "24-09-2012",
+                "end_date": "01-10-2012"
+              },
+              "Venus": {
+                "start_date": "01-10-2012",
+                "end_date": "22-10-2012"
+              }
+            }
+          },
+          "Moon": {
+            "start_date": "24-10-2012",
+            "end_date": "25-05-2013",
+            "pratyantarDasha": {
+              "Moon": {
+                "start_date": "24-10-2012",
+                "end_date": "11-11-2012"
+              },
+              "Mars": {
+                "start_date": "11-11-2012",
+                "end_date": "23-11-2012"
+              },
+              "Rahu": {
+                "start_date": "23-11-2012",
+                "end_date": "25-12-2012"
+              },
+              "Jupiter": {
+                "start_date": "25-12-2012",
+                "end_date": "22-01-2013"
+              },
+              "Saturn": {
+                "start_date": "22-01-2013",
+                "end_date": "25-02-2013"
+              },
+              "Mercury": {
+                "start_date": "25-02-2013",
+                "end_date": "27-03-2013"
+              },
+              "Ketu": {
+                "start_date": "27-03-2013",
+                "end_date": "08-04-2013"
+              },
+              "Venus": {
+                "start_date": "08-04-2013",
+                "end_date": "14-05-2013"
+              },
+              "Sun": {
+                "start_date": "14-05-2013",
+                "end_date": "25-05-2013"
+              }
+            }
+          }
+        }
       },
       "Rahu": {
-        "start_date": "25-May-2013",
-        "end_date": "25-May-2031"
+        "start_date": "25-05-2013",
+        "end_date": "25-05-2031",
+        "antarDasha": {
+          "Rahu": {
+            "start_date": "25-05-2013",
+            "end_date": "5-02-2016",
+            "pratyantarDasha": {
+              "Rahu": {
+                "start_date": "25-05-2013",
+                "end_date": "20-10-2013"
+              },
+              "Jupiter": {
+                "start_date": "20-10-2013",
+                "end_date": "28-02-2014"
+              },
+              "Saturn": {
+                "start_date": "28-02-2014",
+                "end_date": "03-08-2014"
+              },
+              "Mercury": {
+                "start_date": "03-08-2014",
+                "end_date": "21-12-2014"
+              },
+              "Ketu": {
+                "start_date": "21-12-2014",
+                "end_date": "17-02-2015"
+              },
+              "Venus": {
+                "start_date": "17-02-2015",
+                "end_date": "31-07-2015"
+              },
+              "Sun": {
+                "start_date": "31-07-2015",
+                "end_date": "18-09-2015"
+              },
+              "Moon": {
+                "start_date": "18-09-2015",
+                "end_date": "09-12-2015"
+              },
+              "Mars": {
+                "start_date": "09-12-2015",
+                "end_date": "05-02-2016"
+              }
+            }
+          },
+          "Jupiter": {
+            "start_date": "5-02-2016",
+            "end_date": "1-07-2018",
+            "pratyantarDasha": {
+              "Jupiter": {
+                "start_date": "05-02-2016",
+                "end_date": "01-06-2016"
+              },
+              "Saturn": {
+                "start_date": "01-06-2016",
+                "end_date": "18-10-2016"
+              },
+              "Mercury": {
+                "start_date": "18-10-2016",
+                "end_date": "19-02-2017"
+              },
+              "Ketu": {
+                "start_date": "19-02-2017",
+                "end_date": "11-04-2017"
+              },
+              "Venus": {
+                "start_date": "11-04-2017",
+                "end_date": "04-09-2017"
+              },
+              "Sun": {
+                "start_date": "04-09-2017",
+                "end_date": "18-10-2017"
+              },
+              "Moon": {
+                "start_date": "18-10-2017",
+                "end_date": "30-12-2017"
+              },
+              "Mars": {
+                "start_date": "30-12-2017",
+                "end_date": "19-02-2018"
+              },
+              "Rahu": {
+                "start_date": "19-02-2018",
+                "end_date": "01-07-2018"
+              }
+            }
+          },
+          "Saturn": {
+            "start_date": "1-07-2018",
+            "end_date": "7-05-2021",
+            "pratyantarDasha": {
+              "Saturn": {
+                "start_date": "01-07-2018",
+                "end_date": "13-12-2018"
+              },
+              "Mercury": {
+                "start_date": "13-12-2018",
+                "end_date": "09-05-2019"
+              },
+              "Ketu": {
+                "start_date": "09-05-2019",
+                "end_date": "09-07-2019"
+              },
+              "Venus": {
+                "start_date": "09-07-2019",
+                "end_date": "30-12-2019"
+              },
+              "Sun": {
+                "start_date": "30-12-2019",
+                "end_date": "20-02-2020"
+              },
+              "Moon": {
+                "start_date": "20-02-2020",
+                "end_date": "17-05-2020"
+              },
+              "Mars": {
+                "start_date": "17-05-2020",
+                "end_date": "17-07-2020"
+              },
+              "Rahu": {
+                "start_date": "17-07-2020",
+                "end_date": "20-12-2020"
+              },
+              "Jupiter": {
+                "start_date": "20-12-2020",
+                "end_date": "08-05-2021"
+              }
+            }
+          },
+          "Mercury": {
+            "start_date": "7-05-2021",
+            "end_date": "24-11-2023",
+            "pratyantarDasha": {
+              "Mercury": {
+                "start_date": "07-05-2021",
+                "end_date": "16-09-2021"
+              },
+              "Ketu": {
+                "start_date": "16-09-2021",
+                "end_date": "09-11-2021"
+              },
+              "Venus": {
+                "start_date": "09-11-2021",
+                "end_date": "13-04-2022"
+              },
+              "Sun": {
+                "start_date": "13-04-2022",
+                "end_date": "30-05-2022"
+              },
+              "Moon": {
+                "start_date": "30-05-2022",
+                "end_date": "16-08-2022"
+              },
+              "Mars": {
+                "start_date": "16-08-2022",
+                "end_date": "09-10-2022"
+              },
+              "Rahu": {
+                "start_date": "09-10-2022",
+                "end_date": "26-02-2023"
+              },
+              "Jupiter": {
+                "start_date": "26-02-2023",
+                "end_date": "30-06-2023"
+              },
+              "Saturn": {
+                "start_date": "30-06-2023",
+                "end_date": "24-11-2023"
+              }
+            }
+          },
+          "Ketu": {
+            "start_date": "24-11-2023",
+            "end_date": "11-12-2024",
+            "pratyantarDasha": {
+              "Ketu": {
+                "start_date": "24-11-2023",
+                "end_date": "16-12-2023"
+              },
+              "Venus": {
+                "start_date": "16-12-2023",
+                "end_date": "18-02-2024"
+              },
+              "Sun": {
+                "start_date": "18-02-2024",
+                "end_date": "08-03-2024"
+              },
+              "Moon": {
+                "start_date": "08-03-2024",
+                "end_date": "09-04-2024"
+              },
+              "Mars": {
+                "start_date": "09-04-2024",
+                "end_date": "01-05-2024"
+              },
+              "Rahu": {
+                "start_date": "01-05-2024",
+                "end_date": "27-06-2024"
+              },
+              "Jupiter": {
+                "start_date": "27-06-2024",
+                "end_date": "17-08-2024"
+              },
+              "Saturn": {
+                "start_date": "17-08-2024",
+                "end_date": "17-10-2024"
+              },
+              "Mercury": {
+                "start_date": "17-10-2024",
+                "end_date": "10-12-2024"
+              }
+            }
+          },
+          "Venus": {
+            "start_date": "11-12-2024",
+            "end_date": "12-12-2027",
+            "pratyantarDasha": {
+              "Venus": {
+                "start_date": "11-12-2024",
+                "end_date": "12-06-2025"
+              },
+              "Sun": {
+                "start_date": "12-06-2025",
+                "end_date": "06-08-2025"
+              },
+              "Moon": {
+                "start_date": "06-08-2025",
+                "end_date": "05-11-2025"
+              },
+              "Mars": {
+                "start_date": "05-11-2025",
+                "end_date": "08-01-2026"
+              },
+              "Rahu": {
+                "start_date": "08-01-2026",
+                "end_date": "21-06-2026"
+              },
+              "Jupiter": {
+                "start_date": "21-06-2026",
+                "end_date": "14-11-2026"
+              },
+              "Saturn": {
+                "start_date": "14-11-2026",
+                "end_date": "07-05-2027"
+              },
+              "Mercury": {
+                "start_date": "07-05-2027",
+                "end_date": "09-10-2027"
+              },
+              "Ketu": {
+                "start_date": "09-10-2027",
+                "end_date": "12-12-2027"
+              }
+            }
+          },
+          "Sun": {
+            "start_date": "12-12-2027",
+            "end_date": "5-11-2028",
+            "pratyantarDasha": {
+              "Sun": {
+                "start_date": "12-12-2027",
+                "end_date": "28-12-2027"
+              },
+              "Moon": {
+                "start_date": "28-12-2027",
+                "end_date": "24-01-2028"
+              },
+              "Mars": {
+                "start_date": "24-01-2028",
+                "end_date": "12-02-2028"
+              },
+              "Rahu": {
+                "start_date": "12-02-2028",
+                "end_date": "01-04-2028"
+              },
+              "Jupiter": {
+                "start_date": "01-04-2028",
+                "end_date": "15-05-2028"
+              },
+              "Saturn": {
+                "start_date": "15-05-2028",
+                "end_date": "06-07-2028"
+              },
+              "Mercury": {
+                "start_date": "06-07-2028",
+                "end_date": "22-08-2028"
+              },
+              "Ketu": {
+                "start_date": "22-08-2028",
+                "end_date": "10-09-2028"
+              },
+              "Venus": {
+                "start_date": "10-09-2028",
+                "end_date": "04-11-2028"
+              }
+            }
+          },
+          "Moon": {
+            "start_date": "5-11-2028",
+            "end_date": "7-05-2030",
+            "pratyantarDasha": {
+              "Moon": {
+                "start_date": "05-11-2028",
+                "end_date": "21-12-2028"
+              },
+              "Mars": {
+                "start_date": "21-12-2028",
+                "end_date": "22-01-2029"
+              },
+              "Rahu": {
+                "start_date": "22-01-2029",
+                "end_date": "14-04-2029"
+              },
+              "Jupiter": {
+                "start_date": "14-04-2029",
+                "end_date": "26-06-2029"
+              },
+              "Saturn": {
+                "start_date": "26-06-2029",
+                "end_date": "21-09-2029"
+              },
+              "Mercury": {
+                "start_date": "21-09-2029",
+                "end_date": "08-12-2029"
+              },
+              "Ketu": {
+                "start_date": "08-12-2029",
+                "end_date": "09-01-2030"
+              },
+              "Venus": {
+                "start_date": "09-01-2030",
+                "end_date": "10-04-2030"
+              },
+              "Sun": {
+                "start_date": "10-04-2030",
+                "end_date": "07-05-2030"
+              }
+            }
+          },
+          "Mars": {
+            "start_date": "7-05-2030",
+            "end_date": "25-05-2031",
+            "pratyantarDasha": {
+              "Mars": {
+                "start_date": "07-05-2030",
+                "end_date": "29-05-2030"
+              },
+              "Rahu": {
+                "start_date": "29-05-2030",
+                "end_date": "25-07-2030"
+              },
+              "Jupiter": {
+                "start_date": "25-07-2030",
+                "end_date": "14-09-2030"
+              },
+              "Saturn": {
+                "start_date": "14-09-2030",
+                "end_date": "14-11-2030"
+              },
+              "Mercury": {
+                "start_date": "14-11-2030",
+                "end_date": "07-01-2031"
+              },
+              "Ketu": {
+                "start_date": "07-01-2031",
+                "end_date": "29-01-2031"
+              },
+              "Venus": {
+                "start_date": "29-01-2031",
+                "end_date": "03-04-2031"
+              },
+              "Sun": {
+                "start_date": "03-04-2031",
+                "end_date": "22-04-2031"
+              },
+              "Moon": {
+                "start_date": "22-04-2031",
+                "end_date": "24-05-2031"
+              }
+            }
+          }
+        }
       },
       "Jupiter": {
-        "start_date": "25-May-2031",
-        "end_date": "25-May-2047"
+        "start_date": "25-05-2031",
+        "end_date": "25-05-2047",
+        "antarDasha": {
+          "Jupiter": {
+            "start_date": "25-05-2031",
+            "end_date": "12-07-2033",
+            "pratyantarDasha": {
+              "Jupiter": {
+                "start_date": "25-05-2031",
+                "end_date": "06-09-2031"
+              },
+              "Saturn": {
+                "start_date": "06-09-2031",
+                "end_date": "07-01-2032"
+              },
+              "Mercury": {
+                "start_date": "07-01-2032",
+                "end_date": "26-04-2032"
+              },
+              "Ketu": {
+                "start_date": "26-04-2032",
+                "end_date": "10-06-2032"
+              },
+              "Venus": {
+                "start_date": "10-06-2032",
+                "end_date": "18-10-2032"
+              },
+              "Sun": {
+                "start_date": "18-10-2032",
+                "end_date": "26-11-2032"
+              },
+              "Moon": {
+                "start_date": "26-11-2032",
+                "end_date": "30-01-2033"
+              },
+              "Mars": {
+                "start_date": "30-01-2033",
+                "end_date": "16-03-2033"
+              },
+              "Rahu": {
+                "start_date": "16-03-2033",
+                "end_date": "11-07-2033"
+              }
+            }
+          },
+          "Saturn": {
+            "start_date": "12-07-2033",
+            "end_date": "23-01-2036",
+            "pratyantarDasha": {
+              "Saturn": {
+                "start_date": "12-07-2033",
+                "end_date": "05-12-2033"
+              },
+              "Mercury": {
+                "start_date": "05-12-2033",
+                "end_date": "15-04-2034"
+              },
+              "Ketu": {
+                "start_date": "15-04-2034",
+                "end_date": "08-06-2034"
+              },
+              "Venus": {
+                "start_date": "08-06-2034",
+                "end_date": "09-11-2034"
+              },
+              "Sun": {
+                "start_date": "09-11-2034",
+                "end_date": "25-12-2034"
+              },
+              "Moon": {
+                "start_date": "25-12-2034",
+                "end_date": "12-03-2035"
+              },
+              "Mars": {
+                "start_date": "12-03-2035",
+                "end_date": "05-05-2035"
+              },
+              "Rahu": {
+                "start_date": "05-05-2035",
+                "end_date": "21-09-2035"
+              },
+              "Jupiter": {
+                "start_date": "21-09-2035",
+                "end_date": "22-01-2036"
+              }
+            }
+          },
+          "Mercury": {
+            "start_date": "23-01-2036",
+            "end_date": "30-04-2038",
+            "pratyantarDasha": {
+              "Mercury": {
+                "start_date": "23-01-2036",
+                "end_date": "19-05-2036"
+              },
+              "Ketu": {
+                "start_date": "19-05-2036",
+                "end_date": "06-07-2036"
+              },
+              "Venus": {
+                "start_date": "06-07-2036",
+                "end_date": "21-11-2036"
+              },
+              "Sun": {
+                "start_date": "21-11-2036",
+                "end_date": "01-01-2037"
+              },
+              "Moon": {
+                "start_date": "01-01-2037",
+                "end_date": "11-03-2037"
+              },
+              "Mars": {
+                "start_date": "11-03-2037",
+                "end_date": "28-04-2037"
+              },
+              "Rahu": {
+                "start_date": "28-04-2037",
+                "end_date": "30-08-2037"
+              },
+              "Jupiter": {
+                "start_date": "30-08-2037",
+                "end_date": "18-12-2037"
+              },
+              "Saturn": {
+                "start_date": "18-12-2037",
+                "end_date": "28-04-2038"
+              }
+            }
+          },
+          "Ketu": {
+            "start_date": "30-04-2038",
+            "end_date": "6-04-2039",
+            "pratyantarDasha": {
+              "Ketu": {
+                "start_date": "30-04-2038",
+                "end_date": "20-05-2038"
+              },
+              "Venus": {
+                "start_date": "20-05-2038",
+                "end_date": "16-07-2038"
+              },
+              "Sun": {
+                "start_date": "16-07-2038",
+                "end_date": "02-08-2038"
+              },
+              "Moon": {
+                "start_date": "02-08-2038",
+                "end_date": "30-08-2038"
+              },
+              "Mars": {
+                "start_date": "30-08-2038",
+                "end_date": "19-09-2038"
+              },
+              "Rahu": {
+                "start_date": "19-09-2038",
+                "end_date": "09-11-2038"
+              },
+              "Jupiter": {
+                "start_date": "09-11-2038",
+                "end_date": "24-12-2038"
+              },
+              "Saturn": {
+                "start_date": "24-12-2038",
+                "end_date": "16-02-2039"
+              },
+              "Mercury": {
+                "start_date": "16-02-2039",
+                "end_date": "05-04-2039"
+              }
+            }
+          },
+          "Venus": {
+            "start_date": "6-04-2039",
+            "end_date": "5-12-2041",
+            "pratyantarDasha": {
+              "Venus": {
+                "start_date": "06-04-2039",
+                "end_date": "15-09-2039"
+              },
+              "Sun": {
+                "start_date": "15-09-2039",
+                "end_date": "03-11-2039"
+              },
+              "Moon": {
+                "start_date": "03-11-2039",
+                "end_date": "23-01-2040"
+              },
+              "Mars": {
+                "start_date": "23-01-2040",
+                "end_date": "20-03-2040"
+              },
+              "Rahu": {
+                "start_date": "20-03-2040",
+                "end_date": "13-08-2040"
+              },
+              "Jupiter": {
+                "start_date": "13-08-2040",
+                "end_date": "21-12-2040"
+              },
+              "Saturn": {
+                "start_date": "21-12-2040",
+                "end_date": "24-05-2041"
+              },
+              "Mercury": {
+                "start_date": "24-05-2041",
+                "end_date": "09-10-2041"
+              },
+              "Ketu": {
+                "start_date": "09-10-2041",
+                "end_date": "05-12-2041"
+              }
+            }
+          },
+          "Sun": {
+            "start_date": "5-12-2041",
+            "end_date": "23-09-2042",
+            "pratyantarDasha": {
+              "Sun": {
+                "start_date": "05-12-2041",
+                "end_date": "20-12-2041"
+              },
+              "Moon": {
+                "start_date": "20-12-2041",
+                "end_date": "13-01-2042"
+              },
+              "Mars": {
+                "start_date": "13-01-2042",
+                "end_date": "30-01-2042"
+              },
+              "Rahu": {
+                "start_date": "30-01-2042",
+                "end_date": "15-03-2042"
+              },
+              "Jupiter": {
+                "start_date": "15-03-2042",
+                "end_date": "23-04-2042"
+              },
+              "Saturn": {
+                "start_date": "23-04-2042",
+                "end_date": "08-06-2042"
+              },
+              "Mercury": {
+                "start_date": "08-06-2042",
+                "end_date": "19-07-2042"
+              },
+              "Ketu": {
+                "start_date": "19-07-2042",
+                "end_date": "05-08-2042"
+              },
+              "Venus": {
+                "start_date": "05-08-2042",
+                "end_date": "23-09-2042"
+              }
+            }
+          },
+          "Moon": {
+            "start_date": "23-09-2042",
+            "end_date": "23-01-2044",
+            "pratyantarDasha": {
+              "Moon": {
+                "start_date": "23-09-2042",
+                "end_date": "03-11-2042"
+              },
+              "Mars": {
+                "start_date": "03-11-2042",
+                "end_date": "01-12-2042"
+              },
+              "Rahu": {
+                "start_date": "01-12-2042",
+                "end_date": "12-02-2043"
+              },
+              "Jupiter": {
+                "start_date": "12-02-2043",
+                "end_date": "18-04-2043"
+              },
+              "Saturn": {
+                "start_date": "18-04-2043",
+                "end_date": "04-07-2043"
+              },
+              "Mercury": {
+                "start_date": "04-07-2043",
+                "end_date": "11-09-2043"
+              },
+              "Ketu": {
+                "start_date": "11-09-2043",
+                "end_date": "09-10-2043"
+              },
+              "Venus": {
+                "start_date": "09-10-2043",
+                "end_date": "29-12-2043"
+              },
+              "Sun": {
+                "start_date": "29-12-2043",
+                "end_date": "22-01-2044"
+              }
+            }
+          },
+          "Mars": {
+            "start_date": "23-01-2044",
+            "end_date": "29-12-2044",
+            "pratyantarDasha": {
+              "Mars": {
+                "start_date": "23-01-2044",
+                "end_date": "12-02-2044"
+              },
+              "Rahu": {
+                "start_date": "12-02-2044",
+                "end_date": "03-04-2044"
+              },
+              "Jupiter": {
+                "start_date": "03-04-2044",
+                "end_date": "18-05-2044"
+              },
+              "Saturn": {
+                "start_date": "18-05-2044",
+                "end_date": "11-07-2044"
+              },
+              "Mercury": {
+                "start_date": "11-07-2044",
+                "end_date": "28-08-2044"
+              },
+              "Ketu": {
+                "start_date": "28-08-2044",
+                "end_date": "17-09-2044"
+              },
+              "Venus": {
+                "start_date": "17-09-2044",
+                "end_date": "13-11-2044"
+              },
+              "Sun": {
+                "start_date": "13-11-2044",
+                "end_date": "30-11-2044"
+              },
+              "Moon": {
+                "start_date": "30-11-2044",
+                "end_date": "28-12-2044"
+              }
+            }
+          },
+          "Rahu": {
+            "start_date": "29-12-2044",
+            "end_date": "25-05-2047",
+            "pratyantarDasha": {
+              "Rahu": {
+                "start_date": "29-12-2044",
+                "end_date": "10-05-2045"
+              },
+              "Jupiter": {
+                "start_date": "10-05-2045",
+                "end_date": "04-09-2045"
+              },
+              "Saturn": {
+                "start_date": "04-09-2045",
+                "end_date": "21-01-2046"
+              },
+              "Mercury": {
+                "start_date": "21-01-2046",
+                "end_date": "25-05-2046"
+              },
+              "Ketu": {
+                "start_date": "25-05-2046",
+                "end_date": "15-07-2046"
+              },
+              "Venus": {
+                "start_date": "15-07-2046",
+                "end_date": "08-12-2046"
+              },
+              "Sun": {
+                "start_date": "08-12-2046",
+                "end_date": "21-01-2047"
+              },
+              "Moon": {
+                "start_date": "21-01-2047",
+                "end_date": "04-04-2047"
+              },
+              "Mars": {
+                "start_date": "04-04-2047",
+                "end_date": "25-05-2047"
+              }
+            }
+          }
+        }
       },
       "Saturn": {
-        "start_date": "25-May-2047",
-        "end_date": "25-May-2066"
+        "start_date": "25-05-2047",
+        "end_date": "25-05-2066",
+        "antarDasha": {
+          "Saturn": {
+            "start_date": "25-05-2047",
+            "end_date": "28-05-2050",
+            "pratyantarDasha": {
+              "Saturn": {
+                "start_date": "25-05-2047",
+                "end_date": "15-11-2047"
+              },
+              "Mercury": {
+                "start_date": "15-11-2047",
+                "end_date": "19-04-2048"
+              },
+              "Ketu": {
+                "start_date": "19-04-2048",
+                "end_date": "22-06-2048"
+              },
+              "Venus": {
+                "start_date": "22-06-2048",
+                "end_date": "22-12-2048"
+              },
+              "Sun": {
+                "start_date": "22-12-2048",
+                "end_date": "15-02-2049"
+              },
+              "Moon": {
+                "start_date": "15-02-2049",
+                "end_date": "18-05-2049"
+              },
+              "Mars": {
+                "start_date": "18-05-2049",
+                "end_date": "21-07-2049"
+              },
+              "Rahu": {
+                "start_date": "21-07-2049",
+                "end_date": "02-01-2050"
+              },
+              "Jupiter": {
+                "start_date": "02-01-2050",
+                "end_date": "29-05-2050"
+              }
+            }
+          },
+          "Mercury": {
+            "start_date": "28-05-2050",
+            "end_date": "4-02-2053",
+            "pratyantarDasha": {
+              "Mercury": {
+                "start_date": "28-05-2050",
+                "end_date": "14-10-2050"
+              },
+              "Ketu": {
+                "start_date": "14-10-2050",
+                "end_date": "10-12-2050"
+              },
+              "Venus": {
+                "start_date": "10-12-2050",
+                "end_date": "23-05-2051"
+              },
+              "Sun": {
+                "start_date": "23-05-2051",
+                "end_date": "11-07-2051"
+              },
+              "Moon": {
+                "start_date": "11-07-2051",
+                "end_date": "01-10-2051"
+              },
+              "Mars": {
+                "start_date": "01-10-2051",
+                "end_date": "27-11-2051"
+              },
+              "Rahu": {
+                "start_date": "27-11-2051",
+                "end_date": "22-04-2052"
+              },
+              "Jupiter": {
+                "start_date": "22-04-2052",
+                "end_date": "31-08-2052"
+              },
+              "Saturn": {
+                "start_date": "31-08-2052",
+                "end_date": "03-02-2053"
+              }
+            }
+          },
+          "Ketu": {
+            "start_date": "4-02-2053",
+            "end_date": "16-03-2054",
+            "pratyantarDasha": {
+              "Ketu": {
+                "start_date": "04-02-2053",
+                "end_date": "28-02-2053"
+              },
+              "Venus": {
+                "start_date": "28-02-2053",
+                "end_date": "07-05-2053"
+              },
+              "Sun": {
+                "start_date": "07-05-2053",
+                "end_date": "27-05-2053"
+              },
+              "Moon": {
+                "start_date": "27-05-2053",
+                "end_date": "30-06-2053"
+              },
+              "Mars": {
+                "start_date": "30-06-2053",
+                "end_date": "24-07-2053"
+              },
+              "Rahu": {
+                "start_date": "24-07-2053",
+                "end_date": "23-09-2053"
+              },
+              "Jupiter": {
+                "start_date": "23-09-2053",
+                "end_date": "16-11-2053"
+              },
+              "Saturn": {
+                "start_date": "16-11-2053",
+                "end_date": "19-01-2054"
+              },
+              "Mercury": {
+                "start_date": "19-01-2054",
+                "end_date": "17-03-2054"
+              }
+            }
+          },
+          "Venus": {
+            "start_date": "16-03-2054",
+            "end_date": "16-05-2057",
+            "pratyantarDasha": {
+              "Venus": {
+                "start_date": "16-03-2054",
+                "end_date": "25-09-2054"
+              },
+              "Sun": {
+                "start_date": "25-09-2054",
+                "end_date": "22-11-2054"
+              },
+              "Moon": {
+                "start_date": "22-11-2054",
+                "end_date": "26-02-2055"
+              },
+              "Mars": {
+                "start_date": "26-02-2055",
+                "end_date": "04-05-2055"
+              },
+              "Rahu": {
+                "start_date": "04-05-2055",
+                "end_date": "25-10-2055"
+              },
+              "Jupiter": {
+                "start_date": "25-10-2055",
+                "end_date": "27-03-2056"
+              },
+              "Saturn": {
+                "start_date": "27-03-2056",
+                "end_date": "26-09-2056"
+              },
+              "Mercury": {
+                "start_date": "26-09-2056",
+                "end_date": "09-03-2057"
+              },
+              "Ketu": {
+                "start_date": "09-03-2057",
+                "end_date": "15-05-2057"
+              }
+            }
+          },
+          "Sun": {
+            "start_date": "16-05-2057",
+            "end_date": "28-04-2058",
+            "pratyantarDasha": {
+              "Sun": {
+                "start_date": "16-05-2057",
+                "end_date": "02-06-2057"
+              },
+              "Moon": {
+                "start_date": "02-06-2057",
+                "end_date": "01-07-2057"
+              },
+              "Mars": {
+                "start_date": "01-07-2057",
+                "end_date": "21-07-2057"
+              },
+              "Rahu": {
+                "start_date": "21-07-2057",
+                "end_date": "11-09-2057"
+              },
+              "Jupiter": {
+                "start_date": "11-09-2057",
+                "end_date": "27-10-2057"
+              },
+              "Saturn": {
+                "start_date": "27-10-2057",
+                "end_date": "21-12-2057"
+              },
+              "Mercury": {
+                "start_date": "21-12-2057",
+                "end_date": "08-02-2058"
+              },
+              "Ketu": {
+                "start_date": "08-02-2058",
+                "end_date": "28-02-2058"
+              },
+              "Venus": {
+                "start_date": "28-02-2058",
+                "end_date": "27-04-2058"
+              }
+            }
+          },
+          "Moon": {
+            "start_date": "28-04-2058",
+            "end_date": "27-11-2059",
+            "pratyantarDasha": {
+              "Moon": {
+                "start_date": "28-04-2058",
+                "end_date": "15-06-2058"
+              },
+              "Mars": {
+                "start_date": "15-06-2058",
+                "end_date": "19-07-2058"
+              },
+              "Rahu": {
+                "start_date": "19-07-2058",
+                "end_date": "14-10-2058"
+              },
+              "Jupiter": {
+                "start_date": "14-10-2058",
+                "end_date": "30-12-2058"
+              },
+              "Saturn": {
+                "start_date": "30-12-2058",
+                "end_date": "01-04-2059"
+              },
+              "Mercury": {
+                "start_date": "01-04-2059",
+                "end_date": "22-06-2059"
+              },
+              "Ketu": {
+                "start_date": "22-06-2059",
+                "end_date": "26-07-2059"
+              },
+              "Venus": {
+                "start_date": "26-07-2059",
+                "end_date": "30-10-2059"
+              },
+              "Sun": {
+                "start_date": "30-10-2059",
+                "end_date": "28-11-2059"
+              }
+            }
+          },
+          "Mars": {
+            "start_date": "27-11-2059",
+            "end_date": "5-01-2061",
+            "pratyantarDasha": {
+              "Mars": {
+                "start_date": "27-11-2059",
+                "end_date": "21-12-2059"
+              },
+              "Rahu": {
+                "start_date": "21-12-2059",
+                "end_date": "20-02-2060"
+              },
+              "Jupiter": {
+                "start_date": "20-02-2060",
+                "end_date": "14-04-2060"
+              },
+              "Saturn": {
+                "start_date": "14-04-2060",
+                "end_date": "17-06-2060"
+              },
+              "Mercury": {
+                "start_date": "17-06-2060",
+                "end_date": "13-08-2060"
+              },
+              "Ketu": {
+                "start_date": "13-08-2060",
+                "end_date": "06-09-2060"
+              },
+              "Venus": {
+                "start_date": "06-09-2060",
+                "end_date": "13-11-2060"
+              },
+              "Sun": {
+                "start_date": "13-11-2060",
+                "end_date": "03-12-2060"
+              },
+              "Moon": {
+                "start_date": "03-12-2060",
+                "end_date": "06-01-2061"
+              }
+            }
+          },
+          "Rahu": {
+            "start_date": "5-01-2061",
+            "end_date": "12-11-2063",
+            "pratyantarDasha": {
+              "Rahu": {
+                "start_date": "05-01-2061",
+                "end_date": "10-06-2061"
+              },
+              "Jupiter": {
+                "start_date": "10-06-2061",
+                "end_date": "27-10-2061"
+              },
+              "Saturn": {
+                "start_date": "27-10-2061",
+                "end_date": "10-04-2062"
+              },
+              "Mercury": {
+                "start_date": "10-04-2062",
+                "end_date": "04-09-2062"
+              },
+              "Ketu": {
+                "start_date": "04-09-2062",
+                "end_date": "04-11-2062"
+              },
+              "Venus": {
+                "start_date": "04-11-2062",
+                "end_date": "27-04-2063"
+              },
+              "Sun": {
+                "start_date": "27-04-2063",
+                "end_date": "18-06-2063"
+              },
+              "Moon": {
+                "start_date": "18-06-2063",
+                "end_date": "13-09-2063"
+              },
+              "Mars": {
+                "start_date": "13-09-2063",
+                "end_date": "13-11-2063"
+              }
+            }
+          },
+          "Jupiter": {
+            "start_date": "12-11-2063",
+            "end_date": "25-05-2066",
+            "pratyantarDasha": {
+              "Jupiter": {
+                "start_date": "12-11-2063",
+                "end_date": "14-03-2064"
+              },
+              "Saturn": {
+                "start_date": "14-03-2064",
+                "end_date": "07-08-2064"
+              },
+              "Mercury": {
+                "start_date": "07-08-2064",
+                "end_date": "16-12-2064"
+              },
+              "Ketu": {
+                "start_date": "16-12-2064",
+                "end_date": "08-02-2065"
+              },
+              "Venus": {
+                "start_date": "08-02-2065",
+                "end_date": "12-07-2065"
+              },
+              "Sun": {
+                "start_date": "12-07-2065",
+                "end_date": "27-08-2065"
+              },
+              "Moon": {
+                "start_date": "27-08-2065",
+                "end_date": "12-11-2065"
+              },
+              "Mars": {
+                "start_date": "12-11-2065",
+                "end_date": "05-01-2066"
+              },
+              "Rahu": {
+                "start_date": "05-01-2066",
+                "end_date": "24-05-2066"
+              }
+            }
+          }
+        }
       },
       "Mercury": {
-        "start_date": "25-May-2066",
-        "end_date": "25-May-2083"
+        "start_date": "25-05-2066",
+        "end_date": "25-05-2083",
+        "antarDasha": {
+          "Mercury": {
+            "start_date": "25-05-2066",
+            "end_date": "21-10-2068",
+            "pratyantarDasha": {
+              "Mercury": {
+                "start_date": "25-05-2066",
+                "end_date": "27-09-2066"
+              },
+              "Ketu": {
+                "start_date": "27-09-2066",
+                "end_date": "17-11-2066"
+              },
+              "Venus": {
+                "start_date": "17-11-2066",
+                "end_date": "13-04-2067"
+              },
+              "Sun": {
+                "start_date": "13-04-2067",
+                "end_date": "27-05-2067"
+              },
+              "Moon": {
+                "start_date": "27-05-2067",
+                "end_date": "08-08-2067"
+              },
+              "Mars": {
+                "start_date": "08-08-2067",
+                "end_date": "28-09-2067"
+              },
+              "Rahu": {
+                "start_date": "28-09-2067",
+                "end_date": "07-02-2068"
+              },
+              "Jupiter": {
+                "start_date": "07-02-2068",
+                "end_date": "03-06-2068"
+              },
+              "Saturn": {
+                "start_date": "03-06-2068",
+                "end_date": "20-10-2068"
+              }
+            }
+          },
+          "Ketu": {
+            "start_date": "21-10-2068",
+            "end_date": "18-10-2069",
+            "pratyantarDasha": {
+              "Ketu": {
+                "start_date": "21-10-2068",
+                "end_date": "11-11-2068"
+              },
+              "Venus": {
+                "start_date": "11-11-2068",
+                "end_date": "10-01-2069"
+              },
+              "Sun": {
+                "start_date": "10-01-2069",
+                "end_date": "28-01-2069"
+              },
+              "Moon": {
+                "start_date": "28-01-2069",
+                "end_date": "27-02-2069"
+              },
+              "Mars": {
+                "start_date": "27-02-2069",
+                "end_date": "20-03-2069"
+              },
+              "Rahu": {
+                "start_date": "20-03-2069",
+                "end_date": "13-05-2069"
+              },
+              "Jupiter": {
+                "start_date": "13-05-2069",
+                "end_date": "30-06-2069"
+              },
+              "Saturn": {
+                "start_date": "30-06-2069",
+                "end_date": "26-08-2069"
+              },
+              "Mercury": {
+                "start_date": "26-08-2069",
+                "end_date": "16-10-2069"
+              }
+            }
+          },
+          "Venus": {
+            "start_date": "18-10-2069",
+            "end_date": "18-08-2072",
+            "pratyantarDasha": {
+              "Venus": {
+                "start_date": "18-10-2069",
+                "end_date": "08-04-2070"
+              },
+              "Sun": {
+                "start_date": "08-04-2070",
+                "end_date": "30-05-2070"
+              },
+              "Moon": {
+                "start_date": "30-05-2070",
+                "end_date": "24-08-2070"
+              },
+              "Mars": {
+                "start_date": "24-08-2070",
+                "end_date": "23-10-2070"
+              },
+              "Rahu": {
+                "start_date": "23-10-2070",
+                "end_date": "27-03-2071"
+              },
+              "Jupiter": {
+                "start_date": "27-03-2071",
+                "end_date": "12-08-2071"
+              },
+              "Saturn": {
+                "start_date": "12-08-2071",
+                "end_date": "23-01-2072"
+              },
+              "Mercury": {
+                "start_date": "23-01-2072",
+                "end_date": "18-06-2072"
+              },
+              "Ketu": {
+                "start_date": "18-06-2072",
+                "end_date": "17-08-2072"
+              }
+            }
+          },
+          "Sun": {
+            "start_date": "18-08-2072",
+            "end_date": "24-06-2073",
+            "pratyantarDasha": {
+              "Sun": {
+                "start_date": "18-08-2072",
+                "end_date": "03-09-2072"
+              },
+              "Moon": {
+                "start_date": "03-09-2072",
+                "end_date": "29-09-2072"
+              },
+              "Mars": {
+                "start_date": "29-09-2072",
+                "end_date": "17-10-2072"
+              },
+              "Rahu": {
+                "start_date": "17-10-2072",
+                "end_date": "02-12-2072"
+              },
+              "Jupiter": {
+                "start_date": "02-12-2072",
+                "end_date": "12-01-2073"
+              },
+              "Saturn": {
+                "start_date": "12-01-2073",
+                "end_date": "02-03-2073"
+              },
+              "Mercury": {
+                "start_date": "02-03-2073",
+                "end_date": "15-04-2073"
+              },
+              "Ketu": {
+                "start_date": "15-04-2073",
+                "end_date": "03-05-2073"
+              },
+              "Venus": {
+                "start_date": "03-05-2073",
+                "end_date": "24-06-2073"
+              }
+            }
+          },
+          "Moon": {
+            "start_date": "24-06-2073",
+            "end_date": "23-11-2074",
+            "pratyantarDasha": {
+              "Moon": {
+                "start_date": "24-06-2073",
+                "end_date": "06-08-2073"
+              },
+              "Mars": {
+                "start_date": "06-08-2073",
+                "end_date": "05-09-2073"
+              },
+              "Rahu": {
+                "start_date": "05-09-2073",
+                "end_date": "22-11-2073"
+              },
+              "Jupiter": {
+                "start_date": "22-11-2073",
+                "end_date": "30-01-2074"
+              },
+              "Saturn": {
+                "start_date": "30-01-2074",
+                "end_date": "22-04-2074"
+              },
+              "Mercury": {
+                "start_date": "22-04-2074",
+                "end_date": "04-07-2074"
+              },
+              "Ketu": {
+                "start_date": "04-07-2074",
+                "end_date": "03-08-2074"
+              },
+              "Venus": {
+                "start_date": "03-08-2074",
+                "end_date": "28-10-2074"
+              },
+              "Sun": {
+                "start_date": "28-10-2074",
+                "end_date": "23-11-2074"
+              }
+            }
+          },
+          "Mars": {
+            "start_date": "23-11-2074",
+            "end_date": "20-11-2075",
+            "pratyantarDasha": {
+              "Mars": {
+                "start_date": "23-11-2074",
+                "end_date": "14-12-2074"
+              },
+              "Rahu": {
+                "start_date": "14-12-2074",
+                "end_date": "06-02-2075"
+              },
+              "Jupiter": {
+                "start_date": "06-02-2075",
+                "end_date": "26-03-2075"
+              },
+              "Saturn": {
+                "start_date": "26-03-2075",
+                "end_date": "22-05-2075"
+              },
+              "Mercury": {
+                "start_date": "22-05-2075",
+                "end_date": "12-07-2075"
+              },
+              "Ketu": {
+                "start_date": "12-07-2075",
+                "end_date": "02-08-2075"
+              },
+              "Venus": {
+                "start_date": "02-08-2075",
+                "end_date": "01-10-2075"
+              },
+              "Sun": {
+                "start_date": "01-10-2075",
+                "end_date": "19-10-2075"
+              },
+              "Moon": {
+                "start_date": "19-10-2075",
+                "end_date": "18-11-2075"
+              }
+            }
+          },
+          "Rahu": {
+            "start_date": "20-11-2075",
+            "end_date": "8-06-2078",
+            "pratyantarDasha": {
+              "Rahu": {
+                "start_date": "20-11-2075",
+                "end_date": "08-04-2076"
+              },
+              "Jupiter": {
+                "start_date": "08-04-2076",
+                "end_date": "10-08-2076"
+              },
+              "Saturn": {
+                "start_date": "10-08-2076",
+                "end_date": "04-01-2077"
+              },
+              "Mercury": {
+                "start_date": "04-01-2077",
+                "end_date": "16-05-2077"
+              },
+              "Ketu": {
+                "start_date": "16-05-2077",
+                "end_date": "09-07-2077"
+              },
+              "Venus": {
+                "start_date": "09-07-2077",
+                "end_date": "11-12-2077"
+              },
+              "Sun": {
+                "start_date": "11-12-2077",
+                "end_date": "27-01-2078"
+              },
+              "Moon": {
+                "start_date": "27-01-2078",
+                "end_date": "15-04-2078"
+              },
+              "Mars": {
+                "start_date": "15-04-2078",
+                "end_date": "08-06-2078"
+              }
+            }
+          },
+          "Jupiter": {
+            "start_date": "8-06-2078",
+            "end_date": "13-09-2080",
+            "pratyantarDasha": {
+              "Jupiter": {
+                "start_date": "08-06-2078",
+                "end_date": "26-09-2078"
+              },
+              "Saturn": {
+                "start_date": "26-09-2078",
+                "end_date": "04-02-2079"
+              },
+              "Mercury": {
+                "start_date": "04-02-2079",
+                "end_date": "01-06-2079"
+              },
+              "Ketu": {
+                "start_date": "01-06-2079",
+                "end_date": "19-07-2079"
+              },
+              "Venus": {
+                "start_date": "19-07-2079",
+                "end_date": "04-12-2079"
+              },
+              "Sun": {
+                "start_date": "04-12-2079",
+                "end_date": "14-01-2080"
+              },
+              "Moon": {
+                "start_date": "14-01-2080",
+                "end_date": "23-03-2080"
+              },
+              "Mars": {
+                "start_date": "23-03-2080",
+                "end_date": "10-05-2080"
+              },
+              "Rahu": {
+                "start_date": "10-05-2080",
+                "end_date": "11-09-2080"
+              }
+            }
+          },
+          "Saturn": {
+            "start_date": "13-09-2080",
+            "end_date": "24-05-2083",
+            "pratyantarDasha": {
+              "Saturn": {
+                "start_date": "13-09-2080",
+                "end_date": "16-02-2081"
+              },
+              "Mercury": {
+                "start_date": "16-02-2081",
+                "end_date": "05-07-2081"
+              },
+              "Ketu": {
+                "start_date": "05-07-2081",
+                "end_date": "31-08-2081"
+              },
+              "Venus": {
+                "start_date": "31-08-2081",
+                "end_date": "11-02-2082"
+              },
+              "Sun": {
+                "start_date": "11-02-2082",
+                "end_date": "01-04-2082"
+              },
+              "Moon": {
+                "start_date": "01-04-2082",
+                "end_date": "22-06-2082"
+              },
+              "Mars": {
+                "start_date": "22-06-2082",
+                "end_date": "18-08-2082"
+              },
+              "Rahu": {
+                "start_date": "18-08-2082",
+                "end_date": "12-01-2083"
+              },
+              "Jupiter": {
+                "start_date": "12-01-2083",
+                "end_date": "23-05-2083"
+              }
+            }
+          }
+        }
       },
       "Ketu": {
-        "start_date": "25-May-2083",
-        "end_date": "25-May-2090"
+        "start_date": "25-05-2083",
+        "end_date": "25-05-2090",
+        "antarDasha": {
+          "Ketu": {
+            "start_date": "25-05-2083",
+            "end_date": "21-10-2083",
+            "pratyantarDasha": {
+              "Ketu": {
+                "start_date": "25-05-2083",
+                "end_date": "03-06-2083"
+              },
+              "Venus": {
+                "start_date": "03-06-2083",
+                "end_date": "28-06-2083"
+              },
+              "Sun": {
+                "start_date": "28-06-2083",
+                "end_date": "05-07-2083"
+              },
+              "Moon": {
+                "start_date": "05-07-2083",
+                "end_date": "17-07-2083"
+              },
+              "Mars": {
+                "start_date": "17-07-2083",
+                "end_date": "26-07-2083"
+              },
+              "Rahu": {
+                "start_date": "26-07-2083",
+                "end_date": "17-08-2083"
+              },
+              "Jupiter": {
+                "start_date": "17-08-2083",
+                "end_date": "06-09-2083"
+              },
+              "Saturn": {
+                "start_date": "06-09-2083",
+                "end_date": "30-09-2083"
+              },
+              "Mercury": {
+                "start_date": "30-09-2083",
+                "end_date": "21-10-2083"
+              }
+            }
+          },
+          "Venus": {
+            "start_date": "21-10-2083",
+            "end_date": "20-12-2084",
+            "pratyantarDasha": {
+              "Venus": {
+                "start_date": "21-10-2083",
+                "end_date": "31-12-2083"
+              },
+              "Sun": {
+                "start_date": "31-12-2083",
+                "end_date": "21-01-2084"
+              },
+              "Moon": {
+                "start_date": "21-01-2084",
+                "end_date": "26-02-2084"
+              },
+              "Mars": {
+                "start_date": "26-02-2084",
+                "end_date": "22-03-2084"
+              },
+              "Rahu": {
+                "start_date": "22-03-2084",
+                "end_date": "25-05-2084"
+              },
+              "Jupiter": {
+                "start_date": "25-05-2084",
+                "end_date": "21-07-2084"
+              },
+              "Saturn": {
+                "start_date": "21-07-2084",
+                "end_date": "26-09-2084"
+              },
+              "Mercury": {
+                "start_date": "26-09-2084",
+                "end_date": "25-11-2084"
+              },
+              "Ketu": {
+                "start_date": "25-11-2084",
+                "end_date": "20-12-2084"
+              }
+            }
+          },
+          "Sun": {
+            "start_date": "20-12-2084",
+            "end_date": "27-04-2085",
+            "pratyantarDasha": {
+              "Sun": {
+                "start_date": "20-12-2084",
+                "end_date": "26-12-2084"
+              },
+              "Moon": {
+                "start_date": "26-12-2084",
+                "end_date": "06-01-2085"
+              },
+              "Mars": {
+                "start_date": "06-01-2085",
+                "end_date": "13-01-2085"
+              },
+              "Rahu": {
+                "start_date": "13-01-2085",
+                "end_date": "01-02-2085"
+              },
+              "Jupiter": {
+                "start_date": "01-02-2085",
+                "end_date": "18-02-2085"
+              },
+              "Saturn": {
+                "start_date": "18-02-2085",
+                "end_date": "10-03-2085"
+              },
+              "Mercury": {
+                "start_date": "10-03-2085",
+                "end_date": "28-03-2085"
+              },
+              "Ketu": {
+                "start_date": "28-03-2085",
+                "end_date": "04-04-2085"
+              },
+              "Venus": {
+                "start_date": "04-04-2085",
+                "end_date": "25-04-2085"
+              }
+            }
+          },
+          "Moon": {
+            "start_date": "27-04-2085",
+            "end_date": "26-11-2085",
+            "pratyantarDasha": {
+              "Moon": {
+                "start_date": "27-04-2085",
+                "end_date": "15-05-2085"
+              },
+              "Mars": {
+                "start_date": "15-05-2085",
+                "end_date": "27-05-2085"
+              },
+              "Rahu": {
+                "start_date": "27-05-2085",
+                "end_date": "28-06-2085"
+              },
+              "Jupiter": {
+                "start_date": "28-06-2085",
+                "end_date": "26-07-2085"
+              },
+              "Saturn": {
+                "start_date": "26-07-2085",
+                "end_date": "29-08-2085"
+              },
+              "Mercury": {
+                "start_date": "29-08-2085",
+                "end_date": "28-09-2085"
+              },
+              "Ketu": {
+                "start_date": "28-09-2085",
+                "end_date": "10-10-2085"
+              },
+              "Venus": {
+                "start_date": "10-10-2085",
+                "end_date": "15-11-2085"
+              },
+              "Sun": {
+                "start_date": "15-11-2085",
+                "end_date": "26-11-2085"
+              }
+            }
+          },
+          "Mars": {
+            "start_date": "26-11-2085",
+            "end_date": "24-04-2086",
+            "pratyantarDasha": {
+              "Mars": {
+                "start_date": "26-11-2085",
+                "end_date": "05-12-2085"
+              },
+              "Rahu": {
+                "start_date": "05-12-2085",
+                "end_date": "27-12-2085"
+              },
+              "Jupiter": {
+                "start_date": "27-12-2085",
+                "end_date": "16-01-2086"
+              },
+              "Saturn": {
+                "start_date": "16-01-2086",
+                "end_date": "09-02-2086"
+              },
+              "Mercury": {
+                "start_date": "09-02-2086",
+                "end_date": "02-03-2086"
+              },
+              "Ketu": {
+                "start_date": "02-03-2086",
+                "end_date": "11-03-2086"
+              },
+              "Venus": {
+                "start_date": "11-03-2086",
+                "end_date": "05-04-2086"
+              },
+              "Sun": {
+                "start_date": "05-04-2086",
+                "end_date": "12-04-2086"
+              },
+              "Moon": {
+                "start_date": "12-04-2086",
+                "end_date": "24-04-2086"
+              }
+            }
+          },
+          "Rahu": {
+            "start_date": "24-04-2086",
+            "end_date": "13-05-2087",
+            "pratyantarDasha": {
+              "Rahu": {
+                "start_date": "24-04-2086",
+                "end_date": "21-06-2086"
+              },
+              "Jupiter": {
+                "start_date": "21-06-2086",
+                "end_date": "11-08-2086"
+              },
+              "Saturn": {
+                "start_date": "11-08-2086",
+                "end_date": "11-10-2086"
+              },
+              "Mercury": {
+                "start_date": "11-10-2086",
+                "end_date": "04-12-2086"
+              },
+              "Ketu": {
+                "start_date": "04-12-2086",
+                "end_date": "26-12-2086"
+              },
+              "Venus": {
+                "start_date": "26-12-2086",
+                "end_date": "28-02-2087"
+              },
+              "Sun": {
+                "start_date": "28-02-2087",
+                "end_date": "19-03-2087"
+              },
+              "Moon": {
+                "start_date": "19-03-2087",
+                "end_date": "20-04-2087"
+              },
+              "Mars": {
+                "start_date": "20-04-2087",
+                "end_date": "12-05-2087"
+              }
+            }
+          },
+          "Jupiter": {
+            "start_date": "13-05-2087",
+            "end_date": "18-04-2088",
+            "pratyantarDasha": {
+              "Jupiter": {
+                "start_date": "13-05-2087",
+                "end_date": "27-06-2087"
+              },
+              "Saturn": {
+                "start_date": "27-06-2087",
+                "end_date": "20-08-2087"
+              },
+              "Mercury": {
+                "start_date": "20-08-2087",
+                "end_date": "07-10-2087"
+              },
+              "Ketu": {
+                "start_date": "07-10-2087",
+                "end_date": "27-10-2087"
+              },
+              "Venus": {
+                "start_date": "27-10-2087",
+                "end_date": "23-12-2087"
+              },
+              "Sun": {
+                "start_date": "23-12-2087",
+                "end_date": "09-01-2088"
+              },
+              "Moon": {
+                "start_date": "09-01-2088",
+                "end_date": "06-02-2088"
+              },
+              "Mars": {
+                "start_date": "06-02-2088",
+                "end_date": "26-02-2088"
+              },
+              "Rahu": {
+                "start_date": "26-02-2088",
+                "end_date": "17-04-2088"
+              }
+            }
+          },
+          "Saturn": {
+            "start_date": "18-04-2088",
+            "end_date": "28-05-2089",
+            "pratyantarDasha": {
+              "Saturn": {
+                "start_date": "18-04-2088",
+                "end_date": "21-06-2088"
+              },
+              "Mercury": {
+                "start_date": "21-06-2088",
+                "end_date": "17-08-2088"
+              },
+              "Ketu": {
+                "start_date": "17-08-2088",
+                "end_date": "10-09-2088"
+              },
+              "Venus": {
+                "start_date": "10-09-2088",
+                "end_date": "17-11-2088"
+              },
+              "Sun": {
+                "start_date": "17-11-2088",
+                "end_date": "07-12-2088"
+              },
+              "Moon": {
+                "start_date": "07-12-2088",
+                "end_date": "10-01-2089"
+              },
+              "Mars": {
+                "start_date": "10-01-2089",
+                "end_date": "03-02-2089"
+              },
+              "Rahu": {
+                "start_date": "03-02-2089",
+                "end_date": "05-04-2089"
+              },
+              "Jupiter": {
+                "start_date": "05-04-2089",
+                "end_date": "29-05-2089"
+              }
+            }
+          },
+          "Mercury": {
+            "start_date": "28-05-2089",
+            "end_date": "25-05-2090",
+            "pratyantarDasha": {
+              "Mercury": {
+                "start_date": "28-05-2089",
+                "end_date": "18-07-2089"
+              },
+              "Ketu": {
+                "start_date": "18-07-2089",
+                "end_date": "08-08-2089"
+              },
+              "Venus": {
+                "start_date": "08-08-2089",
+                "end_date": "07-10-2089"
+              },
+              "Sun": {
+                "start_date": "07-10-2089",
+                "end_date": "25-10-2089"
+              },
+              "Moon": {
+                "start_date": "25-10-2089",
+                "end_date": "24-11-2089"
+              },
+              "Mars": {
+                "start_date": "24-11-2089",
+                "end_date": "15-12-2089"
+              },
+              "Rahu": {
+                "start_date": "15-12-2089",
+                "end_date": "07-02-2090"
+              },
+              "Jupiter": {
+                "start_date": "07-02-2090",
+                "end_date": "27-03-2090"
+              },
+              "Saturn": {
+                "start_date": "27-03-2090",
+                "end_date": "23-05-2090"
+              }
+            }
+          }
+        }
       },
       "Venus": {
-        "start_date": "25-May-2090",
-        "end_date": "25-May-2110"
+        "start_date": "25-05-2090",
+        "end_date": "25-05-2110",
+        "antarDasha": {
+          "Venus": {
+            "start_date": "25-05-2090",
+            "end_date": "23-09-2093",
+            "pratyantarDasha": {
+              "Venus": {
+                "start_date": "25-05-2090",
+                "end_date": "14-12-2090"
+              },
+              "Sun": {
+                "start_date": "14-12-2090",
+                "end_date": "13-02-2091"
+              },
+              "Moon": {
+                "start_date": "13-02-2091",
+                "end_date": "25-05-2091"
+              },
+              "Mars": {
+                "start_date": "25-05-2091",
+                "end_date": "04-08-2091"
+              },
+              "Rahu": {
+                "start_date": "04-08-2091",
+                "end_date": "03-02-2092"
+              },
+              "Jupiter": {
+                "start_date": "03-02-2092",
+                "end_date": "14-07-2092"
+              },
+              "Saturn": {
+                "start_date": "14-07-2092",
+                "end_date": "23-01-2093"
+              },
+              "Mercury": {
+                "start_date": "23-01-2093",
+                "end_date": "14-07-2093"
+              },
+              "Ketu": {
+                "start_date": "14-07-2093",
+                "end_date": "23-09-2093"
+              }
+            }
+          },
+          "Sun": {
+            "start_date": "23-09-2093",
+            "end_date": "23-09-2094",
+            "pratyantarDasha": {
+              "Sun": {
+                "start_date": "23-09-2093",
+                "end_date": "11-10-2093"
+              },
+              "Moon": {
+                "start_date": "11-10-2093",
+                "end_date": "10-11-2093"
+              },
+              "Mars": {
+                "start_date": "10-11-2093",
+                "end_date": "01-12-2093"
+              },
+              "Rahu": {
+                "start_date": "01-12-2093",
+                "end_date": "25-01-2094"
+              },
+              "Jupiter": {
+                "start_date": "25-01-2094",
+                "end_date": "15-03-2094"
+              },
+              "Saturn": {
+                "start_date": "15-03-2094",
+                "end_date": "12-05-2094"
+              },
+              "Mercury": {
+                "start_date": "12-05-2094",
+                "end_date": "03-07-2094"
+              },
+              "Ketu": {
+                "start_date": "03-07-2094",
+                "end_date": "24-07-2094"
+              },
+              "Venus": {
+                "start_date": "24-07-2094",
+                "end_date": "23-09-2094"
+              }
+            }
+          },
+          "Moon": {
+            "start_date": "23-09-2094",
+            "end_date": "24-05-2096",
+            "pratyantarDasha": {
+              "Moon": {
+                "start_date": "23-09-2094",
+                "end_date": "13-11-2094"
+              },
+              "Mars": {
+                "start_date": "13-11-2094",
+                "end_date": "19-12-2094"
+              },
+              "Rahu": {
+                "start_date": "19-12-2094",
+                "end_date": "20-03-2095"
+              },
+              "Jupiter": {
+                "start_date": "20-03-2095",
+                "end_date": "09-06-2095"
+              },
+              "Saturn": {
+                "start_date": "09-06-2095",
+                "end_date": "13-09-2095"
+              },
+              "Mercury": {
+                "start_date": "13-09-2095",
+                "end_date": "08-12-2095"
+              },
+              "Ketu": {
+                "start_date": "08-12-2095",
+                "end_date": "13-01-2096"
+              },
+              "Venus": {
+                "start_date": "13-01-2096",
+                "end_date": "24-04-2096"
+              },
+              "Sun": {
+                "start_date": "24-04-2096",
+                "end_date": "24-05-2096"
+              }
+            }
+          },
+          "Mars": {
+            "start_date": "24-05-2096",
+            "end_date": "24-07-2097",
+            "pratyantarDasha": {
+              "Mars": {
+                "start_date": "24-05-2096",
+                "end_date": "18-06-2096"
+              },
+              "Rahu": {
+                "start_date": "18-06-2096",
+                "end_date": "21-08-2096"
+              },
+              "Jupiter": {
+                "start_date": "21-08-2096",
+                "end_date": "17-10-2096"
+              },
+              "Saturn": {
+                "start_date": "17-10-2096",
+                "end_date": "23-12-2096"
+              },
+              "Mercury": {
+                "start_date": "23-12-2096",
+                "end_date": "21-02-2097"
+              },
+              "Ketu": {
+                "start_date": "21-02-2097",
+                "end_date": "18-03-2097"
+              },
+              "Venus": {
+                "start_date": "18-03-2097",
+                "end_date": "28-05-2097"
+              },
+              "Sun": {
+                "start_date": "28-05-2097",
+                "end_date": "18-06-2097"
+              },
+              "Moon": {
+                "start_date": "18-06-2097",
+                "end_date": "24-07-2097"
+              }
+            }
+          },
+          "Rahu": {
+            "start_date": "24-07-2097",
+            "end_date": "25-07-2100",
+            "pratyantarDasha": {
+              "Rahu": {
+                "start_date": "24-07-2097",
+                "end_date": "04-01-2098"
+              },
+              "Jupiter": {
+                "start_date": "04-01-2098",
+                "end_date": "30-05-2098"
+              },
+              "Saturn": {
+                "start_date": "30-05-2098",
+                "end_date": "20-11-2098"
+              },
+              "Mercury": {
+                "start_date": "20-11-2098",
+                "end_date": "24-04-2099"
+              },
+              "Ketu": {
+                "start_date": "24-04-2099",
+                "end_date": "27-06-2099"
+              },
+              "Venus": {
+                "start_date": "27-06-2099",
+                "end_date": "27-12-2099"
+              },
+              "Sun": {
+                "start_date": "27-12-2099",
+                "end_date": "20-02-2100"
+              },
+              "Moon": {
+                "start_date": "20-02-2100",
+                "end_date": "22-05-2100"
+              },
+              "Mars": {
+                "start_date": "22-05-2100",
+                "end_date": "25-07-2100"
+              }
+            }
+          },
+          "Jupiter": {
+            "start_date": "25-07-2100",
+            "end_date": "26-03-2103",
+            "pratyantarDasha": {
+              "Jupiter": {
+                "start_date": "25-07-2100",
+                "end_date": "02-12-2100"
+              },
+              "Saturn": {
+                "start_date": "02-12-2100",
+                "end_date": "05-05-2101"
+              },
+              "Mercury": {
+                "start_date": "05-05-2101",
+                "end_date": "20-09-2101"
+              },
+              "Ketu": {
+                "start_date": "20-09-2101",
+                "end_date": "16-11-2101"
+              },
+              "Venus": {
+                "start_date": "16-11-2101",
+                "end_date": "27-04-2102"
+              },
+              "Sun": {
+                "start_date": "27-04-2102",
+                "end_date": "15-06-2102"
+              },
+              "Moon": {
+                "start_date": "15-06-2102",
+                "end_date": "04-09-2102"
+              },
+              "Mars": {
+                "start_date": "04-09-2102",
+                "end_date": "31-10-2102"
+              },
+              "Rahu": {
+                "start_date": "31-10-2102",
+                "end_date": "26-03-2103"
+              }
+            }
+          },
+          "Saturn": {
+            "start_date": "26-03-2103",
+            "end_date": "25-05-2106",
+            "pratyantarDasha": {
+              "Saturn": {
+                "start_date": "26-03-2103",
+                "end_date": "25-09-2103"
+              },
+              "Mercury": {
+                "start_date": "25-09-2103",
+                "end_date": "07-03-2104"
+              },
+              "Ketu": {
+                "start_date": "07-03-2104",
+                "end_date": "13-05-2104"
+              },
+              "Venus": {
+                "start_date": "13-05-2104",
+                "end_date": "22-11-2104"
+              },
+              "Sun": {
+                "start_date": "22-11-2104",
+                "end_date": "19-01-2105"
+              },
+              "Moon": {
+                "start_date": "19-01-2105",
+                "end_date": "25-04-2105"
+              },
+              "Mars": {
+                "start_date": "25-04-2105",
+                "end_date": "01-07-2105"
+              },
+              "Rahu": {
+                "start_date": "01-07-2105",
+                "end_date": "21-12-2105"
+              },
+              "Jupiter": {
+                "start_date": "21-12-2105",
+                "end_date": "24-05-2106"
+              }
+            }
+          },
+          "Mercury": {
+            "start_date": "25-05-2106",
+            "end_date": "25-03-2109",
+            "pratyantarDasha": {
+              "Mercury": {
+                "start_date": "25-05-2106",
+                "end_date": "19-10-2106"
+              },
+              "Ketu": {
+                "start_date": "19-10-2106",
+                "end_date": "18-12-2106"
+              },
+              "Venus": {
+                "start_date": "18-12-2106",
+                "end_date": "08-06-2107"
+              },
+              "Sun": {
+                "start_date": "08-06-2107",
+                "end_date": "30-07-2107"
+              },
+              "Moon": {
+                "start_date": "30-07-2107",
+                "end_date": "24-10-2107"
+              },
+              "Mars": {
+                "start_date": "24-10-2107",
+                "end_date": "23-12-2107"
+              },
+              "Rahu": {
+                "start_date": "23-12-2107",
+                "end_date": "26-05-2108"
+              },
+              "Jupiter": {
+                "start_date": "26-05-2108",
+                "end_date": "11-10-2108"
+              },
+              "Saturn": {
+                "start_date": "11-10-2108",
+                "end_date": "24-03-2109"
+              }
+            }
+          },
+          "Ketu": {
+            "start_date": "25-03-2109",
+            "end_date": "25-05-2110",
+            "pratyantarDasha": {
+              "Ketu": {
+                "start_date": "25-03-2109",
+                "end_date": "19-04-2109"
+              },
+              "Venus": {
+                "start_date": "19-04-2109",
+                "end_date": "29-06-2109"
+              },
+              "Sun": {
+                "start_date": "29-06-2109",
+                "end_date": "20-07-2109"
+              },
+              "Moon": {
+                "start_date": "20-07-2109",
+                "end_date": "25-08-2109"
+              },
+              "Mars": {
+                "start_date": "25-08-2109",
+                "end_date": "19-09-2109"
+              },
+              "Rahu": {
+                "start_date": "19-09-2109",
+                "end_date": "22-11-2109"
+              },
+              "Jupiter": {
+                "start_date": "22-11-2109",
+                "end_date": "18-01-2110"
+              },
+              "Saturn": {
+                "start_date": "18-01-2110",
+                "end_date": "26-03-2110"
+              },
+              "Mercury": {
+                "start_date": "26-03-2110",
+                "end_date": "25-05-2110"
+              }
+            }
+          }
+        }
       },
       "Sun": {
-        "start_date": "25-May-2110",
-        "end_date": "25-May-2116"
+        "start_date": "25-05-2110",
+        "end_date": "25-05-2116",
+        "antarDasha": {
+          "Sun": {
+            "start_date": "25-05-2110",
+            "end_date": "12-09-2110",
+            "pratyantarDasha": {
+              "Sun": {
+                "start_date": "25-05-2110",
+                "end_date": "31-05-2110"
+              },
+              "Moon": {
+                "start_date": "31-05-2110",
+                "end_date": "09-06-2110"
+              },
+              "Mars": {
+                "start_date": "09-06-2110",
+                "end_date": "15-06-2110"
+              },
+              "Rahu": {
+                "start_date": "15-06-2110",
+                "end_date": "01-07-2110"
+              },
+              "Jupiter": {
+                "start_date": "01-07-2110",
+                "end_date": "16-07-2110"
+              },
+              "Saturn": {
+                "start_date": "16-07-2110",
+                "end_date": "02-08-2110"
+              },
+              "Mercury": {
+                "start_date": "02-08-2110",
+                "end_date": "18-08-2110"
+              },
+              "Ketu": {
+                "start_date": "18-08-2110",
+                "end_date": "24-08-2110"
+              },
+              "Venus": {
+                "start_date": "24-08-2110",
+                "end_date": "11-09-2110"
+              }
+            }
+          },
+          "Moon": {
+            "start_date": "12-09-2110",
+            "end_date": "14-03-2111",
+            "pratyantarDasha": {
+              "Moon": {
+                "start_date": "12-09-2110",
+                "end_date": "27-09-2110"
+              },
+              "Mars": {
+                "start_date": "27-09-2110",
+                "end_date": "08-10-2110"
+              },
+              "Rahu": {
+                "start_date": "08-10-2110",
+                "end_date": "04-11-2110"
+              },
+              "Jupiter": {
+                "start_date": "04-11-2110",
+                "end_date": "28-11-2110"
+              },
+              "Saturn": {
+                "start_date": "28-11-2110",
+                "end_date": "27-12-2110"
+              },
+              "Mercury": {
+                "start_date": "27-12-2110",
+                "end_date": "22-01-2111"
+              },
+              "Ketu": {
+                "start_date": "22-01-2111",
+                "end_date": "02-02-2111"
+              },
+              "Venus": {
+                "start_date": "02-02-2111",
+                "end_date": "04-03-2111"
+              },
+              "Sun": {
+                "start_date": "04-03-2111",
+                "end_date": "13-03-2111"
+              }
+            }
+          },
+          "Mars": {
+            "start_date": "14-03-2111",
+            "end_date": "20-07-2111",
+            "pratyantarDasha": {
+              "Mars": {
+                "start_date": "14-03-2111",
+                "end_date": "21-03-2111"
+              },
+              "Rahu": {
+                "start_date": "21-03-2111",
+                "end_date": "09-04-2111"
+              },
+              "Jupiter": {
+                "start_date": "09-04-2111",
+                "end_date": "26-04-2111"
+              },
+              "Saturn": {
+                "start_date": "26-04-2111",
+                "end_date": "16-05-2111"
+              },
+              "Mercury": {
+                "start_date": "16-05-2111",
+                "end_date": "03-06-2111"
+              },
+              "Ketu": {
+                "start_date": "03-06-2111",
+                "end_date": "10-06-2111"
+              },
+              "Venus": {
+                "start_date": "10-06-2111",
+                "end_date": "01-07-2111"
+              },
+              "Sun": {
+                "start_date": "01-07-2111",
+                "end_date": "07-07-2111"
+              },
+              "Moon": {
+                "start_date": "07-07-2111",
+                "end_date": "18-07-2111"
+              }
+            }
+          },
+          "Rahu": {
+            "start_date": "20-07-2111",
+            "end_date": "13-06-2112",
+            "pratyantarDasha": {
+              "Rahu": {
+                "start_date": "20-07-2111",
+                "end_date": "07-09-2111"
+              },
+              "Jupiter": {
+                "start_date": "07-09-2111",
+                "end_date": "21-10-2111"
+              },
+              "Saturn": {
+                "start_date": "21-10-2111",
+                "end_date": "12-12-2111"
+              },
+              "Mercury": {
+                "start_date": "12-12-2111",
+                "end_date": "28-01-2112"
+              },
+              "Ketu": {
+                "start_date": "28-01-2112",
+                "end_date": "16-02-2112"
+              },
+              "Venus": {
+                "start_date": "16-02-2112",
+                "end_date": "11-04-2112"
+              },
+              "Sun": {
+                "start_date": "11-04-2112",
+                "end_date": "27-04-2112"
+              },
+              "Moon": {
+                "start_date": "27-04-2112",
+                "end_date": "24-05-2112"
+              },
+              "Mars": {
+                "start_date": "24-05-2112",
+                "end_date": "12-06-2112"
+              }
+            }
+          },
+          "Jupiter": {
+            "start_date": "13-06-2112",
+            "end_date": "1-04-2113",
+            "pratyantarDasha": {
+              "Jupiter": {
+                "start_date": "13-06-2112",
+                "end_date": "22-07-2112"
+              },
+              "Saturn": {
+                "start_date": "22-07-2112",
+                "end_date": "06-09-2112"
+              },
+              "Mercury": {
+                "start_date": "06-09-2112",
+                "end_date": "17-10-2112"
+              },
+              "Ketu": {
+                "start_date": "17-10-2112",
+                "end_date": "03-11-2112"
+              },
+              "Venus": {
+                "start_date": "03-11-2112",
+                "end_date": "22-12-2112"
+              },
+              "Sun": {
+                "start_date": "22-12-2112",
+                "end_date": "06-01-2113"
+              },
+              "Moon": {
+                "start_date": "06-01-2113",
+                "end_date": "30-01-2113"
+              },
+              "Mars": {
+                "start_date": "30-01-2113",
+                "end_date": "16-02-2113"
+              },
+              "Rahu": {
+                "start_date": "16-02-2113",
+                "end_date": "01-04-2113"
+              }
+            }
+          },
+          "Saturn": {
+            "start_date": "1-04-2113",
+            "end_date": "14-03-2114",
+            "pratyantarDasha": {
+              "Saturn": {
+                "start_date": "01-04-2113",
+                "end_date": "26-05-2113"
+              },
+              "Mercury": {
+                "start_date": "26-05-2113",
+                "end_date": "14-07-2113"
+              },
+              "Ketu": {
+                "start_date": "14-07-2113",
+                "end_date": "03-08-2113"
+              },
+              "Venus": {
+                "start_date": "03-08-2113",
+                "end_date": "30-09-2113"
+              },
+              "Sun": {
+                "start_date": "30-09-2113",
+                "end_date": "17-10-2113"
+              },
+              "Moon": {
+                "start_date": "17-10-2113",
+                "end_date": "15-11-2113"
+              },
+              "Mars": {
+                "start_date": "15-11-2113",
+                "end_date": "05-12-2113"
+              },
+              "Rahu": {
+                "start_date": "05-12-2113",
+                "end_date": "26-01-2114"
+              },
+              "Jupiter": {
+                "start_date": "26-01-2114",
+                "end_date": "13-03-2114"
+              }
+            }
+          },
+          "Mercury": {
+            "start_date": "14-03-2114",
+            "end_date": "19-01-2115",
+            "pratyantarDasha": {
+              "Mercury": {
+                "start_date": "14-03-2114",
+                "end_date": "27-04-2114"
+              },
+              "Ketu": {
+                "start_date": "27-04-2114",
+                "end_date": "15-05-2114"
+              },
+              "Venus": {
+                "start_date": "15-05-2114",
+                "end_date": "06-07-2114"
+              },
+              "Sun": {
+                "start_date": "06-07-2114",
+                "end_date": "22-07-2114"
+              },
+              "Moon": {
+                "start_date": "22-07-2114",
+                "end_date": "17-08-2114"
+              },
+              "Mars": {
+                "start_date": "17-08-2114",
+                "end_date": "04-09-2114"
+              },
+              "Rahu": {
+                "start_date": "04-09-2114",
+                "end_date": "21-10-2114"
+              },
+              "Jupiter": {
+                "start_date": "21-10-2114",
+                "end_date": "01-12-2114"
+              },
+              "Saturn": {
+                "start_date": "01-12-2114",
+                "end_date": "19-01-2115"
+              }
+            }
+          },
+          "Ketu": {
+            "start_date": "19-01-2115",
+            "end_date": "27-05-2115",
+            "pratyantarDasha": {
+              "Ketu": {
+                "start_date": "19-01-2115",
+                "end_date": "26-01-2115"
+              },
+              "Venus": {
+                "start_date": "26-01-2115",
+                "end_date": "16-02-2115"
+              },
+              "Sun": {
+                "start_date": "16-02-2115",
+                "end_date": "22-02-2115"
+              },
+              "Moon": {
+                "start_date": "22-02-2115",
+                "end_date": "05-03-2115"
+              },
+              "Mars": {
+                "start_date": "05-03-2115",
+                "end_date": "12-03-2115"
+              },
+              "Rahu": {
+                "start_date": "12-03-2115",
+                "end_date": "31-03-2115"
+              },
+              "Jupiter": {
+                "start_date": "31-03-2115",
+                "end_date": "17-04-2115"
+              },
+              "Saturn": {
+                "start_date": "17-04-2115",
+                "end_date": "07-05-2115"
+              },
+              "Mercury": {
+                "start_date": "07-05-2115",
+                "end_date": "25-05-2115"
+              }
+            }
+          },
+          "Venus": {
+            "start_date": "27-05-2115",
+            "end_date": "26-05-2116",
+            "pratyantarDasha": {
+              "Venus": {
+                "start_date": "27-05-2115",
+                "end_date": "27-07-2115"
+              },
+              "Sun": {
+                "start_date": "27-07-2115",
+                "end_date": "14-08-2115"
+              },
+              "Moon": {
+                "start_date": "14-08-2115",
+                "end_date": "13-09-2115"
+              },
+              "Mars": {
+                "start_date": "13-09-2115",
+                "end_date": "04-10-2115"
+              },
+              "Rahu": {
+                "start_date": "04-10-2115",
+                "end_date": "28-11-2115"
+              },
+              "Jupiter": {
+                "start_date": "28-11-2115",
+                "end_date": "16-01-2116"
+              },
+              "Saturn": {
+                "start_date": "16-01-2116",
+                "end_date": "14-03-2116"
+              },
+              "Mercury": {
+                "start_date": "14-03-2116",
+                "end_date": "05-05-2116"
+              },
+              "Ketu": {
+                "start_date": "05-05-2116",
+                "end_date": "26-05-2116"
+              }
+            }
+          }
+        }
       }
     }
   }

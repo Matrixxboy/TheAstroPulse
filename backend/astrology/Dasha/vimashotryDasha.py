@@ -22,7 +22,7 @@ DASHA_SEQUENCE_ant = [
     "Ketu", "Venus", "Sun", "Moon", "Mars",
     "Rahu", "Jupiter", "Saturn", "Mercury"
 ]
-
+DASHA_YEARS = dict(DASHA_SEQUENCE)
 NAKSHATRA_SPAN_DEG = 13.3333
 
 def ymd_to_dmy(date_str):
@@ -75,7 +75,37 @@ def get_vimshottari_dasha_from_dms(dob_str, tob_str, d, m, s, sign_index, moon_n
 
     return result, moon_deg_abs, nakshatra_start_deg
 
+def get_pratyantardasha_dates(antardasha_lord, antardasha_start, antardasha_end):
+     # Convert if input is str
+     
+    if isinstance(antardasha_start, str):
+        antardasha_start = datetime.strptime(antardasha_start, "%d-%m-%Y")
+    if isinstance(antardasha_end, str):
+        antardasha_end = datetime.strptime(antardasha_end, "%d-%m-%Y")
+    pratyantardasha_list = OrderedDict()
+    total_days = (antardasha_end - antardasha_start).days
+    total_weight = sum(DASHA_YEARS.values())
+
+    # Start from the Antardasha lord
+    start_index = DASHA_SEQUENCE_ant.index(antardasha_lord)
+    praty_sequence = DASHA_SEQUENCE_ant[start_index:] + DASHA_SEQUENCE_ant[:start_index]
+
+    current_start = antardasha_start
+    for sublord in praty_sequence:
+        portion = DASHA_YEARS[sublord] / total_weight
+        duration_days = int(round(portion * total_days))
+        current_end = current_start + timedelta(days=duration_days)
+
+        pratyantardasha_list[sublord] = {
+            "start_date": current_start.strftime("%d-%m-%Y"),
+            "end_date": current_end.strftime("%d-%m-%Y")
+        }
+        current_start = current_end
+
+    return pratyantardasha_list
+
 def get_antardasha_dates(maha, start_date, end_date):
+    
     total_days = (end_date - start_date).days
     current = start_date
     results = OrderedDict()
@@ -93,15 +123,15 @@ def get_antardasha_dates(maha, start_date, end_date):
         # Use cross-platform date formatting
         formatted_date_start = current.strftime('%d-%m-%Y').lstrip("0").replace("/0", "/")
         formatted_date_end = end.strftime('%d-%m-%Y').lstrip("0").replace("/0", "/")
-
+        pratyantardasha =  get_pratyantardasha_dates(antar,formatted_date_start,formatted_date_end)
         results[antar] = {
             "start_date":formatted_date_start,
             "end_date":formatted_date_end,
+            "pratyantarDasha":pratyantardasha
         }
         current = end
 
     return results
-
 
 def vim_deg_to_dms(deg):
     d = int(deg)
@@ -140,7 +170,7 @@ def find_vimashotry_dasha(DOB, TOB, MOON_DEG, SIGN_NAME, MOON_NAKSHATRA_LORD):
         full_dasha[maha_lord] = {
             "start_date": start_dt.strftime("%d-%m-%Y"),
             "end_date": end_dt.strftime("%d-%m-%Y"),
-            "antardasha": antardasha
+            "antarDasha": antardasha
         }
 
-    return {"vimshottari_dasha": full_dasha}
+    return {"vimshottariDasha": full_dasha}
