@@ -95,7 +95,7 @@ def get_pratyantardasha_dates(antardasha_lord, antardasha_start, antardasha_end)
         portion = DASHA_YEARS[sublord] / total_weight
         duration_days = int(round(portion * total_days))
         current_end = current_start + timedelta(days=duration_days)
-
+        
         pratyantardasha_list[sublord] = {
             "start_date": current_start.strftime("%d-%m-%Y"),
             "end_date": current_end.strftime("%d-%m-%Y")
