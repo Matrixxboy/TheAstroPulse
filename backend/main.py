@@ -35,25 +35,25 @@ limiter = Limiter(get_remote_address, app=app, default_limits=["10 per minute"])
 
 
 # Convert OpenCV image to PNG bytes
-def cv2_to_bytes(image):
-    success, encoded_image = cv2.imencode('.png', image)
-    return io.BytesIO(encoded_image.tobytes()) if success else None
+# def cv2_to_bytes(image):
+#     success, encoded_image = cv2.imencode('.png', image)
+#     return io.BytesIO(encoded_image.tobytes()) if success else None
 
 # Background remover using rembg
-def remove_background_opencv(img):
-    # Convert OpenCV image to PIL
-    image_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    pil_image = Image.fromarray(image_rgb)
+# def remove_background_opencv(img):
+#     # Convert OpenCV image to PIL
+#     image_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+#     pil_image = Image.fromarray(image_rgb)
 
-    # Remove background using rembg
-    byte_io = io.BytesIO()
-    pil_image.save(byte_io, format="PNG")
-    byte_io.seek(0)
-    result_bytes = remove(byte_io.read())
+#     # Remove background using rembg
+#     byte_io = io.BytesIO()
+#     pil_image.save(byte_io, format="PNG")
+#     byte_io.seek(0)
+#     result_bytes = remove(byte_io.read())
 
-    # Convert back to OpenCV
-    no_bg_image = Image.open(io.BytesIO(result_bytes)).convert("RGB")
-    return cv2.cvtColor(np.array(no_bg_image), cv2.COLOR_RGB2BGR)
+#     # Convert back to OpenCV
+#     no_bg_image = Image.open(io.BytesIO(result_bytes)).convert("RGB")
+#     return cv2.cvtColor(np.array(no_bg_image), cv2.COLOR_RGB2BGR)
 
 
 @app.route('/horoscope', methods=['GET'])
