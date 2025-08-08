@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vastu Analysis Portal</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom CSS for styling and responsiveness */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card-header {
+            background: linear-gradient(45deg, #28a745, #218838);
+            color: white;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            padding: 1.5rem;
+        }
+        .form-label {
+            font-weight: 500;
+        }
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+            transform: scale(1.05);
+        }
+        /* Loading spinner styles */
+        #loader {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 9999;
+        }
+        .spinner-border {
+            width: 4rem;
+            height: 4rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -2rem;
+            margin-left: -2rem;
+        }
+        /* Message box for errors or success */
+        #message-box {
+            display: none;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container my-5">
+        <div class="card">
+            <div class="card-header text-center">
+                <h1 class="mb-0">Vastu Analysis Portal</h1>
+                <p class="mb-0">Upload your blueprint to generate a Vastu analysis report.</p>
+            </div>
+            <div class="card-body p-4 p-md-5">
+                <!-- Vastu Analysis Form -->
+                <form id="vastu-form" enctype="multipart/form-data">
+                    
+                    <!-- File Upload -->
+                    <div class="mb-4">
+                        <label for="blueprint-file" class="form-label">1. Upload Blueprint (PDF, PNG, JPG)</label>
+                        <input type="file" class="form-control" id="blueprint-file" name="blueprint" accept=".pdf,.png,.jpg,.jpeg" required>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Coordinates Input -->
+                    <h5 class="mb-3">2. Enter Geographic Coordinates</h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="center_lat" class="form-label">Landmark Latitude</label>
+                            <input type="number" step="any" class="form-control" id="center_lat" name="center_lat" placeholder="e.g., 19.026167" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="center_lon" class="form-label">Landmark Longitude</label>
+                            <input type="number" step="any" class="form-control" id="center_lon" name="center_lon" placeholder="e.g., 72.851914" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="point_lat" class="form-label">Main Location Latitude</label>
+                            <input type="number" step="any" class="form-control" id="point_lat" name="point_lat" placeholder="e.g., 19.027050" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="point_lon" class="form-label">Main Location Longitude</label>
+                            <input type="number" step="any" class="form-control" id="point_lon" name="point_lon" placeholder="e.g., 72.851651" required>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="text-center mt-5">
+                        <button type="submit" class="btn btn-success">Generate Analysis PDF</button>
+                    </div>
+                </form>
+
+                <!-- Message Box for feedback -->
+                <div id="message-box"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loader">
+        <div class="spinner-border text-success" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // JavaScript to handle form submission via Fetch API
+        const form = document.getElementById('vastu-form');
+        const loader = document.getElementById('loader');
+        const messageBox = document.getElementById('message-box');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent default browser submission
+            
+            // Show loader and clear previous messages
+            loader.style.display = 'block';
+            messageBox.style.display = 'none';
+            messageBox.textContent = '';
+            
+            const formData = new FormData(form);
+            const apiUrl = 'http://localhost:5000/process';
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                // Check if the response is a PDF
+                if (response.ok && response.headers.get("Content-Type") === "application/pdf") {
+                    const blob = await response.blob();
+                    
+                    // Create a temporary link to trigger the download
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    
+                    // Get filename from response header or use a default
+                    const disposition = response.headers.get('Content-Disposition');
+                    let filename = 'vastu_analysis_output.pdf';
+                    if (disposition && disposition.indexOf('attachment') !== -1) {
+                        const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                        const matches = filenameRegex.exec(disposition);
+                        if (matches != null && matches[1]) {
+                            filename = matches[1].replace(/['"]/g, '');
+                        }
+                    }
+                    
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    
+                    // Clean up
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                    
+                    // Show success message
+                    showMessage('Success! Your PDF report is downloading.', 'success');
+
+                } else {
+                    // If not a PDF, it's likely an error message in JSON format
+                    const errorData = await response.json();
+                    const errorMessage = errorData.error || 'An unknown error occurred.';
+                    console.error('API Error:', errorMessage);
+                    showMessage(`Error: ${errorMessage}`, 'danger');
+                }
+
+            } catch (error) {
+                // Handle network errors or other exceptions
+                console.error('Fetch Error:', error);
+                showMessage('Failed to connect to the API. Please ensure the server is running.', 'danger');
+            } finally {
+                // Hide loader regardless of outcome
+                loader.style.display = 'none';
+            }
+        });
+
+        function showMessage(message, type) {
+            messageBox.textContent = message;
+            messageBox.className = `alert alert-${type}`;
+            messageBox.style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>
