@@ -286,91 +286,93 @@ def final_astro_report_generator():
 
 @app.route('/vastu', methods=['POST'])
 def process_image_endpoint():
-    """API endpoint to process an uploaded blueprint."""
-    # --- 1. Validate Input ---
-    if 'blueprint' not in request.files:
-        return jsonify({"error": "No blueprint file part in the request"}), 400
-    
-    file = request.files['blueprint']
-    
-    if file.filename == '':
-        return jsonify({"error": "No selected file"}), 400
-
-    if not file or not allowed_file(file.filename):
-        return jsonify({"error": "File type not allowed. Use png, jpg, or pdf."}), 400
-
     try:
-        center_lat = float(request.form['center_lat'])
-        center_lon = float(request.form['center_lon'])
-        point_lat = float(request.form['point_lat'])
-        point_lon = float(request.form['point_lon'])
-    except (KeyError, ValueError):
-        return jsonify({"error": "Invalid or missing latitude/longitude form data"}), 400
+        # --- 1. Validate Input ---
+        if 'blueprint' not in request.files:
+            return jsonify({"error": "No blueprint file part in the request"}), 400
+        
+        file = request.files['blueprint']
+        
+        if file.filename == '':
+            return jsonify({"error": "No selected file"}), 400
 
-    # --- 2. Load Images ---
-    try:
-        # Load the overlay image (must be present on the server)
-        overlay_img = cv2.imread(OVERLAY_IMAGE_PATH, cv2.IMREAD_UNCHANGED)
-        if overlay_img is None:
-            raise FileNotFoundError(f"Server is missing the overlay image: {OVERLAY_IMAGE_PATH}")
+        if not file or not allowed_file(file.filename):
+            return jsonify({"error": "File type not allowed. Use png, jpg, or pdf."}), 400
 
-        # Load the uploaded blueprint image from memory
-        file_bytes = file.read()
-        filename = file.filename.lower()
+        try:
+            center_lat = float(request.form['center_lat'])
+            center_lon = float(request.form['center_lon'])
+            point_lat = float(request.form['point_lat'])
+            point_lon = float(request.form['point_lon'])
+        except (KeyError, ValueError):
+            return jsonify({"error": "Invalid or missing latitude/longitude form data"}), 400
 
-        if filename.endswith('.pdf'):
-            # Convert PDF to a list of PIL images
-            images = convert_from_bytes(file_bytes, dpi=200)
-            if not images:
-                return jsonify({"error": "Could not extract image from PDF"}), 500
-            # Use the first page
-            blueprint_pil = images[0]
-            # Convert PIL Image to OpenCV format (np.array)
-            blueprint_np = np.array(blueprint_pil)
-            # Convert RGB (from PIL) to BGR (for OpenCV)
-            blueprint_cv = cv2.cvtColor(blueprint_np, cv2.COLOR_RGB2BGR)
-        else:
-            # It's an image file, decode it directly
-            np_arr = np.frombuffer(file_bytes, np.uint8)
-            blueprint_cv = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+        # --- 2. Load Images ---
+        try:
+            # Load the overlay image (must be present on the server)
+            overlay_img = cv2.imread(OVERLAY_IMAGE_PATH, cv2.IMREAD_UNCHANGED)
+            if overlay_img is None:
+                raise FileNotFoundError(f"Server is missing the overlay image: {OVERLAY_IMAGE_PATH}")
 
-        if blueprint_cv is None:
-            return jsonify({"error": "Could not decode the uploaded image file"}), 500
+            # Load the uploaded blueprint image from memory
+            file_bytes = file.read()
+            filename = file.filename.lower()
 
-    except Exception as e:
-        print(f"Error during file loading: {e}")
-        return jsonify({"error": f"An error occurred while loading files: {e}"}), 500
+            if filename.endswith('.pdf'):
+                # Convert PDF to a list of PIL images
+                images = convert_from_bytes(file_bytes, dpi=200)
+                if not images:
+                    return jsonify({"error": "Could not extract image from PDF"}), 500
+                # Use the first page
+                blueprint_pil = images[0]
+                # Convert PIL Image to OpenCV format (np.array)
+                blueprint_np = np.array(blueprint_pil)
+                # Convert RGB (from PIL) to BGR (for OpenCV)
+                blueprint_cv = cv2.cvtColor(blueprint_np, cv2.COLOR_RGB2BGR)
+            else:
+                # It's an image file, decode it directly
+                np_arr = np.frombuffer(file_bytes, np.uint8)
+                blueprint_cv = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
-    # --- 3. Process the Image ---
-    try:
-        final_image = process_blueprint(
-            blueprint_image=blueprint_cv,
-            overlay_image=overlay_img,
-            center_lat=center_lat,
-            center_lon=center_lon,
-            point_lat=point_lat,
-            point_lon=point_lon
+            if blueprint_cv is None:
+                return jsonify({"error": "Could not decode the uploaded image file"}), 500
+
+        except Exception as e:
+            print(f"Error during file loading: {e}")
+            return jsonify({"error": f"An error occurred while loading files: {e}"}), 500
+
+        # --- 3. Process the Image ---
+        try:
+            final_image = process_blueprint(
+                blueprint_image=blueprint_cv,
+                overlay_image=overlay_img,
+                center_lat=center_lat,
+                center_lon=center_lon,
+                point_lat=point_lat,
+                point_lon=point_lon
+            )
+
+            if final_image is None:
+                return jsonify({"error": "Failed to process the blueprint. No suitable structure found."}), 500
+
+        except Exception as e:
+            print(f"Error during image processing: {e}")
+            return jsonify({"error": f"An error occurred during image processing: {e}"}), 500
+
+        # --- 4. Return Result as PDF ---
+        pdf_buffer = image_to_pdf_in_memory(final_image)
+        if pdf_buffer is None:
+            return jsonify({"error": "Failed to generate output PDF."}), 500
+
+        return send_file(
+            pdf_buffer,
+            as_attachment=True,
+            download_name='vastu_analysis_output.pdf',
+            mimetype='application/pdf'
         )
+    except Exception as e :
+        return jsonify({"error": f"Failed to process image. : {e}"}), 500
 
-        if final_image is None:
-            return jsonify({"error": "Failed to process the blueprint. No suitable structure found."}), 500
-
-    except Exception as e:
-        print(f"Error during image processing: {e}")
-        return jsonify({"error": f"An error occurred during image processing: {e}"}), 500
-
-    # --- 4. Return Result as PDF ---
-    pdf_buffer = image_to_pdf_in_memory(final_image)
-    if pdf_buffer is None:
-        return jsonify({"error": "Failed to generate output PDF."}), 500
-
-    return send_file(
-        pdf_buffer,
-        as_attachment=True,
-        download_name='vastu_analysis_output.pdf',
-        mimetype='application/pdf'
-    )
-    
 if __name__ == '__main__':
     port = int(5000)
     app.run(debug=True,host="0.0.0.0",port=port) # debug=True allows for automatic reloading on code changes
