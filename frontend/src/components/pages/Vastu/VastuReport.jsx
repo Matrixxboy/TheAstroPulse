@@ -20,7 +20,7 @@ const VastuReport = () => {
         setMessage({ text: '', type: '' });
 
         const formData = new FormData(formRef.current);
-        const apiUrl = 'http://localhost:5000/process';
+        const apiUrl = import.meta.env.VITE_VASTU_API_URL ;
 
         try {
             const response = await fetch(apiUrl, {

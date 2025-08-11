@@ -284,7 +284,7 @@ def final_astro_report_generator():
         return jsonify({"error":str(e)}),500
     
 
-@app.route('/process', methods=['POST'])
+@app.route('/vastu', methods=['POST'])
 def process_image_endpoint():
     """API endpoint to process an uploaded blueprint."""
     # --- 1. Validate Input ---
