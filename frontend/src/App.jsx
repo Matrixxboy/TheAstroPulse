@@ -17,6 +17,9 @@ import Astroinfo from './components/pages/Astrology/Astroinfo';
 import Astroreportpage from './components/pages/Astrology/Astroreportpage';
 import Test from './components/pages/Astrology/Test';
 import AstroPDFGenerator from './components/pages/Astrology/PDF/AstroPDFGenerator';
+import Vastu from './components/pages/Vastu/Vastu';
+import KnowAboutVastu from './components/pages/Vastu/KnowAboutVastu';
+import VastuReport from './components/pages/Vastu/VastuReport';
 
 
 function App() {
@@ -38,7 +41,10 @@ function App() {
         <Route path='/astrology/astrologyreport' element={<MainLayout><Astroreportpage /></MainLayout>} />
         <Route path="/test" element={<Test />} />
         <Route path="/pdf" element={<AstroPDFGenerator />} />
-
+        <Route path='/astrology/astroinfo' element={<MainLayout><Astroinfo /></MainLayout>} />
+        <Route path='/vastu' element={<MainLayout><Vastu /></MainLayout>} />
+        <Route path='/vastu/know-about-vastu' element={<MainLayout><KnowAboutVastu /></MainLayout>} />
+        <Route path='/vastu/vastu-report' element={<MainLayout><VastuReport /></MainLayout>} />
 
       </Routes>
     </Router>

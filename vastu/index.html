@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vastu Blueprint Analyzer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        canvas {
+            border: 1px solid #e2e8f0;
+            background-color: #fdfdfd;
+            border-radius: 8px;
+            max-width: 100%;
+            height: auto;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+        }
+        .btn-primary {
+            @apply bg-blue-500 text-white from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700;
+        }
+        .btn-secondary {
+            @apply bg-gray-200 text-gray-800 from-gray-200 to-gray-300 hover:from-gray-300 hover:to-gray-400;
+        }
+        .btn:disabled {
+            @apply opacity-50 cursor-not-allowed;
+        }
+        .message-box {
+            background-color: #e0f2fe;
+            color: #0284c7;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 0.95rem;
+            text-align: center;
+            border: 1px solid #a7d9f7;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        .custom-file-upload {
+            border: 2px dashed #cbd5e1;
+            padding: 15px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            color: #4a5568;
+            transition: background-color 0.2s ease;
+        }
+        .custom-file-upload:hover {
+            background-color: #f7fafc;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="container">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Vastu Blueprint Analyzer</h1>
+
+        <div class="message-box" id="messageBox">
+            Please upload your home plan image to begin.
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+            <label for="imageUpload" class="custom-file-upload">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 0115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                </svg>
+                Upload Blueprint Image
+            </label>
+            <input type="file" id="imageUpload" accept="image/*">
+        </div>
+
+        <canvas id="blueprintCanvas" class="w-full h-auto"></canvas>
+
+        <div class="controls">
+            <button id="drawOutlineBtn" class="btn btn-primary" disabled>Draw Property Outline</button>
+            <button id="finishOutlineBtn" class="btn btn-primary" disabled>Finish Drawing Outline</button>
+            <button id="clearLastPointBtn" class="btn btn-secondary" disabled>Clear Last Point</button>
+            <button id="calculateBrahmasthanBtn" class="btn btn-primary" disabled>Calculate Brahmasthan</button>
+            <button id="setNorthBtn" class="btn btn-primary" disabled>Set North Direction</button>
+            <button id="resetBtn" class="btn btn-secondary" disabled>Reset</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('blueprintCanvas');
+        const ctx = canvas.getContext('2d');
+        const imageUpload = document.getElementById('imageUpload');
+        const drawOutlineBtn = document.getElementById('drawOutlineBtn');
+        const finishOutlineBtn = document.getElementById('finishOutlineBtn');
+        const clearLastPointBtn = document.getElementById('clearLastPointBtn');
+        const calculateBrahmasthanBtn = document.getElementById('calculateBrahmasthanBtn');
+        const setNorthBtn = document.getElementById('setNorthBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const messageBox = document.getElementById('messageBox');
+
+        let blueprintImage = new Image();
+        let imageLoaded = false;
+
+        // State variables for drawing modes
+        let currentMode = null; // 'drawOutline', 'setNorth', null
+        let blueprintPoints = []; // Stores points for the property outline (polygon)
+        let northPoints = [];     // Stores 2 points for the North line
+
+        // Calculated values
+        let brahmasthan = null; // {x, y}
+        let northAngle = 0;     // Angle in radians
+
+        // Canvas dimensions for drawing
+        let canvasWidth = 0;
+        let canvasHeight = 0;
+
+        // Function to display messages to the user
+        function showMessage(msg, type = 'info') {
+            messageBox.textContent = msg;
+            messageBox.className = `message-box ${type === 'error' ? 'bg-red-100 text-red-700 border-red-300' : 'bg-blue-100 text-blue-700 border-blue-300'}`;
+        }
+
+        // Function to draw everything on the canvas
+        function drawCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (blueprintImage.src && imageLoaded) {
+                // Draw the blueprint image
+                ctx.drawImage(blueprintImage, 0, 0, canvas.width, canvas.height);
+            }
+
+            // Draw blueprint polygon outline
+            if (blueprintPoints.length > 0) {
+                ctx.strokeStyle = 'rgba(255, 0, 0, 0.8)';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(blueprintPoints[0].x, blueprintPoints[0].y);
+                for (let i = 1; i < blueprintPoints.length; i++) {
+                    ctx.lineTo(blueprintPoints[i].x, blueprintPoints[i].y);
+                }
+                // If not in drawing mode, close the path
+                if (currentMode !== 'drawOutline' && blueprintPoints.length > 2) {
+                    ctx.closePath();
+                }
+                ctx.stroke();
+
+                // Draw small circles at each point
+                ctx.fillStyle = 'rgba(255, 0, 0, 0.8)';
+                for (const p of blueprintPoints) {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            // Draw Brahmasthan (center) if calculated
+            if (brahmasthan) {
+                ctx.fillStyle = 'rgba(0, 128, 0, 0.8)';
+                ctx.beginPath();
+                ctx.arc(brahmasthan.x, brahmasthan.y, 8, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.font = '14px Arial';
+                ctx.fillStyle = 'black';
+                ctx.fillText('Brahmasthan', brahmasthan.x + 10, brahmasthan.y - 10);
+            }
+
+            // Draw North direction line
+            if (northPoints.length === 2) {
+                ctx.strokeStyle = 'rgba(0, 0, 255, 0.8)';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(northPoints[0].x, northPoints[0].y);
+                ctx.lineTo(northPoints[1].x, northPoints[1].y);
+                ctx.stroke();
+
+                // Draw North arrow head
+                drawArrowhead(ctx, northPoints[0], northPoints[1], 'rgba(0, 0, 255, 0.8)');
+            }
+
+            // Draw Shakti Chakra if Brahmasthan and North angle are set
+            if (brahmasthan && northAngle !== null) {
+                drawShaktiChakra(ctx, brahmasthan.x, brahmasthan.y, northAngle);
+            }
+        }
+
+        // Helper to draw an arrowhead for the North line
+        function drawArrowhead(context, from, to, color) {
+            const headlen = 15; // length of head in pixels
+            const dx = to.x - from.x;
+            const dy = to.y - from.y;
+            const angle = Math.atan2(dy, dx);
+            context.strokeStyle = color;
+            context.fillStyle = color;
+            context.beginPath();
+            context.moveTo(to.x, to.y);
+            context.lineTo(to.x - headlen * Math.cos(angle - Math.PI / 6), to.y - headlen * Math.sin(angle - Math.PI / 6));
+            context.lineTo(to.x - headlen * Math.cos(angle + Math.PI / 6), to.y - headlen * Math.sin(angle + Math.PI / 6));
+            context.closePath();
+            context.fill();
+        }
+
+        // Function to draw the Vastu Shakti Chakra
+        function drawShaktiChakra(context, centerX, centerY, rotationAngle) {
+            const radius = Math.min(canvas.width, canvas.height) * 0.35; // Adjust radius based on canvas size
+            const numSegments = 32; // 32 zones in Shakti Chakra
+
+            context.save(); // Save the current canvas state
+            context.translate(centerX, centerY); // Move origin to center
+            context.rotate(rotationAngle - Math.PI / 2); // Rotate so North (0 degrees) points upwards
+
+            // Draw concentric circles
+            context.strokeStyle = 'rgba(0, 128, 0, 0.4)';
+            context.lineWidth = 1;
+            for (let i = 1; i <= 4; i++) { // Example: 4 concentric circles
+                context.beginPath();
+                context.arc(0, 0, radius * (i / 4), 0, Math.PI * 2);
+                context.stroke();
+            }
+
+            // Draw radial lines for 32 segments
+            context.strokeStyle = 'rgba(0, 128, 0, 0.6)';
+            context.lineWidth = 1;
+            for (let i = 0; i < numSegments; i++) {
+                const angle = (i / numSegments) * Math.PI * 2;
+                context.beginPath();
+                context.moveTo(0, 0);
+                context.lineTo(radius * Math.cos(angle), radius * Math.sin(angle));
+                context.stroke();
+            }
+
+            // Mark North direction on the Chakra
+            context.fillStyle = 'blue';
+            context.beginPath();
+            context.arc(0, -radius, 5, 0, Math.PI * 2); // Small circle at North
+            context.fill();
+            context.font = 'bold 16px Arial';
+            context.fillStyle = 'blue';
+            context.textAlign = 'center';
+            context.fillText('N', 0, -radius - 10);
+
+            context.restore(); // Restore the canvas state
+        }
+
+        // Function to calculate the centroid of the bounding box of a polygon
+        function calculateBoundingBoxCentroid(points) {
+            if (points.length === 0) {
+                return null;
+            }
+
+            let minX = points[0].x;
+            let maxX = points[0].x;
+            let minY = points[0].y;
+            let maxY = points[0].y;
+
+            for (const p of points) {
+                minX = Math.min(minX, p.x);
+                maxX = Math.max(maxX, p.x);
+                minY = Math.min(minY, p.y);
+                maxY = Math.max(maxY, p.y);
+            }
+
+            const centerX = (minX + maxX) / 2;
+            const centerY = (minY + maxY) / 2;
+
+            return { x: centerX, y: centerY };
+        }
+
+
+        // Event listener for image upload
+        imageUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    blueprintImage.onload = () => {
+                        imageLoaded = true;
+                        // Set canvas dimensions to match image, maintaining aspect ratio
+                        const aspectRatio = blueprintImage.width / blueprintImage.height;
+                        canvasWidth = Math.min(blueprintImage.width, 800); // Max width for display
+                        canvasHeight = canvasWidth / aspectRatio;
+
+                        canvas.width = canvasWidth;
+                        canvas.height = canvasHeight;
+
+                        // Reset all drawing points and calculations
+                        blueprintPoints = [];
+                        northPoints = [];
+                        brahmasthan = null;
+                        northAngle = 0;
+                        currentMode = null;
+
+                        drawCanvas();
+                        drawOutlineBtn.disabled = false;
+                        finishOutlineBtn.disabled = true;
+                        clearLastPointBtn.disabled = true;
+                        calculateBrahmasthanBtn.disabled = true;
+                        setNorthBtn.disabled = true;
+                        resetBtn.disabled = false;
+                        showMessage('Image loaded. Now, click "Draw Property Outline" to mark your blueprint.');
+                    };
+                    blueprintImage.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Event listener for canvas clicks
+        canvas.addEventListener('click', (e) => {
+            if (!imageLoaded) {
+                showMessage('Please upload an image first.', 'error');
+                return;
+            }
+
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            if (currentMode === 'drawOutline') {
+                blueprintPoints.push({ x, y });
+                showMessage(`Added point ${blueprintPoints.length}. Keep clicking to add more points or click "Finish Drawing Outline".`);
+                finishOutlineBtn.disabled = blueprintPoints.length < 3; // Enable finish after at least 3 points
+                clearLastPointBtn.disabled = false;
+            } else if (currentMode === 'setNorth') {
+                northPoints.push({ x, y });
+                if (northPoints.length === 1) {
+                    showMessage('Click the end point of your North direction line (away from the first point).');
+                } else if (northPoints.length === 2) {
+                    // Calculate North angle
+                    const p1 = northPoints[0]; // Start of line
+                    const p2 = northPoints[1]; // End of line (North direction)
+                    // Adjust angle so 0 degrees is directly upwards (North)
+                    northAngle = Math.atan2(p2.y - p1.y, p2.x - p1.x);
+
+                    showMessage('North direction set and Shakti Chakra applied!');
+                    currentMode = null; // Exit setNorth mode
+                    setNorthBtn.disabled = true;
+                }
+            }
+            drawCanvas();
+        });
+
+        // Button handlers
+        drawOutlineBtn.addEventListener('click', () => {
+            if (!imageLoaded) {
+                showMessage('Please upload an image first.', 'error');
+                return;
+            }
+            currentMode = 'drawOutline';
+            blueprintPoints = []; // Clear previous points
+            brahmasthan = null;
+            northAngle = 0;
+            northPoints = [];
+            calculateBrahmasthanBtn.disabled = true;
+            setNorthBtn.disabled = true;
+            drawOutlineBtn.disabled = true; // Disable itself while drawing
+            finishOutlineBtn.disabled = true; // Will be enabled after 3 points
+            clearLastPointBtn.disabled = true;
+            showMessage('Click on the canvas to draw the outline of your property. Click "Finish Drawing Outline" when you are done adding points.');
+            drawCanvas(); // Clear previous drawings
+        });
+
+        finishOutlineBtn.addEventListener('click', () => {
+            if (blueprintPoints.length < 3) {
+                showMessage('Please add at least 3 points to define the property outline.', 'error');
+                return;
+            }
+            currentMode = null; // Exit drawing mode
+            drawOutlineBtn.disabled = false; // Re-enable for new drawing if needed
+            finishOutlineBtn.disabled = true;
+            clearLastPointBtn.disabled = true;
+            calculateBrahmasthanBtn.disabled = false; // Enable calculation
+            showMessage('Property outline finished. Click "Calculate Brahmasthan" to find the center.');
+            drawCanvas(); // Redraw to close the polygon
+        });
+
+        clearLastPointBtn.addEventListener('click', () => {
+            if (blueprintPoints.length > 0) {
+                blueprintPoints.pop(); // Remove the last point
+                showMessage(`Removed last point. ${blueprintPoints.length} points remaining. Add more or click "Finish Drawing Outline".`);
+                finishOutlineBtn.disabled = blueprintPoints.length < 3; // Disable finish if less than 3 points
+                clearLastPointBtn.disabled = blueprintPoints.length === 0; // Disable clear if no points left
+                drawCanvas();
+            }
+        });
+
+
+        calculateBrahmasthanBtn.addEventListener('click', () => {
+            if (blueprintPoints.length < 3) {
+                showMessage('Please define the property outline with at least 3 points first.', 'error');
+                return;
+            }
+            // Use the bounding box centroid for Brahmasthan
+            brahmasthan = calculateBoundingBoxCentroid(blueprintPoints);
+            if (brahmasthan) {
+                showMessage('Brahmasthan calculated. Now, click "Set North Direction".');
+                calculateBrahmasthanBtn.disabled = true;
+                setNorthBtn.disabled = false;
+            } else {
+                showMessage('Could not calculate Brahmasthan. Ensure your outline is a valid polygon.', 'error');
+            }
+            drawCanvas();
+        });
+
+        setNorthBtn.addEventListener('click', () => {
+            if (!brahmasthan) {
+                showMessage('Please calculate the Brahmasthan first.', 'error');
+                return;
+            }
+            currentMode = 'setNorth';
+            northPoints = []; // Clear previous points
+            northAngle = 0;
+            setNorthBtn.disabled = true; // Disable itself while setting North
+            showMessage('Click on the canvas to draw a line indicating the North direction (start point, then end point).');
+            drawCanvas(); // Clear previous drawings
+        });
+
+        resetBtn.addEventListener('click', () => {
+            blueprintImage = new Image();
+            imageLoaded = false;
+            blueprintPoints = [];
+            northPoints = [];
+            brahmasthan = null;
+            northAngle = 0;
+            currentMode = null;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            canvas.width = 0; // Reset canvas size
+            canvas.height = 0;
+            drawOutlineBtn.disabled = true;
+            finishOutlineBtn.disabled = true;
+            clearLastPointBtn.disabled = true;
+            calculateBrahmasthanBtn.disabled = true;
+            setNorthBtn.disabled = true;
+            resetBtn.disabled = true;
+            showMessage('Application reset. Please upload a new image.');
+        });
+
+        // Initial state
+        showMessage('Upload your home plan image to begin.');
+    </script>
+</body>
+</html>

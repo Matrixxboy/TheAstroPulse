@@ -2,17 +2,18 @@ import io
 import os
 import cv2
 import json
-from flask_cors import CORS
+import numpy as np
 from datetime import datetime
-from astrology.horoscope import fetch_horoscope , get_zodiac_sign
 from numerology.numlogycalcu import name_numlogy_basic_sums , business_numerology_basic_sums
+from astrology.horoscope import fetch_horoscope , get_zodiac_sign
 from astrology.nakshtra_details import final_astro_report
 from astrology.planet_positions import planet_position_details
 from astrology.Dasha.vimashotryDasha import find_vimashotry_dasha
-from flask import Flask, request, jsonify ,send_file
-import numpy as np
+from vastu.vastuProcess import allowed_file, process_blueprint, image_to_pdf_in_memory, OVERLAY_IMAGE_PATH
+from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from flask import Flask, request, jsonify ,send_file
 from dotenv import load_dotenv
 load_dotenv()  # Load environment variables from .env file
 # from PIL import Image
@@ -281,6 +282,94 @@ def final_astro_report_generator():
         )
     except Exception as e :
         return jsonify({"error":str(e)}),500
+    
+
+@app.route('/process', methods=['POST'])
+def process_image_endpoint():
+    """API endpoint to process an uploaded blueprint."""
+    # --- 1. Validate Input ---
+    if 'blueprint' not in request.files:
+        return jsonify({"error": "No blueprint file part in the request"}), 400
+    
+    file = request.files['blueprint']
+    
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+
+    if not file or not allowed_file(file.filename):
+        return jsonify({"error": "File type not allowed. Use png, jpg, or pdf."}), 400
+
+    try:
+        center_lat = float(request.form['center_lat'])
+        center_lon = float(request.form['center_lon'])
+        point_lat = float(request.form['point_lat'])
+        point_lon = float(request.form['point_lon'])
+    except (KeyError, ValueError):
+        return jsonify({"error": "Invalid or missing latitude/longitude form data"}), 400
+
+    # --- 2. Load Images ---
+    try:
+        # Load the overlay image (must be present on the server)
+        overlay_img = cv2.imread(OVERLAY_IMAGE_PATH, cv2.IMREAD_UNCHANGED)
+        if overlay_img is None:
+            raise FileNotFoundError(f"Server is missing the overlay image: {OVERLAY_IMAGE_PATH}")
+
+        # Load the uploaded blueprint image from memory
+        file_bytes = file.read()
+        filename = file.filename.lower()
+
+        if filename.endswith('.pdf'):
+            # Convert PDF to a list of PIL images
+            images = convert_from_bytes(file_bytes, dpi=200)
+            if not images:
+                return jsonify({"error": "Could not extract image from PDF"}), 500
+            # Use the first page
+            blueprint_pil = images[0]
+            # Convert PIL Image to OpenCV format (np.array)
+            blueprint_np = np.array(blueprint_pil)
+            # Convert RGB (from PIL) to BGR (for OpenCV)
+            blueprint_cv = cv2.cvtColor(blueprint_np, cv2.COLOR_RGB2BGR)
+        else:
+            # It's an image file, decode it directly
+            np_arr = np.frombuffer(file_bytes, np.uint8)
+            blueprint_cv = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+
+        if blueprint_cv is None:
+            return jsonify({"error": "Could not decode the uploaded image file"}), 500
+
+    except Exception as e:
+        print(f"Error during file loading: {e}")
+        return jsonify({"error": f"An error occurred while loading files: {e}"}), 500
+
+    # --- 3. Process the Image ---
+    try:
+        final_image = process_blueprint(
+            blueprint_image=blueprint_cv,
+            overlay_image=overlay_img,
+            center_lat=center_lat,
+            center_lon=center_lon,
+            point_lat=point_lat,
+            point_lon=point_lon
+        )
+
+        if final_image is None:
+            return jsonify({"error": "Failed to process the blueprint. No suitable structure found."}), 500
+
+    except Exception as e:
+        print(f"Error during image processing: {e}")
+        return jsonify({"error": f"An error occurred during image processing: {e}"}), 500
+
+    # --- 4. Return Result as PDF ---
+    pdf_buffer = image_to_pdf_in_memory(final_image)
+    if pdf_buffer is None:
+        return jsonify({"error": "Failed to generate output PDF."}), 500
+
+    return send_file(
+        pdf_buffer,
+        as_attachment=True,
+        download_name='vastu_analysis_output.pdf',
+        mimetype='application/pdf'
+    )
     
 if __name__ == '__main__':
     port = int(5000)

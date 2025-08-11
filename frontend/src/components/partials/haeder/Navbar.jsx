@@ -34,14 +34,7 @@ const Navbar = () => {
                             Home
                     </li>
                         </Link>
-                    <li>
-                        <Link
-                            to="/numerology"
-                            className="hover:text-yellow-300 transition-colors duration-200"
-                        >
-                            Numerology
-                        </Link>
-                    </li>
+                    
                     <li>
                         {/* Renamed link text for clarity, consider if /palm and /palmreading are different */}
                         <Link
@@ -49,6 +42,14 @@ const Navbar = () => {
                             className="hover:text-yellow-300 transition-colors duration-200"
                         >
                             Astrology
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to="/vastu"
+                            className="hover:text-yellow-300 transition-colors duration-200"
+                        >
+                            Vastu
                         </Link>
                     </li>
                     <li>
@@ -62,12 +63,21 @@ const Navbar = () => {
                     </li>
                     <li>
                         <Link
+                            to="/numerology"
+                            className="hover:text-yellow-300 transition-colors duration-200"
+                        >
+                            Numerology
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
                             to="/horoscope"
                             className="hover:text-yellow-300 transition-colors duration-200"
                         >
                             Horoscope
                         </Link>
                     </li>
+                    
                 </ul>
 
                 {/* Hamburger/Close Icon for Mobile */}
@@ -102,15 +112,7 @@ const Navbar = () => {
                             Home
                             </li>
                     </Link>
-                    <Link
-                        to="/numerology"
-                        className="w-full h-10 flex text-center items-center justify-center"
-                        onClick={closeMenu}
-                        >
-                            <li className="border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-indigo-900 font-semibold rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 w-full h-8 text-center">
-                                Numerology
-                            </li>
-                    </Link>
+                   
                     <Link
                         to="/astrology"
                         className="w-full h-10 flex text-center items-center justify-center"
@@ -118,6 +120,15 @@ const Navbar = () => {
                         >
                             <li className="border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-indigo-900 font-semibold rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 w-full h-8 text-center">
                                 Astrology
+                            </li>
+                    </Link>
+                    <Link
+                        to="/vastu"
+                        className="w-full h-10 flex text-center items-center justify-center"
+                        onClick={closeMenu}
+                        >
+                            <li className="border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-indigo-900 font-semibold rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 w-full h-8 text-center">
+                            Vastu
                             </li>
                     </Link>
                     <Link
@@ -129,7 +140,15 @@ const Navbar = () => {
                                 Palmistry
                             </li>
                     </Link>
-                    
+                     <Link
+                        to="/numerology"
+                        className="w-full h-10 flex text-center items-center justify-center"
+                        onClick={closeMenu}
+                        >
+                            <li className="border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-indigo-900 font-semibold rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 w-full h-8 text-center">
+                                Numerology
+                            </li>
+                    </Link>
                     <Link
                         to="/horoscope"
                         className="w-full h-10 flex text-center items-center justify-center"
@@ -139,6 +158,7 @@ const Navbar = () => {
                             Horoscope
                             </li>
                     </Link>
+                    
                 </ul>
 
             </div>
