@@ -9,7 +9,8 @@ from astrology.horoscope import fetch_horoscope , get_zodiac_sign
 from astrology.nakshtra_details import final_astro_report
 from astrology.planet_positions import planet_position_details
 from astrology.Dasha.vimashotryDasha import find_vimashotry_dasha
-from vastu.vastuProcess import allowed_file, process_blueprint, image_to_pdf_in_memory, OVERLAY_IMAGE_PATH
+from vastu.vastuProcess import allowed_file, process_blueprint, image_to_pdf_in_memory, OVERLAY_IMAGE_PATH 
+import fitz  
 from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -18,7 +19,7 @@ from dotenv import load_dotenv
 load_dotenv()  # Load environment variables from .env file
 # from PIL import Image
 # from rembg import remove
-# from chatbotassistant.chatmodelGroq import chat_bot_reply
+# from chatbotassistant.chatmodelGroq import chat_bot_replypip install PyMuPDF
 # from skimage.filters import meijering
 # from skimage.util import img_as_ubyte
 # from skimage.restoration import denoise_tv_chambolle
@@ -283,7 +284,6 @@ def final_astro_report_generator():
     except Exception as e :
         return jsonify({"error":str(e)}),500
     
-
 @app.route('/vastu', methods=['POST'])
 def process_image_endpoint():
     try:
@@ -309,26 +309,34 @@ def process_image_endpoint():
 
         # --- 2. Load Images ---
         try:
-            # Load the overlay image (must be present on the server)
             overlay_img = cv2.imread(OVERLAY_IMAGE_PATH, cv2.IMREAD_UNCHANGED)
             if overlay_img is None:
                 raise FileNotFoundError(f"Server is missing the overlay image: {OVERLAY_IMAGE_PATH}")
 
-            # Load the uploaded blueprint image from memory
             file_bytes = file.read()
             filename = file.filename.lower()
 
             if filename.endswith('.pdf'):
-                # Convert PDF to a list of PIL images
-                images = convert_from_bytes(file_bytes, dpi=200)
-                if not images:
-                    return jsonify({"error": "Could not extract image from PDF"}), 500
-                # Use the first page
-                blueprint_pil = images[0]
-                # Convert PIL Image to OpenCV format (np.array)
-                blueprint_np = np.array(blueprint_pil)
-                # Convert RGB (from PIL) to BGR (for OpenCV)
-                blueprint_cv = cv2.cvtColor(blueprint_np, cv2.COLOR_RGB2BGR)
+                # ALTERNATIVE: Use PyMuPDF (fitz) to convert PDF to image without external tools
+                pdf_document = fitz.open(stream=file_bytes, filetype="pdf")
+                if not pdf_document.page_count > 0:
+                    return jsonify({"error": "PDF is empty or corrupted"}), 500
+                
+                page = pdf_document.load_page(0)  # Load the first page
+                
+                # Increase resolution for better quality
+                zoom = 2  # 2x zoom => 144 dpi
+                mat = fitz.Matrix(zoom, zoom)
+                pix = page.get_pixmap(matrix=mat)
+                
+                # Convert pixmap to a NumPy array for OpenCV
+                img_data = np.frombuffer(pix.samples, dtype=np.uint8).reshape(pix.height, pix.width, pix.n)
+                
+                # Convert color space from RGB/RGBA (PyMuPDF) to BGR (OpenCV)
+                if img_data.shape[2] == 4: # RGBA
+                    blueprint_cv = cv2.cvtColor(img_data, cv2.COLOR_RGBA2BGR)
+                else: # RGB
+                    blueprint_cv = cv2.cvtColor(img_data, cv2.COLOR_RGB2BGR)
             else:
                 # It's an image file, decode it directly
                 np_arr = np.frombuffer(file_bytes, np.uint8)
@@ -342,22 +350,17 @@ def process_image_endpoint():
             return jsonify({"error": f"An error occurred while loading files: {e}"}), 500
 
         # --- 3. Process the Image ---
-        try:
-            final_image = process_blueprint(
-                blueprint_image=blueprint_cv,
-                overlay_image=overlay_img,
-                center_lat=center_lat,
-                center_lon=center_lon,
-                point_lat=point_lat,
-                point_lon=point_lon
-            )
+        final_image = process_blueprint(
+            blueprint_image=blueprint_cv,
+            overlay_image=overlay_img,
+            center_lat=center_lat,
+            center_lon=center_lon,
+            point_lat=point_lat,
+            point_lon=point_lon
+        )
 
-            if final_image is None:
-                return jsonify({"error": "Failed to process the blueprint. No suitable structure found."}), 500
-
-        except Exception as e:
-            print(f"Error during image processing: {e}")
-            return jsonify({"error": f"An error occurred during image processing: {e}"}), 500
+        if final_image is None:
+            return jsonify({"error": "Failed to process the blueprint. No suitable structure found."}), 500
 
         # --- 4. Return Result as PDF ---
         pdf_buffer = image_to_pdf_in_memory(final_image)
@@ -371,7 +374,11 @@ def process_image_endpoint():
             mimetype='application/pdf'
         )
     except Exception as e :
-        return jsonify({"error": f"Failed to process image. : {e}"}), 500
+        print(f"An unexpected error occurred: {e}")
+        return jsonify({"error": f"Failed to process image: {e}"}), 500
+
+
+
 
 if __name__ == '__main__':
     port = int(5000)

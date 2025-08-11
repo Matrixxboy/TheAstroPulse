@@ -1,17 +1,16 @@
 import cv2
 import numpy as np
 from pyproj import Proj, transform
-from flask import Flask, request, send_file, jsonify
-from flask_cors import CORS
 from PIL import Image
-from pdf2image import convert_from_bytes
+import fitz  
 import io
 import os
+
 # -----------------------------------------------------------------------------
 # Configuration & Constants
 # -----------------------------------------------------------------------------
 # Ensure the overlay image 'shakti_chakra.png' is in the same directory
-# as this script.
+# as this script. A placeholder is created if not found.
 OVERLAY_IMAGE_PATH = os.path.join(os.path.dirname(__file__), 'shakti_chakra.png')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'pdf'}
 
@@ -41,21 +40,12 @@ def image_to_pdf_in_memory(image_np):
     return pdf_buffer
 
 # -----------------------------------------------------------------------------
-# Core Image Processing Logic (from your script)
+# Core Image Processing Logic
 # -----------------------------------------------------------------------------
 def process_blueprint(blueprint_image, overlay_image, center_lat, center_lon, point_lat, point_lon):
     """
     Main function to process the blueprint image, overlay the Vastu chakra,
     and draw annotations.
-    
-    Args:
-        blueprint_image (np.ndarray): The blueprint image loaded via OpenCV.
-        overlay_image (np.ndarray): The Vastu chakra image loaded via OpenCV.
-        center_lat, center_lon (float): Coordinates of the landmark.
-        point_lat, point_lon (float): Coordinates of the main location.
-        
-    Returns:
-        np.ndarray: The final processed image with overlays, or None on failure.
     """
 
     def calculate_north_angle(center_lat, center_lon, point_lat, point_lon):
@@ -182,10 +172,9 @@ def process_blueprint(blueprint_image, overlay_image, center_lat, center_lon, po
     # --- Main Script Logic ---
     output_img = blueprint_image.copy()
     
-    # Ensure the input image has 3 channels (BGR) for processing
-    if len(output_img.shape) == 2: # Grayscale
+    if len(output_img.shape) == 2:
         output_img = cv2.cvtColor(output_img, cv2.COLOR_GRAY2BGR)
-    elif output_img.shape[2] == 4: # BGRA
+    elif output_img.shape[2] == 4:
         output_img = cv2.cvtColor(output_img, cv2.COLOR_BGRA2BGR)
         
     gray = cv2.cvtColor(output_img, cv2.COLOR_BGR2GRAY)

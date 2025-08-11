@@ -4,6 +4,7 @@ const VastuReport = () => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState({ text: '', type: '' });
     const [uploadedImage, setUploadedImage] = useState(null);
+    const [uploadedFileType, setUploadedFileType] = useState(null);
     const [analysisImage, setAnalysisImage] = useState(null);
     const formRef = useRef(null);
 
@@ -11,6 +12,7 @@ const VastuReport = () => {
         const file = event.target.files[0];
         if (file) {
             setUploadedImage(URL.createObjectURL(file));
+            setUploadedFileType(file.type);
         }
     };
 
@@ -73,7 +75,11 @@ const VastuReport = () => {
                                 {uploadedImage && (
                                     <div className="mt-4">
                                         <h3 className="text-xl font-semibold mb-2">Blueprint Preview</h3>
-                                        <img src={uploadedImage} alt="Blueprint Preview" className="w-full rounded-lg shadow-md" />
+                                        {uploadedFileType === 'application/pdf' ? (
+                                            <iframe src={uploadedImage} className="w-full h-96 rounded-lg shadow-md" />
+                                        ) : (
+                                            <img src={uploadedImage} alt="Blueprint Preview" className="w-full rounded-lg shadow-md" />
+                                        )}
                                     </div>
                                 )}
                             </div>
