@@ -20,6 +20,7 @@ import AstroPDFGenerator from './components/pages/Astrology/PDF/AstroPDFGenerato
 import Vastu from './components/pages/Vastu/Vastu';
 import KnowAboutVastu from './components/pages/Vastu/KnowAboutVastu';
 import VastuReport from './components/pages/Vastu/VastuReport';
+import Compass from './components/pages/Vastu/Compass';
 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
         <Route path='/vastu' element={<MainLayout><Vastu /></MainLayout>} />
         <Route path='/vastu/know-about-vastu' element={<MainLayout><KnowAboutVastu /></MainLayout>} />
         <Route path='/vastu/vastu-report' element={<MainLayout><VastuReport /></MainLayout>} />
+        <Route path='/vastu/compass' element={<MainLayout><Compass /></MainLayout>} />
 
       </Routes>
     </Router>

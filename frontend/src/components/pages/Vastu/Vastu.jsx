@@ -1,3 +1,4 @@
+
 import React from 'react'
 import {Link} from 'react-router-dom';
 const Vastu = () => {
@@ -26,6 +27,12 @@ const Vastu = () => {
                     className="border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-indigo-900 font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
                     >
                     Know about the Vastu
+                    </Link>
+                    <Link
+                    to="/vastu/compass"
+                    className="bg-blue-400 hover:bg-blue-500 text-indigo-900 font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
+                    >
+                    Vastu Compass
                     </Link>
                 </div>
             </div>

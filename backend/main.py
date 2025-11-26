@@ -10,6 +10,7 @@ from astrology.nakshtra_details import final_astro_report
 from astrology.planet_positions import planet_position_details
 from astrology.Dasha.vimashotryDasha import find_vimashotry_dasha
 from vastu.vastuProcess import allowed_file, process_blueprint, image_to_pdf_in_memory, OVERLAY_IMAGE_PATH 
+from vastu.compass import process_compass_image
 import fitz  
 from flask_cors import CORS
 from flask_limiter import Limiter
@@ -378,6 +379,31 @@ def process_image_endpoint():
         return jsonify({"error": f"Failed to process image: {e}"}), 500
 
 
+
+
+
+from vastu.compass import process_compass_image
+
+@app.route('/vastu/compass', methods=['POST'])
+def process_compass_endpoint():
+    try:
+        if 'image' not in request.files:
+            return jsonify({"error": "No image file part in the request"}), 400
+        
+        file = request.files['image']
+        
+        if file.filename == '':
+            return jsonify({"error": "No selected file"}), 400
+
+        file_bytes = file.read()
+        
+        result = process_compass_image(file_bytes, file.content_type)
+
+        return jsonify(result)
+
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        return jsonify({"error": f"Failed to process image: {e}"}), 500
 
 
 if __name__ == '__main__':
