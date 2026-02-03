@@ -1,149 +1,292 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from "react"
+import { FaRobot, FaTimes, FaPaperPlane, FaUserCog } from "react-icons/fa"
 
 const Chatbot = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([]);
-  const [inputValue, setInputValue] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [expandedMessages, setExpandedMessages] = useState(new Set());
+  const [isOpen, setIsOpen] = useState(false)
+  const [messages, setMessages] = useState([])
+  const [inputValue, setInputValue] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [userId, setUserId] = useState("")
+  const [userDetails, setUserDetails] = useState(null)
+  const [showProfileForm, setShowProfileForm] = useState(false)
 
-  const toggleChat = () => setIsOpen(!isOpen);
-  const handleInputChange = (e) => setInputValue(e.target.value);
+  const messagesEndRef = useRef(null)
+  const apiUrl = import.meta.env.VITE_ASTRO_API_URL || "apiUrl"
+  useEffect(() => {
+    // scroll to bottom
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }, [messages])
 
-  const toggleExpand = (index) => {
-    const newSet = new Set(expandedMessages);
-    newSet.has(index) ? newSet.delete(index) : newSet.add(index);
-    setExpandedMessages(newSet);
-  };
+  useEffect(() => {
+    // Initialize User ID
+    let storedUserId = localStorage.getItem("astro_user_id")
+    if (!storedUserId) {
+      storedUserId = "user_" + Math.random().toString(36).substr(2, 9)
+      localStorage.setItem("astro_user_id", storedUserId)
+    }
+    setUserId(storedUserId)
+
+    // Check for stored details
+    const storedDetails = localStorage.getItem("astro_user_details")
+    if (storedDetails) {
+      setUserDetails(JSON.parse(storedDetails))
+    } else {
+      setShowProfileForm(true)
+    }
+  }, [])
+
+  const handleProfileSubmit = (e) => {
+    e.preventDefault()
+    const formData = new FormData(e.target)
+    const details = {
+      name: formData.get("name"),
+      dob: formData.get("dob"),
+      tob: formData.get("tob"),
+      pob: formData.get("pob"),
+      gender: formData.get("gender"),
+    }
+    localStorage.setItem("astro_user_details", JSON.stringify(details))
+    setUserDetails(details)
+    setShowProfileForm(false)
+    setMessages([
+      {
+        sender: "bot",
+        text: `Namaste ${details.name}! 🙏 I am your Vedic AI Assistant. How can I guide you today?`,
+      },
+    ])
+  }
+
+  const clearProfile = () => {
+    localStorage.removeItem("astro_user_details")
+    setUserDetails(null)
+    setShowProfileForm(true)
+    setMessages([])
+  }
 
   const handleSendMessage = async () => {
-    if (!inputValue.trim()) return;
+    if (!inputValue.trim()) return
 
-    setMessages((prev) => [
-      ...prev,
-      { sender: "user", text: inputValue }
-    ]);
-    setLoading(true);
-
-    try {
-      const response = await fetch(`${import.meta.env.VITE_CHATBOT_API_KEY}?question=${encodeURIComponent(inputValue)}`, {
-        method: "POST",
-        headers: {
-          "CHAT-API-KEY": import.meta.env.VITE_API_KEY_TOKEN,
-        },
-      });
-
-      const data = await response.json();
-      const botReply = typeof data === 'string' ? data : data.reply || "No reply received";
-
-      setMessages((prev) => [
-        ...prev,
-        { sender: "bot", text: botReply }
-      ]);
-    } catch (error) {
-      setMessages((prev) => [
-        ...prev,
-        { sender: "bot", text: "⚠️ Failed to get response. Try again." }
-      ]);
+    if (!userDetails) {
+      setShowProfileForm(true)
+      return
     }
 
-    setInputValue('');
-    setLoading(false);
-  };
+    const userMsg = inputValue
+    setMessages((prev) => [...prev, { sender: "user", text: userMsg }])
+    setInputValue("")
+    setLoading(true)
+
+    try {
+      // Assuming backend is at http://localhost:5000 based on main.py
+      // You might need to change this URL or use an env variable
+      const apiUrl =
+        import.meta.env.VITE_ASTRO_API_URL || "http://localhost:8000"
+      const response = await fetch(`${apiUrl}/chat`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "CHAT-API-KEY": import.meta.env.VITE_API_KEY_TOKEN || "",
+        },
+        body: JSON.stringify({
+          user_id: userId,
+          question: userMsg,
+          user_details: userDetails,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setMessages((prev) => [...prev, { sender: "bot", text: data.reply }])
+      } else {
+        setMessages((prev) => [
+          ...prev,
+          { sender: "bot", text: "⚠️ " + (data.error || "Connection error") },
+        ])
+      }
+    } catch (error) {
+      console.error(error)
+      setMessages((prev) => [
+        ...prev,
+        { sender: "bot", text: "⚠️ Failed to connect to the cosmic server." },
+      ])
+    }
+
+    setLoading(false)
+  }
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
-      <button
-        className="bg-yellow-500 text-white p-3 rounded-full shadow-lg hover:bg-yellow-600 transition"
-        onClick={toggleChat}
-        aria-label={isOpen ? "Close chat" : "Open chat"} // Added aria-label for accessibility
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chat-left-text" viewBox="0 0 16 16">
-          <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
-          <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
-        </svg>
-      </button>
+    <div className="fixed bottom-6 right-6 z-50 font-sans">
+      {!isOpen && (
+        <button
+          onClick={() => setIsOpen(true)}
+          className="bg-gradient-to-r from-yellow-500 to-amber-600 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform duration-300 flex items-center justify-center"
+        >
+          <FaRobot className="text-2xl animate-pulse" />
+        </button>
+      )}
 
       {isOpen && (
-        <div className="mt-4 w-[350px] h-[500px] flex flex-col bg-white/15 backdrop-blur-md border border-white/20 rounded-xl shadow-lg overflow-hidden">
-          <div className="bg-[#451B6D] text-white flex items-center justify-between px-4 py-2">
-            <h2 className="text-lg font-bold">Astro Chat Bot</h2>
-            <button onClick={toggleChat} aria-label="Close chat window"> {/* Added aria-label */}
-              <svg className="w-5 h-5" fill="white" viewBox="0 0 20 20">
-                <path d="M14.348 5.652a.5.5 0 00-.707 0L10 9.293 6.36 5.652a.5.5 0 10-.707.707L9.293 10l-3.64 3.641a.5.5 0 10.707.707L10 10.707l3.641 3.64a.5.5 0 00.707-.707L10.707 10l3.64-3.641a.5.5 0 000-.707z" />
-              </svg>
-            </button>
-          </div>
-
-          {/* Added flex-col to enable self-start/self-end for message alignment */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3 text-sm flex flex-col">
-            {messages.map((message, index) => {
-              const isExpanded = expandedMessages.has(index);
-              const isLong = message.text.length > 180;
-              return (
-                <div
-                  key={index}
-                  //  whitespace-pre-wrap for better general text wrapping
-                  className={`rounded-xl px-4 py-2 max-w-[85%] whitespace-pre-wrap ${
-                    message.sender === 'user'
-                      ? 'self-end bg-[#451B6D] text-white text-right'
-                      : 'self-start bg-[#b893de] text-gray-150'
-                  }`}
-                  // Only apply cursor if message is long and can be expanded
-                  style={{ cursor: isLong ? 'pointer' : 'default' }}
-                  onClick={() => isLong && toggleExpand(index)}
+        <div className="w-[380px] h-[600px] flex flex-col bg-[#0f0c29]/95 backdrop-blur-xl border border-purple-500/30 rounded-2xl shadow-2xl overflow-hidden animate-fadeInUp">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-indigo-900 to-purple-900 p-4 flex items-center justify-between border-b border-white/10">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-yellow-500/20 rounded-full flex items-center justify-center text-yellow-400">
+                <FaRobot />
+              </div>
+              <div>
+                <h3 className="text-white font-bold">Vedic AI Guide</h3>
+                <p className="text-xs text-purple-300">Authentic Astrology</p>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              {userDetails && (
+                <button
+                  onClick={clearProfile}
+                  className="text-white/50 hover:text-white p-2"
+                  title="Reset Profile"
                 >
-                  {isLong && !isExpanded
-                    ? `${message.text.slice(0, 180)}...`
-                    : message.text}
-                  {isLong && (
-                    <div className={`text-xs mt-1 text-right italic ${
-                        message.sender === 'user' ? 'text-gray-100' : 'text-gray-700' // Adjusted text color for bot messages
-                    }`}>
-                      {isExpanded ? 'Click to collapse' : 'Click to expand'}
-                    </div>
-                  )}
-                </div>
-              );
-            })} 
+                  <FaUserCog />
+                </button>
+              )}
+              <button
+                onClick={() => setIsOpen(false)}
+                className="text-white/50 hover:text-white p-2"
+              >
+                <FaTimes />
+              </button>
+            </div>
           </div>
 
-          <div className="flex items-center px-3 py-2 border-t border-white/30 bg-white/10 backdrop-blur-md">
-            <input
-              type="text"
-              className="flex-1 rounded-lg px-3 py-2 text-sm bg-white/30 placeholder-gray-100 text-gray-100 outline-none focus:ring-2 focus:ring-yellow-500" // Added focus style
-              placeholder="Type your question..."
-              value={inputValue}
-              onChange={handleInputChange}
-              onKeyDown={(e) => e.key === 'Enter' && !loading && handleSendMessage()} // Added !loading check
-              disabled={loading} // Disable input while loading
-              aria-label="Type your message" // Added aria-label
-              required
-            />
-            <button
-              onClick={handleSendMessage}
-              className="ml-2 bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition "
-              disabled={loading || !inputValue.trim()} // Disable if loading OR input is empty
-              aria-label="Send message" // Added aria-label
-            >
-              {loading ? (
-                // Spinner SVG for loading state
-                <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-              ) : (
-                // Send icon SVG (Paper airplane style)
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-send-fill" viewBox="0 0 16 16">
-                  <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z"/>
-                </svg>
-              )}
-            </button>
+          {/* Body */}
+          <div className="flex-1 overflow-y-auto p-4 custom-scrollbar relative">
+            {/* Profile Form */}
+            {showProfileForm ? (
+              <div className="absolute inset-0 z-10 bg-[#0f0c29] p-6 flex flex-col justify-center">
+                <h3 className="text-xl font-bold text-white mb-2 text-center">
+                  Setup Your Profile
+                </h3>
+                <p className="text-gray-400 text-sm text-center mb-6">
+                  To provide accurate predictions, I need your birth details.
+                </p>
+                <form onSubmit={handleProfileSubmit} className="space-y-4">
+                  <input
+                    name="name"
+                    placeholder="Your Name"
+                    required
+                    className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-purple-500 outline-none"
+                  />
+                  <div>
+                    <label className="text-xs text-gray-400 ml-1">
+                      Date of Birth
+                    </label>
+                    <input
+                      name="dob"
+                      type="date"
+                      required
+                      className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-purple-500 outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-gray-400 ml-1">
+                      Time of Birth
+                    </label>
+                    <input
+                      name="tob"
+                      type="time"
+                      required
+                      className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-purple-500 outline-none"
+                    />
+                  </div>
+                  <input
+                    name="pob"
+                    placeholder="Place of Birth (City, Country)"
+                    required
+                    className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-purple-500 outline-none"
+                  />
+                  <select
+                    name="gender"
+                    className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-purple-500 outline-none"
+                  >
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  <button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 p-3 rounded-lg text-white font-bold hover:shadow-lg transition"
+                  >
+                    Start Chatting
+                  </button>
+                </form>
+              </div>
+            ) : (
+              /* Chat Messages */
+              <div className="space-y-4">
+                {messages.length === 0 && (
+                  <div className="text-center text-gray-400 mt-10">
+                    <p>
+                      Ask me anything about your <br />{" "}
+                      <span className="text-yellow-400">
+                        Career, Health, or Relationships
+                      </span>
+                      .
+                    </p>
+                  </div>
+                )}
+                {messages.map((msg, idx) => (
+                  <div
+                    key={idx}
+                    className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
+                  >
+                    <div
+                      className={`max-w-[85%] rounded-2xl p-3 text-sm leading-relaxed ${
+                        msg.sender === "user"
+                          ? "bg-purple-600 text-white rounded-br-none"
+                          : "bg-white/10 text-gray-100 rounded-bl-none border border-white/5"
+                      }`}
+                    >
+                      {msg.text}
+                    </div>
+                  </div>
+                ))}
+                {loading && (
+                  <div className="flex justify-start">
+                    <div className="bg-white/10 rounded-2xl p-3 flex gap-2 items-center">
+                      <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce delay-100"></div>
+                      <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce delay-200"></div>
+                    </div>
+                  </div>
+                )}
+                <div ref={messagesEndRef} />
+              </div>
+            )}
           </div>
+
+          {/* Footer Input */}
+          {!showProfileForm && (
+            <div className="p-4 bg-white/5 border-t border-white/10 flex gap-2">
+              <input
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
+                placeholder="Ask a cosmic question..."
+                className="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-white outline-none focus:border-purple-500 transition placeholder-gray-500"
+              />
+              <button
+                onClick={handleSendMessage}
+                disabled={loading || !inputValue.trim()}
+                className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center text-white hover:bg-yellow-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <FaPaperPlane className="text-sm" />
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Chatbot;
+export default Chatbot

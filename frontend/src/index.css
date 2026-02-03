@@ -2,27 +2,73 @@
 @tailwind components;
 @tailwind utilities;
 
-input[type="date"],
-input[type="time"] {
-  -webkit-appearance: none; /* iOS Safari fix */
-  background-color: rgba(255, 255, 255, 0.2); /* matches bg-white/20 */
-  color: white;
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-  width: 100%;
-  font-size: 1rem;
-  border: none;
-  outline: none;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #1a0b2e;
+}
+::-webkit-scrollbar-thumb {
+  background: #4c1d95;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6d28d9;
 }
 
+/* Base Styles */
+body {
+  @apply bg-[#0f0c29] text-white;
+}
+
+input[type="date"],
+input[type="time"],
+input[type="text"],
+select {
+  @apply bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-xl px-4 py-3 outline-none transition-all duration-300;
+}
+
+input:focus,
+select:focus {
+  @apply border-yellow-400 bg-white/20 shadow-[0_0_15px_rgba(250,204,21,0.3)];
+}
+
+/* Calendar Icon Filter */
 input[type="date"]::-webkit-calendar-picker-indicator,
 input[type="time"]::-webkit-calendar-picker-indicator {
-  filter: invert(1); /* makes calendar icon white for dark UI */
+  filter: invert(1);
+  cursor: pointer;
 }
 
 .pdf-render-container {
-    position: absolute;
-    left: -9999px;
-    top: -9999px;
-    z-index: -1; /* Ensure it's not interactive */
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  z-index: -1;
+}
+
+/* Animations */
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
   }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+.animate-blob {
+  animation: blob 7s infinite;
+}
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+.animation-delay-4000 {
+  animation-delay: 4s;
+}

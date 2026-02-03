@@ -1,121 +1,197 @@
-import React, { useState } from "react";
+import React, { useState } from "react"
+import SectionWrapper from "../../partials/SectionWrapper"
+import { FaBuilding, FaCheckCircle, FaExclamationCircle } from "react-icons/fa"
 
 const BusinessNumerology = () => {
-    const [name, setName] = useState("");
-    const [cuname, setCuname] = useState("");
-    const [result, setResult] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [toast, setToast] = useState(null);
+  const [name, setName] = useState("")
+  const [cuname, setCuname] = useState("")
+  const [result, setResult] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [toast, setToast] = useState(null)
 
-    const showToast = (message, type = "success") => {
-        setToast({ message, type });
-        setTimeout(() => setToast(null), 3000); // hide after 3 sec
-    };
+  const showToast = (message, type = "success") => {
+    setToast({ message, type })
+    setTimeout(() => setToast(null), 3000)
+  }
 
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (!name) return
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    setCuname(name)
+    setLoading(true)
+    setResult(null)
 
-        if (!name) return;
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BUSINESS_NUMCALCU_API_KEY}?bname=${name}`,
+        {
+          headers: {
+            "Numlogy-API-KEY": import.meta.env.VITE_API_KEY_TOKEN,
+          },
+        },
+      )
+      const data = await response.json()
+      if (data.error) {
+        setResult({ error: data.error })
+        showToast("Something went wrong", "error")
+      } else {
+        setResult(data)
+        showToast("Report generated successfully", "success")
+      }
+    } catch (e) {
+      setResult({
+        error: "Failed to fetch numerology report. Please try again.",
+        e,
+      })
+      showToast("Connection Error", "error")
+    }
 
-        setCuname(name);
+    setLoading(false)
+  }
 
-        setLoading(true);
-        setResult(null);
-
-        try {
-            const response = await fetch(
-                `${import.meta.env.VITE_BUSINESS_NUMCALCU_API_KEY}?bname=${name}`,
-                // `http://127.0.0.1:5000/business-numerology?bname=${name}`,
-                {
-                headers:{
-                    "Numlogy-API-KEY": import.meta.env.VITE_API_KEY_TOKEN,
-                },
-            }
-            );
-            const data = await response.json();
-            if (data.error) {
-                setResult({ error: data.error });
-                showToast("Something went wrong", "error");
-
-            } else {
-                setResult(data);  
-                showToast("Numerology report fetched successfully", "success");
-            }
-        } catch (e) {
-            setResult({ error: "Failed to fetch numerology report. Please try again.", e });
-        }
-
-        setLoading(false);
-    };
-
-    return (
-        <div className="min-h-screen py-12 flex flex-col items-center ">
-           <div className="w-full max-w-[95%] sm:max-w-[90%] md:max-w-[80%] lg:max-w-[60%] xl:max-w-[50%] 2xl:max-w-[40%]">
-                <h1 className="text-3xl font-bold text-center text-cyan-300 mb-6">Business Numerology</h1>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="block text-sm mb-1">Business Name</label>
-                        <input
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder="e.g. The Astral Pulse"
-                            className="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-                        />
-                    </div>
-                    <button
-                        type="submit"
-                        className="w-full bg-cyan-400 hover:bg-cyan-300 text-black font-semibold py-2 rounded-lg transition"
-                    >
-                        {loading ? "Calculating..." : "Get Numerology Report"}
-                    </button>
-                </form>
-                {toast && (
-                    <div
-                        className={`fixed bottom-4 right-4 px-4 py-3 rounded-lg shadow-lg text-white z-50 transition-opacity duration-300 animate-fade-in-up ${
-                        toast.type === "error" ? "bg-red-500" : "bg-green-500"
-                        }`}
-                    >
-                        {toast.message}
-                    </div>
-                )}
-                <br />
-                {result && (
-                    <div className="mt-6 p-4 rounded-lg bg-white/20 border border-yellow-300">
-                        {result.error ? (
-                            <p className="text-red-400">{result.error}</p>
-                        ) : (
-                            <>
-                                <h2 className="text-2xl font-bold text-cyan-200 mb-2">Your Business Numerology Report</h2>
-                                <p className="text-md text-gray-100">
-                                    <strong>Name : </strong> {cuname}
-                                </p>
-                                <p className="text-md text-gray-100">
-                                    <strong>Cleaned Name : </strong> {result.cleaned_name}
-                                </p>
-                                <p className="text-md text-gray-100">
-                                    <strong>Name Number : </strong> {result.name_number}
-                                </p>
-                                 <p className="text-md text-gray-100">
-                                    <strong>Master number : </strong> {result.master_sum}
-                                </p>
-                                <p className="text-md text-gray-100">
-                                    <strong>Vowels Sum : </strong> {result.vowels_sum}
-                                </p>
-                                <p className="text-md text-gray-100">
-                                    <strong>connector number : </strong> {result.connector_number}
-                                </p>
-                                <p className="text-md text-gray-100">
-                                    <strong>Consonants number : </strong> {result.consonants_sum}
-                                </p>
-                            </>
-                        )}
-                    </div>
-                )}
-            </div>
+  return (
+    <div className="w-full min-h-screen py-10">
+      <SectionWrapper>
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-300 to-blue-400 mb-4">
+            Business Name Numerology
+          </h1>
+          <p className="text-gray-400 max-w-2xl mx-auto">
+            Analyze the vibrational frequency of your brand name. Ensure it
+            aligns with prosperity, growth, and market leadership using Chaldean
+            numerology.
+          </p>
         </div>
-    );
-};
 
-export default BusinessNumerology;
+        <div className="max-w-xl mx-auto">
+          <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative">
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Business Name
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500">
+                    <FaBuilding />
+                  </div>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="e.g. The Astral Pulse"
+                    className="w-full pl-11 focus:ring-2 focus:ring-cyan-500/50"
+                  />
+                </div>
+              </div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold rounded-xl shadow-lg shadow-cyan-500/25 transition-all duration-300 transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? "Calculating Vibrations..." : "Analyze Brand Name"}
+              </button>
+            </form>
+          </div>
+
+          {/* Result */}
+          {result && (
+            <div className="mt-10 animate-fadeInUp">
+              {result.error ? (
+                <div className="bg-red-500/10 border border-red-500/20 p-6 rounded-2xl text-center">
+                  <p className="text-red-400 flex items-center justify-center gap-2">
+                    <FaExclamationCircle /> {result.error}
+                  </p>
+                </div>
+              ) : (
+                <div className="bg-gradient-to-br from-cyan-900/40 to-blue-900/40 border border-cyan-500/30 p-8 rounded-3xl backdrop-blur-sm">
+                  <h2 className="text-2xl font-bold text-center text-cyan-200 mb-8 border-b border-white/5 pb-4">
+                    Numerology Analysis
+                  </h2>
+
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center bg-white/5 p-4 rounded-xl">
+                      <span className="text-gray-400 text-sm">Input Name</span>
+                      <span className="font-semibold text-white">{cuname}</span>
+                    </div>
+                    <div className="flex justify-between items-center bg-white/5 p-4 rounded-xl">
+                      <span className="text-gray-400 text-sm">
+                        Cleaned Name
+                      </span>
+                      <span className="font-mono text-cyan-300">
+                        {result.cleaned_name}
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                      <div className="bg-cyan-500/20 p-4 rounded-xl text-center border border-cyan-500/30">
+                        <div className="text-3xl font-bold text-cyan-300 mb-1">
+                          {result.name_number}
+                        </div>
+                        <div className="text-xs text-cyan-100 uppercase tracking-wider">
+                          Name Number
+                        </div>
+                      </div>
+                      <div className="bg-blue-500/20 p-4 rounded-xl text-center border border-blue-500/30">
+                        <div className="text-3xl font-bold text-blue-300 mb-1">
+                          {result.master_sum}
+                        </div>
+                        <div className="text-xs text-blue-100 uppercase tracking-wider">
+                          Compound
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-2 mt-2">
+                      <div className="text-center p-3 bg-white/5 rounded-lg">
+                        <div className="text-lg font-bold text-white mb-1">
+                          {result.vowels_sum}
+                        </div>
+                        <div className="text-[10px] text-gray-400 uppercase">
+                          Soul Urge
+                        </div>
+                      </div>
+                      <div className="text-center p-3 bg-white/5 rounded-lg">
+                        <div className="text-lg font-bold text-white mb-1">
+                          {result.consonants_sum}
+                        </div>
+                        <div className="text-[10px] text-gray-400 uppercase">
+                          Dream
+                        </div>
+                      </div>
+                      <div className="text-center p-3 bg-white/5 rounded-lg">
+                        <div className="text-lg font-bold text-white mb-1">
+                          {result.connector_number}
+                        </div>
+                        <div className="text-[10px] text-gray-400 uppercase">
+                          Connector
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Toast */}
+        {toast && (
+          <div
+            className={`fixed bottom-4 right-4 px-6 py-4 rounded-xl shadow-2xl text-white z-50 transition-all duration-300 animate-fadeInUp flex items-center gap-3 ${toast.type === "error" ? "bg-red-500/90" : "bg-green-500/90"}`}
+          >
+            {toast.type === "error" ? (
+              <FaExclamationCircle />
+            ) : (
+              <FaCheckCircle />
+            )}{" "}
+            {toast.message}
+          </div>
+        )}
+      </SectionWrapper>
+    </div>
+  )
+}
+
+export default BusinessNumerology

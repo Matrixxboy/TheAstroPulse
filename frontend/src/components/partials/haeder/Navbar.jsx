@@ -1,169 +1,123 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { FaBars, FaTimes } from "react-icons/fa"; // Importing icons for hamburger and close
-
+import React, { useState, useEffect } from "react"
+import { Link, useLocation } from "react-router-dom"
+import { FaBars, FaTimes } from "react-icons/fa"
 
 const Navbar = () => {
-    const [isOpen, setIsOpen] = useState(false); // State to manage mobile menu visibility
+  const [isOpen, setIsOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const location = useLocation()
 
-    const toggleMenu = () => {
-        setIsOpen(!isOpen);
-    };
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
-    // Function to close the menu after clicking a link (important for mobile UX)
-    const closeMenu = () => {
-        setIsOpen(false);
-    };
+  const toggleMenu = () => setIsOpen(!isOpen)
+  const closeMenu = () => setIsOpen(false)
 
-    return (
-        <nav className="flex w-full glass-white text-white px-6 py-4 fixed top-0 left-0 z-50">
-            <div className="container mx-auto flex items-center justify-between relative">
-                {/* Logo */}
-                <Link to="/" className="text-2xl font-bold tracking-wide flex-shrink-0" onClick={closeMenu}>
-                    The Astro Pulse
-                </Link>
+  const navLinks = [
+    { name: "Home", path: "/" },
+    { name: "Astrology", path: "/astrology" },
+    { name: "Vastu", path: "/vastu" },
+    { name: "Palmistry", path: "/palmreading" },
+    { name: "Numerology", path: "/numerology" },
+    { name: "Horoscope", path: "/horoscope" },
+  ]
 
-                {/* Desktop Menu */}
-                {/* Removed redundant m-0 as gap handles spacing */}
-                <ul className="hidden md:flex gap-6 text-lg font-medium">
-                        <Link
-                            to="/"
-                            className="hover:text-yellow-300 transition-colors duration-200"
-                            >
-                            <li>
-                            Home
-                    </li>
-                        </Link>
-                    
-                    <li>
-                        {/* Renamed link text for clarity, consider if /palm and /palmreading are different */}
-                        <Link
-                            to="/astrology"
-                            className="hover:text-yellow-300 transition-colors duration-200"
-                        >
-                            Astrology
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            to="/vastu"
-                            className="hover:text-yellow-300 transition-colors duration-200"
-                        >
-                            Vastu
-                        </Link>
-                    </li>
-                    <li>
-                        {/* Renamed link text for clarity, consider if /palm and /palmreading are different */}
-                        <Link
-                            to="/palmreading"
-                            className="hover:text-yellow-300 transition-colors duration-200"
-                        >
-                            Palmistry
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            to="/numerology"
-                            className="hover:text-yellow-300 transition-colors duration-200"
-                        >
-                            Numerology
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            to="/horoscope"
-                            className="hover:text-yellow-300 transition-colors duration-200"
-                        >
-                            Horoscope
-                        </Link>
-                    </li>
-                    
-                </ul>
+  const isActive = (path) => location.pathname === path
 
-                {/* Hamburger/Close Icon for Mobile */}
-                <div className="md:hidden flex items-center">
-                    <button
-                        onClick={toggleMenu}
-                        className="text-white focus:outline-none text-2xl"
-                        aria-label={isOpen ? "Close menu" : "Open menu"} // Added for accessibility
-                        aria-expanded={isOpen} // Added for accessibility
-                    >
-                        {isOpen ? <FaTimes /> : <FaBars />}
-                    </button>
-                </div>
-                {/* Mobile Menu (conditionally rendered with transition classes) */}
-                {/* Added 'top-[calc(100%+1rem)]' for a small gap below the navbar */}
-                {/* Using a basic fade/slide transition with max-h and opacity for smooth animation */}
-                <ul
-                    className={`
-                        phone-menu flex flex-col absolute right-0 w-3/5 text-white md:hidden z-40 rounded-xl shadow-lg p-6 space-y-3
-                        transition-all duration-300 ease-in-out transform items-center text-center
-                        ${isOpen ? 'top-[calc(100%+1rem)] bg-purple-900/95  opacity-100 max-h-screen' : 'top-full opacity-0 max-h-0 overflow-hidden'}
+  return (
+    <nav
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-[#0f0c29]/80 backdrop-blur-md shadow-lg border-b border-white/10"
+          : "bg-transparent"
+      }`}
+    >
+      <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+        {/* Logo */}
+        <Link
+          to="/"
+          className="text-2xl font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-amber-500 hover:from-amber-400 hover:to-yellow-300 transition-all duration-300"
+          onClick={closeMenu}
+        >
+          The Astro Pulse
+        </Link>
+
+        {/* Desktop Menu */}
+        <ul className="hidden md:flex gap-8 items-center">
+          {navLinks.map((link) => (
+            <li key={link.name}>
+              <Link
+                to={link.path}
+                className={`relative text-sm font-medium tracking-wide transition-colors duration-300 ${
+                  isActive(link.path)
+                    ? "text-yellow-400"
+                    : "text-gray-300 hover:text-white"
+                }`}
+              >
+                {link.name}
+                <span
+                  className={`absolute -bottom-1 left-0 h-0.5 bg-yellow-400 transition-all duration-300 ${
+                    isActive(link.path) ? "w-full" : "w-0 hover:w-full"
+                  }`}
+                ></span>
+              </Link>
+            </li>
+          ))}
+          <li>
+            <Link
+              to="/book-reading"
+              className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-sm font-bold py-2 px-6 rounded-full shadow-lg hover:shadow-purple-500/50 transition-all duration-300 transform hover:-translate-y-0.5"
+            >
+              Get Reading
+            </Link>
+          </li>
+        </ul>
+
+        {/* Mobile Menu Icon */}
+        <div className="md:hidden flex items-center">
+          <button
+            onClick={toggleMenu}
+            className="text-white focus:outline-none text-2xl p-2"
+            aria-label="Toggle menu"
+          >
+            {isOpen ? <FaTimes /> : <FaBars />}
+          </button>
+        </div>
+
+        {/* Mobile Menu Dropdown */}
+        <div
+          className={`
+                        fixed top-[70px] left-0 w-full bg-[#1a0b2e]/95 backdrop-blur-xl border-t border-white/10 shadow-2xl md:hidden overflow-hidden transition-all duration-300 ease-in-out
+                        ${isOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"}
                     `}
-                    // Optional: You might want to use a state-driven approach for mount/unmount if using complex CSS transitions that rely on element being in DOM
-                    // For now, simple opacity/max-height for fade/slide effect
+        >
+          <ul className="flex flex-col p-6 space-y-4 text-center">
+            {navLinks.map((link) => (
+              <li key={link.name}>
+                <Link
+                  to={link.path}
+                  className={`block py-3 text-lg font-medium transition-all ${
+                    isActive(link.path)
+                      ? "text-yellow-400 bg-white/5 rounded-lg"
+                      : "text-gray-300 hover:text-white"
+                  }`}
+                  onClick={closeMenu}
                 >
-                    <Link
-                        to="/"
-                        className="w-full h-10 flex text-center items-center justify-center"
-                        onClick={closeMenu}
-                        >
-                            <li className="border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-indigo-900 font-semibold rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 w-full h-8 text-center">
-                            Home
-                            </li>
-                    </Link>
-                   
-                    <Link
-                        to="/astrology"
-                        className="w-full h-10 flex text-center items-center justify-center"
-                        onClick={closeMenu}
-                        >
-                            <li className="border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-indigo-900 font-semibold rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 w-full h-8 text-center">
-                                Astrology
-                            </li>
-                    </Link>
-                    <Link
-                        to="/vastu"
-                        className="w-full h-10 flex text-center items-center justify-center"
-                        onClick={closeMenu}
-                        >
-                            <li className="border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-indigo-900 font-semibold rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 w-full h-8 text-center">
-                            Vastu
-                            </li>
-                    </Link>
-                    <Link
-                        to="/palmreading"
-                        className="w-full h-10 flex text-center items-center justify-center"
-                        onClick={closeMenu}
-                        >
-                            <li className="border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-indigo-900 font-semibold rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 w-full h-8 text-center">
-                                Palmistry
-                            </li>
-                    </Link>
-                     <Link
-                        to="/numerology"
-                        className="w-full h-10 flex text-center items-center justify-center"
-                        onClick={closeMenu}
-                        >
-                            <li className="border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-indigo-900 font-semibold rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 w-full h-8 text-center">
-                                Numerology
-                            </li>
-                    </Link>
-                    <Link
-                        to="/horoscope"
-                        className="w-full h-10 flex text-center items-center justify-center"
-                        onClick={closeMenu}
-                        >
-                            <li className="border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-indigo-900 font-semibold rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 w-full h-8 text-center">
-                            Horoscope
-                            </li>
-                    </Link>
-                    
-                </ul>
+                  {link.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </nav>
+  )
+}
 
-            </div>
-        </nav>
-    );
-};
-
-export default Navbar;
+export default Navbar
