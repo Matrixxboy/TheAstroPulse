@@ -2,6 +2,7 @@ import io
 import os
 import cv2
 import json
+import logging
 import numpy as np
 from datetime import datetime
 from numerology.numlogycalcu import name_numlogy_basic_sums , business_numerology_basic_sums
@@ -18,14 +19,10 @@ from flask_limiter.util import get_remote_address
 from flask import Flask, request, jsonify ,send_file
 from dotenv import load_dotenv
 load_dotenv()  # Load environment variables from .env file
-# from PIL import Image
-# from rembg import remove
-# from chatbotassistant.chatmodelGroq import chat_bot_replypip install PyMuPDF
-# from skimage.filters import meijering
-# from skimage.util import img_as_ubyte
-# from skimage.restoration import denoise_tv_chambolle
-# from skimage.morphology import skeletonize, remove_small_objects
-# import mediapipe as mp
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # toekn for api verification
 API_KEY_TOKEN = os.getenv("API_KEY_TOKEN")
@@ -228,22 +225,34 @@ def business_numerology():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# API : /chat?question=this%20is%my%question
-# @app.route("/chat", methods=["POST"])
-# def chat_bot():
-#     client_api = request.headers.get('CHAT-API-KEY') or request.args.get('CHAT-API-KEY')
-#     # print(f"{client_api}") use for debugging
-#     if client_api != API_KEY_TOKEN:
-#         return jsonify({"error":"Unauthorised request"}) , 401
-#     req_question = request.args.get('question')
-#     if not req_question:
-#         return jsonify({"error": "Empty Question"})
-#     try:
-#         chat_reply =  chat_bot_reply(req_question)
-#         return jsonify(chat_reply),200
-#     except Exception as e :
-#         return jsonify({"error":str(e)}),500
+
+# Import the new module
+from chatbotassistant.openai_bot import get_astrology_response
+
+# API : /chat
+@app.route("/chat", methods=["POST"])
+def chat_bot():
+    # Verify API Key
+    client_api = request.headers.get('CHAT-API-KEY') or request.args.get('CHAT-API-KEY')
+    if client_api != API_KEY_TOKEN:
+         return jsonify({"error":"Unauthorised request"}) , 401
     
+    data = request.json
+    if not data:
+        return jsonify({"error": "No JSON data provided"}), 400
+
+    user_id = data.get('user_id', 'default_user')
+    question = data.get('question')
+    user_details = data.get('user_details', {})
+
+    if not question:
+        return jsonify({"error": "Empty Question"}), 400
+    
+    try:
+        chat_reply = get_astrology_response(user_id, question, user_details)
+        return jsonify({"reply": chat_reply}), 200
+    except Exception as e :
+        return jsonify({"error":str(e)}),500
 
 
 # API : /astro-report?dob=14-07-2004&tob=07:15&lob=surat,gujarat
@@ -326,7 +335,7 @@ def process_image_endpoint():
                 page = pdf_document.load_page(0)  # Load the first page
                 
                 # Increase resolution for better quality
-                zoom = 2  # 2x zoom => 144 dpi
+                zoom = 4  # 4x zoom => ~300 dpi for clearer details
                 mat = fitz.Matrix(zoom, zoom)
                 pix = page.get_pixmap(matrix=mat)
                 
@@ -347,7 +356,7 @@ def process_image_endpoint():
                 return jsonify({"error": "Could not decode the uploaded image file"}), 500
 
         except Exception as e:
-            print(f"Error during file loading: {e}")
+            logger.error(f"Error during file loading: {e}")
             return jsonify({"error": f"An error occurred while loading files: {e}"}), 500
 
         # --- 3. Process the Image ---
@@ -375,7 +384,7 @@ def process_image_endpoint():
             mimetype='application/pdf'
         )
     except Exception as e :
-        print(f"An unexpected error occurred: {e}")
+        logger.error(f"An unexpected error occurred: {e}")
         return jsonify({"error": f"Failed to process image: {e}"}), 500
 
 
@@ -402,10 +411,10 @@ def process_compass_endpoint():
         return jsonify(result)
 
     except Exception as e:
-        print(f"An unexpected error occurred: {e}")
+        logger.error(f"An unexpected error occurred: {e}")
         return jsonify({"error": f"Failed to process image: {e}"}), 500
 
 
 if __name__ == '__main__':
-    port = int(5000)
+    port = int(8000)
     app.run(debug=True,host="0.0.0.0",port=port) # debug=True allows for automatic reloading on code changes
