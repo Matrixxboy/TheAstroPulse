@@ -1,309 +1,213 @@
-import React, { useEffect } from 'react';
-import './palmistry.css';
+import React, { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { ChevronDown, ChevronRight, BookOpen } from "lucide-react"
 
-const PalmistryInfo = () => {
-  useEffect(() => {
-    const treeItems = document.querySelectorAll("#tree li");
-    const toggleItem = (e) => {
-      e.stopPropagation();
-      e.currentTarget.classList.toggle("open");
-    };
-
-    treeItems.forEach((li) => {
-      li.addEventListener("click", toggleItem);
-    });
-
-    return () => {
-      treeItems.forEach((li) => {
-        li.removeEventListener("click", toggleItem);
-      });
-    };
-  }, []);
+const TreeItem = ({ label, children, defaultOpen = false }) => {
+  const [isOpen, setIsOpen] = useState(defaultOpen)
 
   return (
-    <div className="flex items-center justify-center p-8">
-      <div className="text-left max-w-4xl w-full">
-        <h1 className="text-center text-3xl font-bold text-yellow-400 mb-6">Palmistry Tree Diagram</h1>
-        <ul id="tree">
-          <li> Gender
-            <ul className='nested'>
-              <li>Male
-                <ul className="nested">
-                  <li>Usually, the right hand is considered the active hand (shows present/future), and the left is passive (shows inherited traits).</li>
-                </ul>
-              </li>
-              <li>Female
-                <ul className='nested'>
-                  <li>The left hand is often the active hand (present/future), and the right is passive.</li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          <li>Hand Shape
-            <ul className='nested'>
-              <li><strong>Earth Hand</strong> : Square palm + short fingers → Practical, grounded, stable life</li>
-              <li><strong>Air Hand</strong> : Square palm + long fingers → Intellectual, restless, communicator</li>
-              <li><strong>Fire Hand</strong> : Rectangular palm + short fingers → Ambitious, energetic, passionate</li>
-              <li><strong>Water Hand</strong> : Long palm + long fingers → Emotional, sensitive, artistic</li>
-            </ul>
-          </li>
-          <li>Life Line
-            <ul className="nested">
-              <li>Shape
-                <ul className="nested">
-                  <li>Long & Deep → Strong vitality</li>
-                  <li>Short → Efficient energy</li>
-                  <li>Faint → Weak health</li>
-                </ul>
-              </li>
-              <li>Curve
-                <ul className="nested">
-                  <li>Wide → Adventurous</li>
-                  <li>Close to Thumb → Cautious</li>
-                </ul>
-              </li>
-              <li>Color
-                <ul className="nested">
-                  <li>Red → Disease resistance</li>
-                  <li>White → Low immunity</li>
-                </ul>
-              </li>
-              <li>Breaks
-                <ul className="nested">
-                  <li>One → Health change</li>
-                  <li>Multiple → Instability</li>
-                </ul>
-              </li>
-              <li>Length
-                <ul className="nested">
-                  <li>&lt; 5.5 cm → Energetically cautious</li>
-                  <li>5.5–7.5 cm → Good health and vitality</li>
-                  <li>7.5–9.0 cm → Very energetic and resilient</li>
-                  <li>&gt; 9.0 cm → Exceptional endurance</li>
-                </ul>
-              </li>
-              <li>Growth Indicators
-                <ul className="nested">
-                  <li>Branching upward → Positive mindset</li>
-                  <li>Branching downward → Anxiety-prone</li>
-                  <li>Double line → Strong support/resilience</li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          <li>Head Line
-            <ul className="nested">
-              <li>Length
-                <ul className="nested">
-                  <li>&lt; 6.0 cm → Quick thinker</li>
-                  <li>6.0–8.0 cm → Balanced mind</li>
-                  <li>8.0–10.0 cm → Deep thinker</li>
-                  <li>&gt; 10.0 cm → Analytical genius/overthinker</li>
-                </ul>
-              </li>
-              <li>Shape
-                <ul className="nested">
-                  <li>Straight → Logical</li>
-                  <li>Curved → Creative</li>
-                </ul>
-              </li>
-              <li>Clarity
-                <ul className="nested">
-                  <li>Clear → Focused</li>
-                  <li>Faint → Fatigue</li>
-                </ul>
-              </li>
-              <li>Breaks
-                <ul className="nested">
-                  <li>Break → Trauma</li>
-                  <li>Chain → Stress</li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          <li>Heart Line
-            <ul className="nested">
-              <li>Shape
-                <ul className="nested">
-                  <li>Straight → Polite</li>
-                  <li>Curved → Passionate</li>
-                </ul>
-              </li>
-              <li>Length
-                <ul className="nested">
-                <li>&lt; 5.0 cm → Emotionally guarded</li>
-                <li>5.0–6.5 cm → Emotionally balanced</li>
-                <li>6.5–8.5 cm → Deeply empathetic</li>
-                <li>&gt; 8.5 cm → Emotionally idealistic</li>
-              </ul>
+    <div className="ml-4 md:ml-6 border-l border-white/10 pl-4 py-2 relative">
+      {/* Connector line */}
+      <div
+        className={`absolute top-5 -left-[17px] w-4 h-px ${isOpen ? "bg-gold" : "bg-white/20"}`}
+      ></div>
 
-              </li>
-              <li>Branches
-                <ul className="nested">
-                  <li>Up → Happy love</li>
-                  <li>Down → Heartbreak</li>
-                </ul>
-              </li>
-              <li>Breaks
-                <ul className="nested">
-                  <li>Break → Emotional loss</li>
-                  <li>Chain → Mood swings</li>
-                  <li>Multiple → Relationship complexity</li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          <li>Fate Line
-            <ul className="nested">
-              <li>Start Point
-                <ul className="nested">
-                  <li>From Life Line → Self-made</li>
-                  <li>From Moon → Support-based</li>
-                  <li>From Wrist → Early success</li>
-                </ul>
-              </li>
-              <li>End Point
-                <ul className="nested">
-                  <li>Saturn → Public image</li>
-                  <li>Short → Career change</li>
-                </ul>
-              </li>
-              <li>Clarity
-                <ul className="nested">
-                  <li>Clear → Focused career</li>
-                  <li>Faint → Career confusion</li>
-                </ul>
-              </li>
-              <li>Breaks
-                <ul className="nested">
-                  <li>Break → Career breaks</li>
-                  <li>Multiple → Multi-career</li>
-                </ul>
-              </li>
-              <li>Length
-               <ul className='nested'>
-                <li>&lt; 4.0 cm → Unstable path</li>
-                <li>4.0–6.0 cm → Moderate purpose</li>
-                <li>6.0–8.5 cm → Strong purpose</li>
-                <li>&gt; 8.5 cm → Mission-driven</li>
-              </ul>
-              </li>
-            </ul>
-          </li>
-          <li>Sun Line
-            <ul className="nested">
-              <li>Meaning → Fame, Art, Recognition</li>
-              <li>Starts at Wrist → Early talent</li>
-              <li>Deep → Creativity</li>
-              <li>Absent → Private life</li>
-            </ul>
-          </li>
-          <li>Mercury Line
-            <ul className="nested">
-              <li>Meaning → Health & Communication</li>
-              <li>Deep → Business mind</li>
-              <li>Wavy → Health issues</li>
-              <li>Absent → Good health</li>
-            </ul>
-          </li>
-          <li>Marriage Lines
-            <ul className="nested">
-              <li>Number → Love relationships</li>
-              <li>Long → Strong bond</li>
-              <li>Forked → Separation</li>
-              <li>Short → Flings</li>
-            </ul>
-          </li>
-          <li>Girdle of Venus
-            <ul className="nested">
-              <li>Present → Sensitivity</li>
-              <li>Broken → Mood issues</li>
-              <li>Absent → Stable mind</li>
-            </ul>
-          </li>
-          <li>Travel Lines
-            <ul className="nested">
-              <li>Horizontal → Journeys</li>
-              <li>Deep → Success in travels</li>
-            </ul>
-          </li>
-          <li>Children Lines
-            <ul className="nested">
-              <li>Thin → Girl child</li>
-              <li>Thick → Boy child</li>
-            </ul>
-          </li>
+      <div
+        onClick={(e) => {
+          e.stopPropagation()
+          setIsOpen(!isOpen)
+        }}
+        className={`flex items-center gap-2 cursor-pointer select-none group transition-all duration-300 ${isOpen ? "text-gold" : "text-white hover:text-white/80"}`}
+      >
+        {children ? (
+          <span
+            className={`transition-transform duration-300 ${isOpen ? "rotate-90 text-gold" : "text-smoke"}`}
+          >
+            <ChevronRight className="w-4 h-4" />
+          </span>
+        ) : (
+          <span className="w-4" />
+        )}
 
-          {/* 3 lines reading  */}
-          <li> Heart + Head + Life Lines
-            <ul className='nested'>
-              <li>Type A
-                <ul className='nested'>
-                  <li> Info
-                    <ul className='nested'>
-                      <li>Heart: &lt; 5.0 cm (Emotionally reserved)</li>
-                      <li>Head: Straight + Short (Practical, not philosophical)</li>
-                      <li>Life: Faint or broken (Low energy, poor resistance)</li>
-                    </ul>
-                  </li>
-                  <li><strong>Likely Situation</strong> : Financial struggle due to emotional disconnect and weak health. Needs external motivation.</li>
-                </ul>
-              </li>
-              <li>Type B
-                <ul className='nested'>
-                  <li>Info
-                    <ul className='nested'>
-                      <li>Heart: Long & Curved (Loving, expressive)</li>
-                      <li>Head: Long & Curved (Creative, deep thought)</li>
-                      <li>Life: Long & Deep (High vitality)</li>
-                    </ul>
-                  </li>
-                  <li><strong>Likely Situation</strong> : Artistic or academic success, good relationships, and mental strength. Has high earning potential.</li>
-                </ul>
-              </li>
-              <li>Type C
-                <ul className='nested'>
-                  <li>Info
-                    <ul className='nested'>
-                      <li>Heart: Short + Chains (Cold or past trauma)</li>
-                      <li>Head: Straight & Long (Strategist)</li>
-                      <li>Life: Clear but branching downward (Stress-prone)</li>
-                    </ul>
-                  </li>
-                  <li><strong>Likely Situation</strong> : Successful but emotionally drained. Wealth may be high but satisfaction is low.</li>
-                </ul>
-              </li>
-              <li>Type D
-                <ul className='nested'>
-                  <li>Info
-                    <ul className='nested'>
-                          <li>Heart: 5.0–6.5 cm (Emotionally balanced)</li>
-                          <li>Head: 6.0–8.0 cm (Cognitive balance)</li>
-                          <li>Life: 5.5–7.5 cm (Decent health, energy)</li>
-                    </ul>
-                  </li>
-                  <li><strong>Likely Situation</strong> : Stable career, modest income, happy personal life. Good for long-term peace.</li>
-                </ul>
-              </li>
-              <li>Type E
-                <ul className='nested'>
-                  <li>Info
-                    <ul className='nested'>
-                      <li>Heart: &gt; 8.5 cm (Over-emotional)</li>
-                      <li>Head: &gt; 10 cm (Overanalyzer)</li>
-                      <li>Life: Faint or short (Low stamina) </li>
-                    </ul>
-                  </li>
-                  <li><strong>Likely Situation</strong> : Prone to heartbreak, confusion, anxiety. Financially unstable unless well-supported.</li>
-                </ul>
-              </li>
-            </ul>
+        <span className={`font-medium ${isOpen ? "font-bold" : "font-normal"}`}>
+          {label}
+        </span>
+      </div>
 
-          </li>
-        </ul>
+      <AnimatePresence>
+        {isOpen && children && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="overflow-hidden"
+          >
+            <div className="pt-2 text-smoke text-sm leading-relaxed">
+              {children}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
+
+const PalmistryInfo = () => {
+  return (
+    <div className="min-h-screen p-4 md:p-12 relative z-10">
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-heading font-bold text-gradient-gold mb-4 flex items-center justify-center gap-3">
+            <BookOpen className="w-8 h-8 text-saffron" /> Palmistry Knowledge
+            Base
+          </h1>
+          <p className="text-smoke">
+            Explore the ancient science of Hasthrekha Shastra.
+          </p>
+        </div>
+
+        <div className="glass p-6 md:p-10 rounded-3xl border border-white/5 bg-cosmic-dark/50 backdrop-blur-xl shadow-2xl">
+          <h2 className="text-2xl font-bold text-white mb-6 pl-4 border-l-4 border-saffron">
+            Interactive Tree Diagram
+          </h2>
+
+          <div className="space-y-2 font-body text-base">
+            <TreeItem label="Gender" defaultOpen={true}>
+              <TreeItem label="Male">
+                Usually, the right hand is considered the active hand (shows
+                present/future), and the left is passive (shows inherited
+                traits).
+              </TreeItem>
+              <TreeItem label="Female">
+                The left hand is often the active hand (present/future), and the
+                right is passive.
+              </TreeItem>
+            </TreeItem>
+
+            <TreeItem label="Hand Shape">
+              <TreeItem label="Earth Hand: Square palm + short fingers">
+                Practical, grounded, stable life
+              </TreeItem>
+              <TreeItem label="Air Hand: Square palm + long fingers">
+                Intellectual, restless, communicator
+              </TreeItem>
+              <TreeItem label="Fire Hand: Rectangular palm + short fingers">
+                Ambitious, energetic, passionate
+              </TreeItem>
+              <TreeItem label="Water Hand: Long palm + long fingers">
+                Emotional, sensitive, artistic
+              </TreeItem>
+            </TreeItem>
+
+            <TreeItem label="Life Line">
+              <TreeItem label="Shape">
+                <TreeItem label="Long & Deep">Strong vitality</TreeItem>
+                <TreeItem label="Short">Efficient energy</TreeItem>
+                <TreeItem label="Faint">Weak health</TreeItem>
+              </TreeItem>
+              <TreeItem label="Curve">
+                <TreeItem label="Wide">Adventurous</TreeItem>
+                <TreeItem label="Close to Thumb">Cautious</TreeItem>
+              </TreeItem>
+              <TreeItem label="Length">
+                <TreeItem label="< 5.5 cm">Energetically cautious</TreeItem>
+                <TreeItem label="5.5–7.5 cm">Good health and vitality</TreeItem>
+                <TreeItem label="7.5–9.0 cm">
+                  Very energetic and resilient
+                </TreeItem>
+                <TreeItem label="> 9.0 cm">Exceptional endurance</TreeItem>
+              </TreeItem>
+            </TreeItem>
+
+            <TreeItem label="Head Line">
+              <TreeItem label="Length">
+                <TreeItem label="< 6.0 cm">Quick thinker</TreeItem>
+                <TreeItem label="6.0–8.0 cm">Balanced mind</TreeItem>
+                <TreeItem label="8.0–10.0 cm">Deep thinker</TreeItem>
+                <TreeItem label="> 10.0 cm">
+                  Analytical genius/overthinker
+                </TreeItem>
+              </TreeItem>
+              <TreeItem label="Shape">
+                <TreeItem label="Straight">Logical</TreeItem>
+                <TreeItem label="Curved">Creative</TreeItem>
+              </TreeItem>
+            </TreeItem>
+
+            <TreeItem label="Heart Line">
+              <TreeItem label="Shape">
+                <TreeItem label="Straight">Polite</TreeItem>
+                <TreeItem label="Curved">Passionate</TreeItem>
+              </TreeItem>
+              <TreeItem label="Length">
+                <TreeItem label="< 5.0 cm">Emotionally guarded</TreeItem>
+                <TreeItem label="5.0–6.5 cm">Emotionally balanced</TreeItem>
+                <TreeItem label="6.5–8.5 cm">Deeply empathetic</TreeItem>
+                <TreeItem label="> 8.5 cm">Emotionally idealistic</TreeItem>
+              </TreeItem>
+            </TreeItem>
+
+            <TreeItem label="Fate Line">
+              <TreeItem label="Start Point">
+                <TreeItem label="From Life Line">Self-made</TreeItem>
+                <TreeItem label="From Moon">Support-based</TreeItem>
+                <TreeItem label="From Wrist">Early success</TreeItem>
+              </TreeItem>
+              <TreeItem label="Length">
+                <TreeItem label="< 4.0 cm">Unstable path</TreeItem>
+                <TreeItem label="4.0–6.0 cm">Moderate purpose</TreeItem>
+                <TreeItem label="6.0–8.5 cm">Strong purpose</TreeItem>
+                <TreeItem label="> 8.5 cm">Mission-driven</TreeItem>
+              </TreeItem>
+            </TreeItem>
+
+            <TreeItem label="Advanced Combinations (Heart + Head + Life Lines)">
+              <TreeItem label="Type A: The Struggler">
+                Heart &lt; 5.0cm (Reserved) + Head Short (Practical) + Life
+                Faint (Low Energy).
+                <br />
+                <span className="text-gold italic">Likely Situation:</span>{" "}
+                Financial struggle due to emotional disconnect and weak health.
+                Needs external motivation.
+              </TreeItem>
+              <TreeItem label="Type B: The Achiever">
+                Heart Curved (Loving) + Head Curved (Creative) + Life Deep
+                (Vitality).
+                <br />
+                <span className="text-gold italic">Likely Situation:</span>{" "}
+                Artistic or academic success, good relationships, and mental
+                strength. Has high earning potential.
+              </TreeItem>
+              <TreeItem label="Type C: The Burnout">
+                Heart Short/Chains (Trauma) + Head Long (Strategist) + Life
+                Branching Down (Stress).
+                <br />
+                <span className="text-gold italic">Likely Situation:</span>{" "}
+                Successful but emotionally drained. Wealth may be high but
+                satisfaction is low.
+              </TreeItem>
+              <TreeItem label="Type D: The Balanced">
+                Heart Medium (Balanced) + Head Medium (Cognitive Balance) + Life
+                Medium (Decent Health).
+                <br />
+                <span className="text-gold italic">Likely Situation:</span>{" "}
+                Stable career, modest income, happy personal life. Good for
+                long-term peace.
+              </TreeItem>
+              <TreeItem label="Type E: The Overwhelmed">
+                Heart &gt; 8.5cm (Over-emotional) + Head &gt; 10cm
+                (Overanalyzer) + Life Faint (Low Stamina).
+                <br />
+                <span className="text-gold italic">Likely Situation:</span>{" "}
+                Prone to heartbreak, confusion, anxiety. Financially unstable
+                unless well-supported.
+              </TreeItem>
+            </TreeItem>
+          </div>
+        </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PalmistryInfo;
+export default PalmistryInfo

@@ -1,37 +1,58 @@
-import React, { useState } from "react";
-import {Link} from 'react-router-dom';
+import React from "react"
+import { Link } from "react-router-dom"
+import { motion } from "framer-motion"
+import { Star, BookOpen, Sparkles } from "lucide-react"
 
 const Astrology = () => {
-    return (
-            <div className="relative z-10 max-w-5xl mx-auto px-4 py-16 text-center">
-                {/* Hero Heading */}
-                <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white drop-shadow-md animate-fade-in-down">
-                    Chart Your Cosmic Journey
-                </h1>
+  return (
+    <div className="relative z-10 min-h-[80vh] flex flex-col items-center justify-center text-center px-4">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8 }}
+        className="max-w-5xl mx-auto"
+      >
+        <div className="mb-6 flex justify-center">
+          <div className="p-4 bg-white/5 rounded-full border border-gold/30">
+            <Star className="w-16 h-16 text-saffron" />
+          </div>
+        </div>
 
-                {/* Description */}
-                <p className="mt-6 text-lg sm:text-xl md:text-2xl text-gray-300 font-light max-w-3xl mx-auto animate-fade-in delay-200">
-                    At <span className="font-semibold text-yellow-300">The Astro Pulse</span>, we interpret your unique birth chart to illuminate your strengths, challenges, and life path, guiding you through the celestial influences shaping your destiny.
-                </p>
+        <h1 className="text-4xl sm:text-6xl font-heading font-bold text-gradient-gold drop-shadow-lg mb-6">
+          Chart Your Cosmic Journey
+        </h1>
 
-                {/* CTA Buttons */}
-                <div className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4 animate-fade-in delay-500">
-                    <Link
-                    to="/astrology/astrologyreport"
-                    className="bg-yellow-400 hover:bg-yellow-500 text-indigo-900 font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
-                    >
-                    Get Your Astrology Report
-                    </Link>
-                    <Link
-                    to="/astrology/astrologyinfo"
-                    className="border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-indigo-900 font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
-                    >
-                    Know about the Astrology
-                    </Link>
-                </div>
-            </div>
+        <p className="text-lg sm:text-xl text-smoke font-body font-light max-w-2xl mx-auto mb-10 leading-relaxed">
+          At <span className="font-semibold text-gold">The Astro Pulse</span>,
+          we interpret your unique birth chart to illuminate your strengths,
+          challenges, and life path, guiding you through the celestial
+          influences shaping your destiny.
+        </p>
 
-    );
-};
+        <div className="flex flex-col md:flex-row justify-center items-center gap-6 w-full">
+          <Link
+            to="/astrology/astrologyreport"
+            className="group relative px-8 py-4 bg-gradient-to-r from-saffron to-maroon rounded-full text-white font-bold shadow-lg shadow-saffron/20 hover:shadow-saffron/40 hover:scale-105 transition-all duration-300 overflow-hidden w-full md:w-auto"
+          >
+            <span className="relative z-10 flex items-center justify-center gap-2">
+              <Sparkles className="w-5 h-5 group-hover:rotate-12 transition-transform" />{" "}
+              Get Your Astrology Report
+            </span>
+            <div className="absolute inset-0 bg-white/20 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
+          </Link>
 
-export default Astrology;
+          <Link
+            to="/astrology/astrologyinfo"
+            className="group relative px-8 py-4 bg-white/10 border border-gold/50 rounded-full text-gold font-bold hover:bg-gold/10 hover:border-gold transition-all duration-300 flex items-center justify-center gap-2 overflow-hidden w-full md:w-auto"
+          >
+            <span className="relative z-10 flex items-center justify-center gap-2">
+              <BookOpen className="w-5 h-5" /> Know about Astrology
+            </span>
+          </Link>
+        </div>
+      </motion.div>
+    </div>
+  )
+}
+
+export default Astrology

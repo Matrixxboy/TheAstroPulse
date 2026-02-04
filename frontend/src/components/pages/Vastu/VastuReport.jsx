@@ -1,4 +1,14 @@
 import React, { useState, useRef } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import {
+  Upload,
+  MapPin,
+  FileCheck,
+  AlertCircle,
+  Loader2,
+  Download,
+  FileText,
+} from "lucide-react"
 
 const VastuReport = () => {
   const [loading, setLoading] = useState(false)
@@ -60,78 +70,110 @@ const VastuReport = () => {
   }
 
   return (
-    <>
-      <div className="container mx-auto p-6 color-text-primary">
-        <div className="max-w-4xl mx-auto bg-white/10 backdrop-blur-sm rounded-2xl shadow-lg p-8">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold">Vastu Analysis Portal</h1>
-            <p className="text-lg mt-2">
-              Upload your blueprint to generate a Vastu analysis report.
-            </p>
-          </div>
+    <div className="min-h-screen py-12 px-4 relative z-10 w-full">
+      <div className="max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-10"
+        >
+          <h1 className="text-4xl md:text-5xl font-heading font-bold text-gradient-gold mb-4 flex items-center justify-center gap-3">
+            <FileText className="w-10 h-10 text-saffron" /> Vastu Analysis
+            Portal
+          </h1>
+          <p className="text-lg text-smoke font-light max-w-2xl mx-auto">
+            Upload your blueprint and provide location details to receive a
+            detailed Vastu compliance report.
+          </p>
+        </motion.div>
+
+        <div className="glass p-8 md:p-10 rounded-3xl border border-gold/20 shadow-2xl relative overflow-hidden">
+          {/* Decorative Elements */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-saffron/5 rounded-full blur-3xl -z-10" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-maroon/5 rounded-full blur-3xl -z-10" />
+
           <form
             ref={formRef}
             onSubmit={handleSubmit}
             encType="multipart/form-data"
             className="space-y-8"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
               {/* Left Column: File Upload */}
-              <div className="bg-white/10 p-6 rounded-xl">
-                <h2 className="text-2xl font-semibold mb-4">
-                  1. Upload Blueprint
+              <div className="bg-white/5 p-6 rounded-2xl border border-white/10 hover:border-gold/30 transition-colors">
+                <h2 className="text-xl font-bold text-gold mb-4 flex items-center gap-2">
+                  <Upload className="w-5 h-5" /> 1. Upload Blueprint
                 </h2>
-                <label htmlFor="blueprint-file" className="block text-lg mb-2">
-                  Blueprint (PDF, PNG, JPG)
+                <label
+                  htmlFor="blueprint-file"
+                  className="block text-sm text-smoke mb-2"
+                >
+                  Supported formats: PDF, PNG, JPG
                 </label>
-                <input
-                  type="file"
-                  className="w-full px-4 py-3 rounded-lg bg-white/20 border border-transparent focus:border-cyan-400 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition-all"
-                  id="blueprint-file"
-                  name="blueprint"
-                  accept=".pdf,.png,.jpg,.jpeg"
-                  required
-                  onChange={handleFileChange}
-                />
-                {uploadedImage && (
-                  <div className="mt-4">
-                    <h3 className="text-xl font-semibold mb-2">
-                      Blueprint Preview
-                    </h3>
-                    {uploadedFileType === "application/pdf" ? (
-                      <iframe
-                        src={uploadedImage}
-                        className="w-full h-96 rounded-lg shadow-md"
-                      />
-                    ) : (
-                      <img
-                        src={uploadedImage}
-                        alt="Blueprint Preview"
-                        className="w-full rounded-lg shadow-md"
-                      />
-                    )}
-                  </div>
-                )}
+                <div className="relative group">
+                  <input
+                    type="file"
+                    className="w-full px-4 py-3 rounded-xl bg-cosmic-dark/50 border border-white/10 text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-gold file:text-cosmic-dark hover:file:bg-saffron transition-all cursor-pointer focus:outline-none focus:border-gold/50"
+                    id="blueprint-file"
+                    name="blueprint"
+                    accept=".pdf,.png,.jpg,.jpeg"
+                    required
+                    onChange={handleFileChange}
+                  />
+                </div>
+
+                <AnimatePresence>
+                  {uploadedImage && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      className="mt-6"
+                    >
+                      <h3 className="text-sm font-semibold text-white/80 mb-2 flex items-center gap-2">
+                        <FileCheck className="w-4 h-4 text-green-400" />{" "}
+                        Blueprint Preview
+                      </h3>
+                      <div className="rounded-xl overflow-hidden border border-white/20 shadow-lg bg-black/40">
+                        {uploadedFileType === "application/pdf" ? (
+                          <iframe
+                            src={uploadedImage}
+                            className="w-full h-64 md:h-80"
+                            title="PDF Preview"
+                          />
+                        ) : (
+                          <img
+                            src={uploadedImage}
+                            alt="Blueprint Preview"
+                            className="w-full h-auto max-h-[350px] object-contain"
+                          />
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
               {/* Right Column: Coordinates */}
-              <div className="space-y-6 bg-white/10 p-6 rounded-xl">
-                <div>
-                  <h2 className="text-2xl font-semibold mb-4">
-                    2. Geographic Coordinates
+              <div className="space-y-6">
+                <div className="bg-white/5 p-6 rounded-2xl border border-white/10 hover:border-gold/30 transition-colors">
+                  <h2 className="text-xl font-bold text-gold mb-4 flex items-center gap-2">
+                    <MapPin className="w-5 h-5" /> 2. Site Location
                   </h2>
-                  <p className="text-sm mb-4">
-                    Enter the coordinates for the analysis location.
+                  <p className="text-sm text-smoke mb-4">
+                    Enter existing coordinates of the property.
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="point_lat" className="block text-lg mb-2">
-                        Main Latitude
+                      <label
+                        htmlFor="point_lat"
+                        className="block text-xs uppercase font-bold text-white/60 mb-1 ml-1"
+                      >
+                        Latitude
                       </label>
                       <input
                         type="number"
                         step="any"
-                        className="w-full px-4 py-3 rounded-lg bg-white/20 border border-transparent focus:border-cyan-400 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition-all"
+                        className="w-full px-4 py-3 rounded-xl bg-cosmic-dark/50 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-gold/50 transition-colors"
                         id="point_lat"
                         name="point_lat"
                         placeholder="e.g., 19.027050"
@@ -139,13 +181,16 @@ const VastuReport = () => {
                       />
                     </div>
                     <div>
-                      <label htmlFor="point_lon" className="block text-lg mb-2">
-                        Main Longitude
+                      <label
+                        htmlFor="point_lon"
+                        className="block text-xs uppercase font-bold text-white/60 mb-1 ml-1"
+                      >
+                        Longitude
                       </label>
                       <input
                         type="number"
                         step="any"
-                        className="w-full px-4 py-3 rounded-lg bg-white/20 border border-transparent focus:border-cyan-400 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition-all"
+                        className="w-full px-4 py-3 rounded-xl bg-cosmic-dark/50 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-gold/50 transition-colors"
                         id="point_lon"
                         name="point_lon"
                         placeholder="e.g., 72.851651"
@@ -154,25 +199,26 @@ const VastuReport = () => {
                     </div>
                   </div>
                 </div>
-                <div>
-                  <h2 className="text-2xl font-semibold mb-4">
-                    3. Landmark Coordinates
+
+                <div className="bg-white/5 p-6 rounded-2xl border border-white/10 hover:border-gold/30 transition-colors">
+                  <h2 className="text-xl font-bold text-gold mb-4 flex items-center gap-2">
+                    <MapPin className="w-5 h-5" /> 3. South Landmark
                   </h2>
-                  <p className="text-sm mb-4">
-                    Enter the coordinates of a nearby landmark to the south.
+                  <p className="text-sm text-smoke mb-4">
+                    Coordinates of a nearby landmark strictly to the South.
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label
                         htmlFor="center_lat"
-                        className="block text-lg mb-2"
+                        className="block text-xs uppercase font-bold text-white/60 mb-1 ml-1"
                       >
-                        Landmark Latitude
+                        Latitude
                       </label>
                       <input
                         type="number"
                         step="any"
-                        className="w-full px-4 py-3 rounded-lg bg-white/20 border border-transparent focus:border-cyan-400 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition-all"
+                        className="w-full px-4 py-3 rounded-xl bg-cosmic-dark/50 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-gold/50 transition-colors"
                         id="center_lat"
                         name="center_lat"
                         placeholder="e.g., 19.026167"
@@ -182,14 +228,14 @@ const VastuReport = () => {
                     <div>
                       <label
                         htmlFor="center_lon"
-                        className="block text-lg mb-2"
+                        className="block text-xs uppercase font-bold text-white/60 mb-1 ml-1"
                       >
-                        Landmark Longitude
+                        Longitude
                       </label>
                       <input
                         type="number"
                         step="any"
-                        className="w-full px-4 py-3 rounded-lg bg-white/20 border border-transparent focus:border-cyan-400 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition-all"
+                        className="w-full px-4 py-3 rounded-xl bg-cosmic-dark/50 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-gold/50 transition-colors"
                         id="center_lon"
                         name="center_lon"
                         placeholder="e.g., 72.851914"
@@ -201,73 +247,77 @@ const VastuReport = () => {
               </div>
             </div>
 
-            <div className="text-center mt-8">
+            <div className="flex justify-center mt-8">
               <button
                 type="submit"
-                className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={loading}
+                className="group relative px-10 py-4 bg-gradient-to-r from-saffron to-maroon rounded-full text-white font-bold shadow-xl shadow-saffron/20 hover:shadow-saffron/40 hover:scale-[1.02] active:scale-95 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden"
               >
-                {loading ? (
-                  <div className="flex items-center justify-center">
-                    <svg
-                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                    Generating...
-                  </div>
-                ) : (
-                  "Generate Analysis PDF"
-                )}
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  {loading ? (
+                    <Loader2 className="animate-spin w-5 h-5" />
+                  ) : (
+                    <FileText className="w-5 h-5" />
+                  )}
+                  {loading
+                    ? "Generating Analysis..."
+                    : "Generate Analysis Report"}
+                </span>
               </button>
             </div>
           </form>
-          {message.text && (
-            <div
-              id="message-box"
-              className={`mt-6 p-4 rounded-lg text-center font-semibold ${
-                message.type === "success"
-                  ? "bg-green-500/30 text-green-200"
-                  : "bg-red-500/30 text-red-200"
-              }`}
-            >
-              {message.text}
-            </div>
-          )}
+
+          <AnimatePresence>
+            {message.text && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                className={`mt-8 p-4 rounded-xl flex items-center justify-center gap-3 backdrop-blur-md border ${
+                  message.type === "success"
+                    ? "bg-green-500/20 border-green-500/50 text-green-200"
+                    : "bg-red-500/20 border-red-500/50 text-red-200"
+                }`}
+              >
+                {message.type === "success" ? (
+                  <FileCheck className="w-5 h-5" />
+                ) : (
+                  <AlertCircle className="w-5 h-5" />
+                )}
+                <span className="font-semibold">{message.text}</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           {analysisImage && (
-            <div className="mt-8 text-center">
-              <h2 className="text-2xl font-semibold mb-4">Analysis Result</h2>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="mt-12 bg-white/5 p-6 rounded-2xl border border-white/10"
+            >
+              <div className="flex flex-col md:flex-row justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-gold flex items-center gap-2">
+                  <FileCheck className="w-6 h-6" /> Analysis Result
+                </h2>
+                <a
+                  href={analysisImage}
+                  download="vastu_analysis_output.pdf"
+                  className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-6 rounded-full transition-colors mt-4 md:mt-0"
+                >
+                  <Download className="w-4 h-4" /> Download PDF
+                </a>
+              </div>
+
               <iframe
                 src={analysisImage}
-                className="w-full h-screen rounded-lg shadow-md"
+                className="w-full h-[80vh] rounded-xl border border-white/20 shadow-inner bg-white"
+                title="Vastu Report"
               />
-              <a
-                href={analysisImage}
-                download="vastu_analysis_output.pdf"
-                className="mt-4 inline-block bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out"
-              >
-                Download Analysis
-              </a>
-            </div>
+            </motion.div>
           )}
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

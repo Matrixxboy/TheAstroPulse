@@ -1,37 +1,59 @@
-import React, { useState } from "react";
-import {Link} from 'react-router-dom';
+import React from "react"
+import { Link } from "react-router-dom"
+import { motion } from "framer-motion"
+import { Binary, Briefcase, User, Star } from "lucide-react"
 
 const Numerology = () => {
-    return (
-            <div className="relative z-10 max-w-5xl mx-auto px-4 py-16 text-center">
-                {/* Hero Heading */}
-                <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white drop-shadow-md animate-fade-in-down">
-                    Discover Your Numerology Blueprint
-                </h1>
+  return (
+    <div className="relative z-10 min-h-[80vh] flex flex-col items-center justify-center text-center px-4">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8 }}
+        className="max-w-4xl mx-auto"
+      >
+        <div className="mb-6 flex justify-center">
+          <div className="p-4 bg-white/5 rounded-full border border-gold/30">
+            <Binary className="w-16 h-16 text-saffron" />
+          </div>
+        </div>
 
-                {/* Description */}
-                <p className="mt-6 text-lg sm:text-xl md:text-2xl text-gray-300 font-light max-w-3xl mx-auto animate-fade-in delay-200">
-                    At <span className="font-semibold text-yellow-300">The Astro Pulse</span>, we decode the energetic essence of your name and business to help you align with success, clarity, and cosmic flow.
-                </p>
+        <h1 className="text-4xl sm:text-6xl font-heading font-bold text-gradient-gold drop-shadow-lg mb-6">
+          Discover Your Numerology Blueprint
+        </h1>
 
-                {/* CTA Buttons */}
-                <div className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4 animate-fade-in delay-500">
-                    <Link
-                    to="/numerology/business-numerology-report"
-                    className="bg-yellow-400 hover:bg-yellow-500 text-indigo-900 font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
-                    >
-                    Get Business Name Report
-                    </Link>
-                    <Link
-                    to="/numerology/name-numerology-report"
-                    className="border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-indigo-900 font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
-                    >
-                    Get Personal Name Report
-                    </Link>
-                </div>
-            </div>
+        <p className="text-lg sm:text-xl text-smoke font-body font-light max-w-2xl mx-auto mb-10 leading-relaxed">
+          At <span className="font-semibold text-gold">The Astro Pulse</span>,
+          we decode the energetic essence of your name and business to help you
+          align with success, clarity, and cosmic flow using the ancient science
+          of numbers.
+        </p>
 
-    );
-};
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-6">
+          <Link
+            to="/numerology/business-numerology-report"
+            className="group relative px-8 py-4 bg-gradient-to-r from-saffron to-maroon rounded-full text-white font-bold shadow-lg shadow-saffron/20 hover:shadow-saffron/40 hover:scale-105 transition-all duration-300 overflow-hidden w-full sm:w-auto"
+          >
+            <span className="relative z-10 flex items-center justify-center gap-2">
+              <Briefcase className="w-5 h-5 group-hover:rotate-12 transition-transform" />{" "}
+              Business Name Report
+            </span>
+            <div className="absolute inset-0 bg-white/20 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
+          </Link>
 
-export default Numerology;
+          <Link
+            to="/numerology/name-numerology-report"
+            className="group relative px-8 py-4 bg-white/10 border border-gold/50 rounded-full text-gold font-bold hover:bg-gold/10 hover:border-gold transition-all duration-300 flex items-center justify-center gap-2 overflow-hidden w-full sm:w-auto"
+          >
+            <span className="relative z-10 flex items-center justify-center gap-2">
+              <User className="w-5 h-5 group-hover:scale-110 transition-transform" />{" "}
+              Personal Name Report
+            </span>
+          </Link>
+        </div>
+      </motion.div>
+    </div>
+  )
+}
+
+export default Numerology

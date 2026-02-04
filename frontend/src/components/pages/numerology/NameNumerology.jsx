@@ -1,189 +1,304 @@
-import React, { useState } from "react";
-import LoShuGrid from "./Report/chart/LoShuGrid";
-import LoShuReport from "./Report/LoShuReport";
+import React, { useState } from "react"
+import LoShuGrid from "./Report/chart/LoShuGrid"
+import { motion, AnimatePresence } from "framer-motion"
+import { User, Calendar, RefreshCw, Star, Sparkles, Binary } from "lucide-react"
 
 const NameNumerology = () => {
-    const [name, setName] = useState("");
-    const [dob, setDob] = useState("");
-    const [gender, setGender] = useState("");
-    const [cgender, setCgender] = useState("");
-    const [cuname, setCuname] = useState("");
-    const [cudob, setCudob] = useState("");
-    const [result, setResult] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [toast, setToast] = useState(null);
+  const [name, setName] = useState("")
+  const [dob, setDob] = useState("")
+  const [gender, setGender] = useState("")
+  const [cgender, setCgender] = useState("")
+  const [cuname, setCuname] = useState("")
+  const [cudob, setCudob] = useState("")
+  const [result, setResult] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [toast, setToast] = useState(null)
 
-    const showToast = (message, type = "success") => {
-        setToast({ message, type });
-        setTimeout(() => setToast(null), 3000); // hide after 3 sec
-    };
+  const showToast = (message, type = "success") => {
+    setToast({ message, type })
+    setTimeout(() => setToast(null), 3000)
+  }
 
+  const handleSubmit = async (e) => {
+    e.preventDefault()
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        // console.log("Form submitted");
-        if (!name || !dob) {
-            // console.log("Missing values")
-        };
+    if (!name || !dob) return
 
-        setCuname(name);
-        setCudob(dob);
-        setCgender(gender);
+    setCuname(name)
+    setCudob(dob)
+    setCgender(gender)
 
-        setLoading(true);
-        setResult(null);
+    setLoading(true)
+    setResult(null)
 
-        try {
-            const response = await fetch(
-                `${import.meta.env.VITE_NAME_NUMCALCU_API_KEY}?fname=${name}&dob=${dob}&gen=${gender}`,
-                {
-                headers:{
-                    "Numlogy-API-KEY": import.meta.env.VITE_API_KEY_TOKEN,
-                },
-            }
-            );
-            const data = await response.json();
-            if (data.error) {
-                setResult({ error: data.error });
-                showToast("Something went wrong", "error");
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_NAME_NUMCALCU_API_KEY}?fname=${name}&dob=${dob}&gen=${gender}`,
+        {
+          headers: {
+            "Numlogy-API-KEY": import.meta.env.VITE_API_KEY_TOKEN,
+          },
+        },
+      )
+      const data = await response.json()
+      if (data.error) {
+        setResult({ error: data.error })
+        showToast("Something went wrong", "error")
+      } else {
+        setResult(data)
+        showToast("Numerology report fetched successfully", "success")
+      }
+    } catch (e) {
+      setResult({
+        error: "Failed to fetch numerology report. Please try again.",
+        e,
+      })
+    }
 
-            } else {
-                setResult(data);  
-                showToast("Numerology report fetched successfully", "success");
-            }
-        } catch (e) {
-            setResult({ error: "Failed to fetch numerology report. Please try again.", e });
-        }
+    setLoading(false)
+  }
 
-        setLoading(false);
-    };
-
-    return (
-        <div className="min-h-screen py-12 flex flex-col items-center ">
-           <div className="w-full max-w-[95%] sm:max-w-[90%] md:max-w-[80%] lg:max-w-[60%] xl:max-w-[50%] 2xl:max-w-[40%]">
-                <h1 className="text-3xl font-bold text-center text-cyan-300 mb-6">Name Numerology</h1>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="block text-sm mb-1">Full Name</label>
-                        <input
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder="e.g. Pratap Sharma"
-                            className="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm mb-1">Date of Birth</label>
-                        <input
-                            type="date"
-                            value={dob}
-                            onChange={(e) => setDob(e.target.value)}
-                            placeholder="DD-MM-YYYY"
-                            className="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-                        />
-                    </div>
-                    <div>
-                        <select
-                            value={gender}
-                            onChange={(e) => setGender(e.target.value)}
-                            className="w-full appearance-none cursor-pointer bg-white/20 text-white py-2 pl-4 pr-10 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 transition ease-in-out duration-150 backdrop-blur-md"
-                        >
-                            <option value="Gender" className="bg-slate-900 text-white">Gender</option>
-                            <option value="Male" className="bg-slate-900 text-white">Male</option>
-                            <option value="Female" className="bg-slate-900 text-white">Female</option>
-                        </select>
-                    </div>
-
-                    <div className="relative z-10">
-                        <button
-                        type="submit"
-                        className="w-full bg-cyan-400 hover:bg-cyan-300 text-black font-semibold py-2 rounded-lg transition relative z-10">
-                            {loading ? "Calculating..." : "Get Numerology Report"}
-                        </button>
-                    </div>
-
-                </form>
-                {toast && (
-                    <div
-                        className={`fixed bottom-4 right-4 px-4 py-3 rounded-lg shadow-lg text-white z-50 transition-opacity duration-300 animate-fade-in-up ${
-                        toast.type === "error" ? "bg-red-500" : "bg-green-500"
-                        }`}
-                    >
-                        {toast.message}
-                    </div>
-                )}
-                <br />
-                {result && (
-                    <div className="mt-6 p-4 rounded-lg bg-white/20 border border-yellow-300">
-                        {result.error ? (
-                            <p className="text-red-400">{result.error}</p>
-                        ) : (
-                            <>
-                                <h2 className="text-2xl font-bold text-cyan-200 mb-2">Your Numerology Report</h2>
-                                <p className="text-md text-gray-100">
-                                    <strong>Name : </strong> {cuname}
-                                </p>
-                                <p className="text-md text-gray-100">
-                                    <strong>Gender : </strong> {cgender}
-                                </p>
-                                <p className="text-md text-gray-100">
-                                    <strong>Name Number : </strong> {result.name_number}
-                                </p>
-                                <p className="text-md text-gray-100">
-                                    <strong>DOB : </strong> {cudob}
-                                </p>
-                                 <p className="text-md text-gray-100">
-                                    <strong>Life Path / destiny number : </strong> {result.master_sum}
-                                </p>
-                                <p className="text-md text-gray-100">
-                                    <strong>Soul number : </strong> {result.vowels_sum}
-                                </p>
-                                <p className="text-md text-gray-100">
-                                    <strong>Driver number : </strong> {result.driver_number}
-                                </p>
-                                <p className="text-md text-gray-100">
-                                    <strong>connector number : </strong> {result.connector_number}
-                                </p>
-                                <p className="text-md text-gray-100">
-                                    <strong>Kua number : </strong> {result.kua_number}
-                                </p>
-                                <p className="text-md text-gray-100">
-                                    <strong>Personality : </strong> {result.personality_traits?.traits.join(", ")}
-                                </p>
-                                <p className="text-md text-gray-100">
-                                    <strong>Best Career : </strong> {result.life_path_number?.career}
-                                </p>
-                                <p className="text-md text-gray-100">
-                                    <strong>Your desired Career : </strong> {result.soul_urge_number?.career.join(", ")}
-                                </p>
-                                <p className="text-md text-gray-100">
-                                    <strong>Lucky list : </strong> {result.dob}
-                                    <ul>
-                                        <li><><strong>Day : </strong>{result.lucky_list?.day}</></li>
-                                        <li><><strong>Planet : </strong>{result.lucky_list?.planet}</></li>
-                                        <li><><strong>Color : </strong>{result.lucky_list?.lucky_colors}</></li>
-                                        <li><><strong>Stone : </strong>{result.lucky_list?.lucky_stones}</></li>
-                                    </ul>
-                                </p>
-                                
-                                <p className="text-md mt-2 text-white whitespace-pre-wrap">
-                                    {/* <strong className="text-xl font-bold text-cyan-200 mb-2" >Report</strong> */}
-                                    <p><strong>Personality type : </strong>{result.personality_traits.nickname}</p>
-                                    {result.personality_traits?.vibe}{result.personality_traits?.how_people_see_you}{result.life_path_number?.strengths}{result.life_path_number?.challenges}{result.life_path_number?.life_purpose}{result.soul_urge_number?.description}
-                                </p>
-                                <div className=" flex flex-col items-center justify-center">
-                                    <h1 className="text-2xl font-bold">Lo Shu Grid</h1>
-                                    <LoShuGrid gridData={result.lo_shu_grid} />
-                                    {/* <LoShuReport gridData={result.lo_shu_grid} /> */}
-                                </div>
-                            </>
-                        )}
-                    </div>
-                )}
-            </div>
+  return (
+    <div className="min-h-screen py-12 flex flex-col items-center px-4 relative z-10">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="w-full max-w-4xl"
+      >
+        <div className="text-center mb-8">
+          <h1 className="text-3xl md:text-5xl font-heading font-bold text-gradient-gold mb-3 flex items-center justify-center gap-3">
+            <Star className="w-8 h-8 text-saffron" /> Name Numerology
+          </h1>
+          <p className="text-smoke">Unlock the vibration of your name.</p>
         </div>
-    );
-};
 
-export default NameNumerology;
+        <div className="glass p-8 rounded-2xl border border-white/10 shadow-xl max-w-lg mx-auto mb-12">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gold flex items-center gap-2">
+                <User className="w-4 h-4" /> Full Name
+              </label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="e.g. Pratap Sharma"
+                className="w-full bg-cosmic-dark/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-gold/50 transition-colors"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gold flex items-center gap-2">
+                <Calendar className="w-4 h-4" /> Date of Birth
+              </label>
+              <input
+                type="date"
+                value={dob}
+                onChange={(e) => setDob(e.target.value)}
+                className="w-full bg-cosmic-dark/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-gold/50 transition-colors"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gold flex items-center gap-2">
+                <Binary className="w-4 h-4" /> Gender
+              </label>
+              <select
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+                className="w-full bg-cosmic-dark/50 border border-white/10 rounded-xl px-4 py-3 text-white appearance-none focus:outline-none focus:border-gold/50 transition-colors cursor-pointer"
+              >
+                <option value="" className="bg-slate-900">
+                  Select Gender
+                </option>
+                <option value="Male" className="bg-slate-900">
+                  Male
+                </option>
+                <option value="Female" className="bg-slate-900">
+                  Female
+                </option>
+              </select>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading || !name || !dob}
+              className="w-full bg-gradient-to-r from-saffron to-maroon text-white font-bold py-4 rounded-xl shadow-lg shadow-saffron/20 hover:shadow-saffron/40 hover:scale-[1.02] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? (
+                "Calculating..."
+              ) : (
+                <>
+                  <Sparkles className="w-5 h-5" /> Get Numerology Report
+                </>
+              )}
+            </button>
+          </form>
+        </div>
+
+        <AnimatePresence>
+          {toast && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              className={`fixed bottom-8 right-8 px-6 py-4 rounded-xl shadow-2xl text-white z-50 flex items-center gap-3 backdrop-blur-md border ${
+                toast.type === "error"
+                  ? "bg-red-500/80 border-red-400"
+                  : "bg-green-500/80 border-green-400"
+              }`}
+            >
+              {toast.type === "error" ? (
+                <div className="w-2 h-2 rounded-full bg-white" />
+              ) : (
+                <Sparkles className="w-4 h-4" />
+              )}
+              {toast.message}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {result && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-6 glass p-8 rounded-2xl border border-gold/30"
+          >
+            {result.error ? (
+              <p className="text-red-400 text-center">{result.error}</p>
+            ) : (
+              <div className="space-y-12">
+                <div className="text-center">
+                  <h2 className="text-2xl font-bold text-gold mb-2">
+                    Numerology Report
+                  </h2>
+                  <p className="text-white/60">
+                    Analysis for{" "}
+                    <span className="text-white font-semibold">{cuname}</span>
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="bg-white/5 p-6 rounded-xl border border-white/10 space-y-4">
+                    <h3 className="text-lg font-bold text-saffron mb-4 border-b border-white/10 pb-2">
+                      Core Numbers
+                    </h3>
+                    <div className="flex justify-between items-center">
+                      <span className="text-smoke">Name Number</span>{" "}
+                      <span className="text-xl font-bold text-white">
+                        {result.name_number}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-smoke">Life Path</span>{" "}
+                      <span className="text-xl font-bold text-white">
+                        {result.master_sum}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-smoke">Soul Urge</span>{" "}
+                      <span className="text-xl font-bold text-white">
+                        {result.vowels_sum}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-smoke">Driver</span>{" "}
+                      <span className="text-xl font-bold text-white">
+                        {result.driver_number}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-smoke">Connector</span>{" "}
+                      <span className="text-xl font-bold text-white">
+                        {result.connector_number}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-smoke">Kua Number</span>{" "}
+                      <span className="text-xl font-bold text-white">
+                        {result.kua_number}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="bg-white/5 p-6 rounded-xl border border-white/10 space-y-4">
+                    <h3 className="text-lg font-bold text-saffron mb-4 border-b border-white/10 pb-2">
+                      Lucky Factors
+                    </h3>
+                    <div className="flex justify-between">
+                      <span className="text-smoke">Lucky Day</span>{" "}
+                      <span className="text-white text-right">
+                        {result.lucky_list?.day}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-smoke">Planet</span>{" "}
+                      <span className="text-white text-right">
+                        {result.lucky_list?.planet}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-smoke">Colors</span>{" "}
+                      <span className="text-white text-right">
+                        {result.lucky_list?.lucky_colors}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-smoke">Stones</span>{" "}
+                      <span className="text-white text-right">
+                        {result.lucky_list?.lucky_stones}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="bg-white/5 p-6 rounded-xl border border-white/10">
+                    <h3 className="text-lg font-bold text-saffron mb-2">
+                      Personality Profile: {result.personality_traits?.nickname}
+                    </h3>
+                    <div className="text-white/80 space-y-4 leading-relaxed font-body">
+                      <p>{result.personality_traits?.vibe}</p>
+                      <p>{result.personality_traits?.how_people_see_you}</p>
+                    </div>
+                  </div>
+
+                  <div className="bg-white/5 p-6 rounded-xl border border-white/10">
+                    <h3 className="text-lg font-bold text-saffron mb-2">
+                      Life Path & Purpose
+                    </h3>
+                    <div className="text-white/80 space-y-4 leading-relaxed font-body">
+                      <p>
+                        <strong>Strengths: </strong>
+                        {result.life_path_number?.strengths}
+                      </p>
+                      <p>
+                        <strong>Challenges: </strong>
+                        {result.life_path_number?.challenges}
+                      </p>
+                      <p>
+                        <strong>Life Purpose: </strong>
+                        {result.life_path_number?.life_purpose}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-center justify-center pt-8 border-t border-white/10">
+                  <h3 className="text-2xl font-bold text-gold mb-6">
+                    Lo Shu Grid
+                  </h3>
+                  <div className="bg-white p-4 rounded-xl shadow-2xl">
+                    <LoShuGrid gridData={result.lo_shu_grid} />
+                  </div>
+                </div>
+              </div>
+            )}
+          </motion.div>
+        )}
+      </motion.div>
+    </div>
+  )
+}
+
+export default NameNumerology
