@@ -218,7 +218,7 @@ const HomePage = () => {
       </section>
 
       {/* 🪐 Services Section */}
-      <section className="py-24 px-4 relative">
+      <section className="py-24 px-4 relative bg-color-background/20 backdrop-blur-sm">
         <div className="container mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-heading font-bold text-white mb-4">
@@ -312,18 +312,16 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* 🛕 Trust Section */}
-      <section className="py-16 text-center">
+      {/* 🌺 Testimonials Section */}
+      <section className="py-24 relative bg-color-background/20 backdrop-blur-sm">
+      <div className="py-16 text-center">
         <p className="font-sanskrit text-2xl text-gold mb-2">
           "यथा पिण्डे तथा ब्रह्माण्डे"
         </p>
         <p className="text-smoke italic">
           "As is the human body, so is the cosmic body."
         </p>
-      </section>
-
-      {/* 🌺 Testimonials Section */}
-      <section className="py-24 relative">
+      </div>
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-heading font-bold text-center text-white mb-16">
             Seeker's <span className="text-gradient-gold">Experiences</span>
