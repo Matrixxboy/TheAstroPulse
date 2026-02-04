@@ -177,52 +177,83 @@ def process_blueprint(blueprint_image, overlay_image, center_lat, center_lon, po
     elif output_img.shape[2] == 4:
         output_img = cv2.cvtColor(output_img, cv2.COLOR_BGRA2BGR)
         
+    # --- 1. Preprocessing (Strong Binary + Mask Border) ---
     gray = cv2.cvtColor(output_img, cv2.COLOR_BGR2GRAY)
+    h, w = gray.shape
+
+    # Strong Binary Threshold (Blueprint Style)
     _, binary = cv2.threshold(gray, 200, 255, cv2.THRESH_BINARY_INV)
-    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (11, 11))
-    closed = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, kernel)
-    num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(closed, connectivity=8)
 
-    max_area = 0
-    max_label = -1
-    if num_labels > 1:
-        for i in range(1, num_labels):
-            area = stats[i, cv2.CC_STAT_AREA]
-            x, y, w, h = stats[i, cv2.CC_STAT_LEFT], stats[i, cv2.CC_STAT_TOP], stats[i, cv2.CC_STAT_WIDTH], stats[i, cv2.CC_STAT_HEIGHT]
-            aspect_ratio = max(w, h) / (min(w, h) + 1e-6)
-            if area > max_area and aspect_ratio < 4:
-                max_area = area
-                max_label = i
+    # Mask Border (Sever Frame Connections)
+    margin = 15
+    cv2.rectangle(binary, (0, 0), (w, margin), 0, -1)
+    cv2.rectangle(binary, (0, h - margin), (w, h), 0, -1)
+    cv2.rectangle(binary, (0, 0), (margin, h), 0, -1)
+    cv2.rectangle(binary, (w - margin, 0), (w, h), 0, -1)
 
-    if max_label != -1:
-        house_mask = np.zeros_like(binary)
-        house_mask[labels == max_label] = 255
-        contours, _ = cv2.findContours(house_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    # Morphological Closing (Join Broken Walls)
+    # Using smaller kernel (5,5) to avoid merging frame with walls (as per plan.py)
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
+    closed = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, kernel, iterations=1)
+
+    # --- 2. Find Contours ---
+    contours, _ = cv2.findContours(closed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    # --- 3. Filter Contours (Real Structure Selection) ---
+    image_area = h * w
+    valid_contours = []
+
+    print(f"Total contours found: {len(contours)}")
+
+    for cnt in contours:
+        area = cv2.contourArea(cnt)
         
-        if contours:
-            main_contour = max(contours, key=cv2.contourArea)
-            M = cv2.moments(main_contour)
-            if M["m00"] == 0:
-                print("Error: Cannot find centroid — zero area detected.")
-                return None
-            
-            cx = int(M["m10"] / M["m00"])
-            cy = int(M["m01"] / M["m00"])
-            center = (cx, cy)
-            
-            x, y, w, h = cv2.boundingRect(main_contour)
-            bbox = (x, y, w, h)
+        # Filter 1: Reject Small Area (< 0.1%)
+        if area < image_area * 0.001:
+            continue
 
-            print("Calculating North angle from geographic coordinates...")
-            angle = calculate_north_angle(center_lat, center_lon, point_lat, point_lon)
-            print(f"Calculated rotation angle: {angle:.2f} degrees")
-            
-            output_img = overlay_image_on_base(output_img, overlay_image, center, w, h, rotation_angle=angle)
-            output_img = draw_annotations(output_img, center, main_contour, bbox, angle)
-            return output_img
-        else:
-            print("No contour found after filtering for the largest component.")
+        x_cnt, y_cnt, cw, ch = cv2.boundingRect(cnt)
+        bbox_area = cw * ch
+        density = area / bbox_area if bbox_area > 0 else 0
+
+        # Filter 2: Reject Page Border (Touching Edges)
+        if x_cnt <= 10 or y_cnt <= 10 or (x_cnt + cw) >= (w - 10) or (y_cnt + ch) >= (h - 10):
+            continue
+        
+        # Filter 3: Reject Low Density (Frame Lines)
+        if density < 0.1:
+            continue
+
+        valid_contours.append(cnt)
+
+    # --- 4. Aggregate & Convex Hull ---
+    if valid_contours:
+        # Combine all valid structural layouts into one set of points
+        all_points = np.vstack(valid_contours)
+        
+        # Compute the convex hull of the aggregate
+        main_contour = cv2.convexHull(all_points)
+        
+        M = cv2.moments(main_contour)
+        if M["m00"] == 0:
+            print("Error: Cannot find centroid — zero area detected.")
             return None
+        
+        cx = int(M["m10"] / M["m00"])
+        cy = int(M["m01"] / M["m00"])
+        center = (cx, cy)
+        
+        x, y, w, h = cv2.boundingRect(main_contour)
+        bbox = (x, y, w, h)
+
+        print("Calculating North angle from geographic coordinates...")
+        angle = calculate_north_angle(center_lat, center_lon, point_lat, point_lon)
+        print(f"Calculated rotation angle: {angle:.2f} degrees")
+        
+        output_img = overlay_image_on_base(output_img, overlay_image, center, w, h, rotation_angle=angle)
+        output_img = draw_annotations(output_img, center, main_contour, bbox, angle)
+        return output_img
+
     else:
-        print("No suitable component found for the house structure.")
+        print("No suitable component found for the house structure (Filters removed all contours).")
         return None
