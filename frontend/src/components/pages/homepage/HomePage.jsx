@@ -12,6 +12,7 @@ import {
 } from "lucide-react"
 import Chatbot from "../chatbot/Chatbot"
 import { ErrorBoundary } from "react-error-boundary"
+import DailyWisdom from "../../partials/DailyWisdom"
 // const Mandala = () => {
 //   const signs = [
 //     "♈",
@@ -158,15 +159,10 @@ const ServiceCard = ({ icon: Icon, title, link, desc }) => (
 const HomePage = () => {
   return (
     <div className="min-h-screen bg-transparent text-ash font-body overflow-x-hidden relative">
-      {/* Background Stars (Simple Parallax Placeholder) */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="stars"></div>
-        <div className="stars2"></div>
-        <div className="stars3"></div>
-      </div>
-
+      {/* Background Stars handled in MainLayout */}
       {/* 🟣 Hero Section */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 pt-20 overflow-hidden">
+      <DailyWisdom />
+      <section className="w-full relative flex flex-col items-center justify-center text-center px-4 py-10 overflow-hidden">
         {/* Zodiac Wheel Animation */}
         <motion.div
           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] md:w-[800px] md:h-[800px] opacity-20 z-0 pointer-events-none"
@@ -314,14 +310,14 @@ const HomePage = () => {
 
       {/* 🌺 Testimonials Section */}
       <section className="py-24 relative bg-color-background/20 backdrop-blur-sm">
-      <div className="py-16 text-center">
-        <p className="font-sanskrit text-2xl text-gold mb-2">
-          "यथा पिण्डे तथा ब्रह्माण्डे"
-        </p>
-        <p className="text-smoke italic">
-          "As is the human body, so is the cosmic body."
-        </p>
-      </div>
+        <div className="py-16 text-center">
+          <p className="font-sanskrit text-2xl text-gold mb-2">
+            "यथा पिण्डे तथा ब्रह्माण्डे"
+          </p>
+          <p className="text-smoke italic">
+            "As is the human body, so is the cosmic body."
+          </p>
+        </div>
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-heading font-bold text-center text-white mb-16">
             Seeker's <span className="text-gradient-gold">Experiences</span>

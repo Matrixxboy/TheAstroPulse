@@ -48,7 +48,7 @@ const Horoscope = () => {
         className="w-full max-w-lg"
       >
         <div className="text-center mb-10">
-          <h1 className="text-4xl md:text-5xl font-heading font-bold text-gradient-gold mb-3 flex items-center justify-center gap-3">
+          <h1 className="text-4xl md:text-5xl font-heading font-bold text-gradient-gold mb-3 flex items-center justify-center gap-3 overflow">
             <Sun className="w-8 h-8 text-saffron" /> Daily Horoscope
           </h1>
           <p className="text-smoke text-sm md:text-base font-body">
