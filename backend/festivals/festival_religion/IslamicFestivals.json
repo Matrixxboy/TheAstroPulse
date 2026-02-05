@@ -1,0 +1,92 @@
+[
+  {
+    "name": "Ramadan",
+    "category": "observance",
+    "religion": "Islam",
+    "calendar": "Islamic Lunar",
+    "type": "Fasting Month",
+    "deity_or_figure": null,
+    "priority": "Major",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Eid al-Fitr",
+    "category": "festival",
+    "religion": "Islam",
+    "calendar": "Islamic Lunar",
+    "type": "Festival",
+    "deity_or_figure": null,
+    "priority": "Major",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Eid al-Adha",
+    "category": "festival",
+    "religion": "Islam",
+    "calendar": "Islamic Lunar",
+    "type": "Festival",
+    "deity_or_figure": "Prophet Ibrahim",
+    "priority": "Major",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Muharram",
+    "category": "observance",
+    "religion": "Islam",
+    "calendar": "Islamic Lunar",
+    "type": "Mourning",
+    "deity_or_figure": null,
+    "priority": "Medium",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Ashura",
+    "category": "observance",
+    "religion": "Islam",
+    "calendar": "Islamic Lunar",
+    "type": "Mourning",
+    "deity_or_figure": null,
+    "priority": "Medium",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Mawlid",
+    "category": "observance",
+    "religion": "Islam",
+    "calendar": "Islamic Lunar",
+    "type": "Birth Anniversary",
+    "deity_or_figure": "Prophet Muhammad",
+    "priority": "Medium",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Laylat al-Qadr",
+    "category": "observance",
+    "religion": "Islam",
+    "calendar": "Islamic Lunar",
+    "type": "Night of Power",
+    "deity_or_figure": null,
+    "priority": "Medium",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Jummah",
+    "category": "observance",
+    "religion": "Islam",
+    "calendar": "Islamic Lunar",
+    "type": "Weekly Prayer",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Islamic New Year",
+    "category": "observance",
+    "religion": "Islam",
+    "calendar": "Islamic Lunar",
+    "type": "New Year",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  }
+]

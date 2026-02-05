@@ -1,0 +1,102 @@
+[
+  {
+    "name": "Vernal Equinox",
+    "category": "astronomy",
+    "religion": "None",
+    "calendar": "Astronomical",
+    "type": "Equinox",
+    "deity_or_figure": null,
+    "priority": "Medium",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Winter Solstice",
+    "category": "astronomy",
+    "religion": "None",
+    "calendar": "Astronomical",
+    "type": "Solstice",
+    "deity_or_figure": null,
+    "priority": "Medium",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Summer Solstice",
+    "category": "astronomy",
+    "religion": "None",
+    "calendar": "Astronomical",
+    "type": "Solstice",
+    "deity_or_figure": null,
+    "priority": "Medium",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Autumnal Equinox",
+    "category": "astronomy",
+    "religion": "None",
+    "calendar": "Astronomical",
+    "type": "Equinox",
+    "deity_or_figure": null,
+    "priority": "Medium",
+    "region_scope": "Global"
+  },
+  {
+    "name": "New Moon",
+    "category": "astronomy",
+    "religion": "None",
+    "calendar": "Astronomical",
+    "type": "Lunar Phase",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Full Moon",
+    "category": "astronomy",
+    "religion": "None",
+    "calendar": "Astronomical",
+    "type": "Lunar Phase",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Solar Eclipse",
+    "category": "astronomy",
+    "religion": "None",
+    "calendar": "Astronomical",
+    "type": "Eclipse",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Lunar Eclipse",
+    "category": "astronomy",
+    "religion": "None",
+    "calendar": "Astronomical",
+    "type": "Eclipse",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Meteor Shower",
+    "category": "astronomy",
+    "religion": "None",
+    "calendar": "Astronomical",
+    "type": "Meteor Shower",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Planetary Alignment",
+    "category": "astronomy",
+    "religion": "None",
+    "calendar": "Astronomical",
+    "type": "Planetary Event",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  }
+]

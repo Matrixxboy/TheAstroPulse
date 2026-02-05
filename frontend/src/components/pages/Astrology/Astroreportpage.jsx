@@ -35,7 +35,7 @@ const Astroreportpage = () => {
     if (value.length > 2) {
       try {
         const res = await fetch(
-          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+          `${import.meta.env.VITE_ASTRO_API_URL}/proxy/nominatim?q=${encodeURIComponent(
             value,
           )}&limit=5`,
         )

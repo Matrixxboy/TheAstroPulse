@@ -35,6 +35,7 @@ const Navbar = () => {
             "/palmreading",
             "/numerology",
             "/horoscope",
+            "/festivals",
           ].map((path) => {
             const label =
               path === "/"
@@ -75,6 +76,7 @@ const Navbar = () => {
             "/palmreading",
             "/numerology",
             "/horoscope",
+            "/festivals",
           ].map((path) => {
             const label =
               path === "/"

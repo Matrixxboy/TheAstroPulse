@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Good Friday",
+    "category": "observance",
+    "religion": "Christianity",
+    "calendar": "Christian",
+    "type": "Religious Observance",
+    "deity_or_figure": "Jesus Christ",
+    "priority": "Major",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Easter",
+    "category": "festival",
+    "religion": "Christianity",
+    "calendar": "Christian",
+    "type": "Resurrection",
+    "deity_or_figure": "Jesus Christ",
+    "priority": "Major",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Christmas",
+    "category": "festival",
+    "religion": "Christianity",
+    "calendar": "Gregorian",
+    "type": "Birth Anniversary",
+    "deity_or_figure": "Jesus Christ",
+    "priority": "Major",
+    "region_scope": "Global"
+  }
+]

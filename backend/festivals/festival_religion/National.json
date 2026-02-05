@@ -1,0 +1,462 @@
+[
+  {
+    "name": "Republic Day",
+    "category": "national",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "National Event",
+    "deity_or_figure": null,
+    "priority": "Major",
+    "region_scope": "India"
+  },
+  {
+    "name": "Independence Day",
+    "category": "national",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "National Event",
+    "deity_or_figure": null,
+    "priority": "Major",
+    "region_scope": "India"
+  },
+  {
+    "name": "International Yoga Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Observance",
+    "deity_or_figure": null,
+    "priority": "Medium",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Gandhi Jayanti",
+    "category": "national",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Birth Anniversary",
+    "deity_or_figure": "Mahatma Gandhi",
+    "priority": "Major",
+    "region_scope": "India"
+  },
+  {
+    "name": "Children's Day",
+    "category": "national",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Commemoration",
+    "deity_or_figure": "Jawaharlal Nehru",
+    "priority": "Medium",
+    "region_scope": "India"
+  },
+  {
+    "name": "Labour Day",
+    "category": "national",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Observance",
+    "deity_or_figure": null,
+    "priority": "Medium",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Women's Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Observance",
+    "deity_or_figure": null,
+    "priority": "Medium",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Earth Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Environmental",
+    "deity_or_figure": null,
+    "priority": "Medium",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Environment Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Environmental",
+    "deity_or_figure": null,
+    "priority": "Medium",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Health Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Health",
+    "deity_or_figure": null,
+    "priority": "Medium",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Music Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Cultural",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Tourism Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Cultural",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Book Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Cultural",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "New Year's Day",
+    "category": "national",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "New Year",
+    "deity_or_figure": null,
+    "priority": "Major",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Valentine's Day",
+    "category": "cultural",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Love",
+    "deity_or_figure": "Saint Valentine",
+    "priority": "Medium",
+    "region_scope": "Global"
+  },
+  {
+    "name": "April Fools' Day",
+    "category": "cultural",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Prank",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "May Day",
+    "category": "national",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Labour",
+    "deity_or_figure": null,
+    "priority": "Medium",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Halloween",
+    "category": "cultural",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Festival",
+    "deity_or_figure": null,
+    "priority": "Medium",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Thanksgiving Day",
+    "category": "national",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Harvest",
+    "deity_or_figure": null,
+    "priority": "Medium",
+    "region_scope": "North America"
+  },
+  {
+    "name": "Boxing Day",
+    "category": "national",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Holiday",
+    "deity_or_figure": null,
+    "priority": "Medium",
+    "region_scope": "Commonwealth"
+  },
+  {
+    "name": "New Year's Eve",
+    "category": "cultural",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "New Year",
+    "deity_or_figure": null,
+    "priority": "Medium",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Mother's Day",
+    "category": "cultural",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Commemoration",
+    "deity_or_figure": null,
+    "priority": "Medium",
+    "region_scope": "Global"
+  },
+  {
+    "name": "Father's Day",
+    "category": "cultural",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Commemoration",
+    "deity_or_figure": null,
+    "priority": "Medium",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Population Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Observance",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Blood Donor Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Health",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Tourism Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Cultural",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Food Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Food",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Diabetes Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Health",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World AIDS Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Health",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Cancer Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Health",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Heart Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Health",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Mental Health Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Health",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Sleep Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Health",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Poetry Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Cultural",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Theatre Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Cultural",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Dance Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Cultural",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Music Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Cultural",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Book Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Cultural",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Photography Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Cultural",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Television Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Cultural",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Radio Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Cultural",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Internet Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Cultural",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Social Media Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Cultural",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Emoji Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Cultural",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Emoji Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Cultural",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  },
+  {
+    "name": "World Emoji Day",
+    "category": "international",
+    "religion": "Secular",
+    "calendar": "Gregorian",
+    "type": "Cultural",
+    "deity_or_figure": null,
+    "priority": "Low",
+    "region_scope": "Global"
+  }
+]

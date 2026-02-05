@@ -1,0 +1,133 @@
+{
+  "Makar Sankranti": {
+    "type": "solar",
+    "sun_sign": "Capricorn"
+  },
+  "Republic Day": {
+    "type": "fixed",
+    "month": 1,
+    "day": 26
+  },
+  "Valentine's Day": {
+    "type": "fixed",
+    "month": 2,
+    "day": 14
+  },
+  "Vasant Panchami": {
+    "type": "lunar",
+    "lunar_month": "Magha",
+    "paksha": "Shukla",
+    "tithi": "Panchami"
+  },
+  "Maha Shivratri": {
+    "type": "lunar",
+    "lunar_month": "Phalguna",
+    "paksha": "Krishna",
+    "tithi": "Chaturdashi"
+  },
+  "Holi": {
+    "type": "lunar",
+    "lunar_month": "Phalguna",
+    "paksha": "Shukla",
+    "tithi": "Purnima"
+  },
+  "Rama Navami": {
+    "type": "lunar",
+    "lunar_month": "Chaitra",
+    "paksha": "Shukla",
+    "tithi": "Navami"
+  },
+  "Hanuman Jayanti": {
+    "type": "lunar",
+    "lunar_month": "Chaitra",
+    "paksha": "Shukla",
+    "tithi": "Purnima"
+  },
+  "Akshaya Tritiya": {
+    "type": "lunar",
+    "lunar_month": "Vaisakha",
+    "paksha": "Shukla",
+    "tithi": "Tritiya"
+  },
+  "Buddha Purnima": {
+    "type": "lunar",
+    "lunar_month": "Vaisakha",
+    "paksha": "Shukla",
+    "tithi": "Purnima"
+  },
+  "Guru Purnima": {
+    "type": "lunar",
+    "lunar_month": "Ashadha",
+    "paksha": "Shukla",
+    "tithi": "Purnima"
+  },
+  "Raksha Bandhan": {
+    "type": "lunar",
+    "lunar_month": "Shravana",
+    "paksha": "Shukla",
+    "tithi": "Purnima"
+  },
+  "Krishna Janmashtami": {
+    "type": "lunar",
+    "lunar_month": "Bhadrapada",
+    "paksha": "Krishna",
+    "tithi": "Ashtami"
+  },
+  "Ganesh Chaturthi": {
+    "type": "lunar",
+    "lunar_month": "Bhadrapada",
+    "paksha": "Shukla",
+    "tithi": "Chaturthi"
+  },
+  "Navratri (Start)": {
+    "type": "lunar",
+    "lunar_month": "Ashvina",
+    "paksha": "Shukla",
+    "tithi": "Pratipada"
+  },
+  "Dussehra": {
+    "type": "lunar",
+    "lunar_month": "Ashvina",
+    "paksha": "Shukla",
+    "tithi": "Dashami"
+  },
+  "Karva Chauth": {
+    "type": "lunar",
+    "lunar_month": "Kartika",
+    "paksha": "Krishna",
+    "tithi": "Chaturthi"
+  },
+  "Dhanteras": {
+    "type": "lunar",
+    "lunar_month": "Kartika",
+    "paksha": "Krishna",
+    "tithi": "Trayodashi"
+  },
+  "Diwali": {
+    "type": "lunar",
+    "lunar_month": "Kartika",
+    "paksha": "Krishna",
+    "tithi": "Amavasya"
+  },
+  "Bhai Dooj": {
+    "type": "lunar",
+    "lunar_month": "Kartika",
+    "paksha": "Shukla",
+    "tithi": "Dvitiya"
+  },
+  "Independence Day": {
+    "type": "fixed",
+    "month": 8,
+    "day": 15
+  },
+  "Gandhi Jayanti": {
+    "type": "fixed",
+    "month": 10,
+    "day": 2
+  },
+  "Christmas": {
+    "type": "fixed",
+    "month": 12,
+    "day": 25
+  }
+}

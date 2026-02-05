@@ -3,7 +3,7 @@ import os
 import cv2
 import json
 import numpy as np
-from datetime import datetime
+from datetime import datetime, date
 from numerology.numlogycalcu import name_numlogy_basic_sums , business_numerology_basic_sums
 from astrology.horoscope import fetch_horoscope , get_zodiac_sign
 from astrology.nakshtra_details import final_astro_report
@@ -11,7 +11,11 @@ from astrology.planet_positions import planet_position_details
 from astrology.Dasha.vimashotryDasha import find_vimashotry_dasha
 from vastu.vastuProcess import allowed_file, process_blueprint, image_to_pdf_in_memory, OVERLAY_IMAGE_PATH 
 from vastu.compass import process_compass_image
-import fitz  
+import fitz
+import fitz
+import urllib.parse
+import urllib.request
+from festivals.festivals import detect_festivals, get_yearly_festivals  
 from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -398,9 +402,92 @@ def process_compass_endpoint():
 
         return jsonify(result)
 
+
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
         return jsonify({"error": f"Failed to process image: {e}"}), 500
+
+
+@app.route('/festivals', methods=['GET'])
+def get_festivals_route():
+    try:
+        year = int(request.args.get('year'))
+        month = int(request.args.get('month'))
+        day = int(request.args.get('day'))
+        
+        # Determine lunar month (MVP: Hardcoded or passed via query param if needed)
+        # For now, defaulting to Kartika as per prompt example if not calculated.
+        # Ideally, we should receive it or calculate it.
+        lunar_month = request.args.get('lunar_month', "Kartika")
+        
+        date_obj = date(year, month, day)
+        festivals = detect_festivals(date_obj, lunar_month)
+        
+        return jsonify({
+            "date": date_obj.isoformat(),
+            "festivals": festivals
+        })
+    except ValueError:
+        return jsonify({"error": "Invalid date parameters"}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+
+
+
+
+@app.route('/proxy/nominatim', methods=['GET'])
+def proxy_nominatim():
+    try:
+        q = request.args.get('q')
+        limit = request.args.get('limit', 5)
+        
+        if not q:
+            return jsonify([]), 200
+
+        if not q:
+            return jsonify([]), 200
+
+        # Nominatim requires a User-Agent
+        headers = {
+            'User-Agent': 'TheAstroPulse/1.0' 
+        }
+        
+        base_url = "https://nominatim.openstreetmap.org/search"
+        params = {
+            'format': 'json',
+            'q': q,
+            'limit': limit
+        }
+        
+        query_string = urllib.parse.urlencode(params)
+        full_url = f"{base_url}?{query_string}"
+        
+        req = urllib.request.Request(full_url, headers=headers)
+        with urllib.request.urlopen(req) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            return jsonify(data)
+        
+    except Exception as e:
+        print(f"Proxy error: {e}")
+        return jsonify([]), 500
+
+
+@app.route('/festivals/year', methods=['GET'])
+def get_yearly_festivals_route():
+    try:
+        year = int(request.args.get('year'))
+        festivals = get_yearly_festivals(year)
+        return jsonify({
+            "year": year,
+            "count": len(festivals),
+            "festivals": festivals
+        })
+    except ValueError:
+        return jsonify({"error": "Invalid year parameter"}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == '__main__':

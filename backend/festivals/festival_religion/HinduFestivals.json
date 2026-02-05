@@ -1,0 +1,142 @@
+[
+  {
+    "name": "Makara Sankranti",
+    "category": "festival",
+    "religion": "Hindu",
+    "calendar": "Solar",
+    "type": "Solar Transit",
+    "deity_or_figure": "Surya",
+    "priority": "Major",
+    "region_scope": "India"
+  },
+  {
+    "name": "Pongal",
+    "category": "festival",
+    "religion": "Hindu",
+    "calendar": "Solar",
+    "type": "Harvest",
+    "deity_or_figure": "Surya",
+    "priority": "Major",
+    "region_scope": "India"
+  },
+  {
+    "name": "Lohri",
+    "category": "festival",
+    "religion": "Hindu",
+    "calendar": "Seasonal",
+    "type": "Harvest",
+    "deity_or_figure": null,
+    "priority": "Medium",
+    "region_scope": "India"
+  },
+  {
+    "name": "Vasant Panchami",
+    "category": "festival",
+    "religion": "Hindu",
+    "calendar": "Lunar",
+    "type": "Seasonal",
+    "deity_or_figure": "Saraswati",
+    "priority": "Medium",
+    "region_scope": "India"
+  },
+  {
+    "name": "Maha Shivaratri",
+    "category": "festival",
+    "religion": "Hindu",
+    "calendar": "Lunar",
+    "type": "Vrat",
+    "deity_or_figure": "Shiva",
+    "priority": "Major",
+    "region_scope": "India"
+  },
+  {
+    "name": "Holi",
+    "category": "festival",
+    "religion": "Hindu",
+    "calendar": "Lunar",
+    "type": "Seasonal",
+    "deity_or_figure": "Krishna",
+    "priority": "Major",
+    "region_scope": "India"
+  },
+  {
+    "name": "Holika Dahan",
+    "category": "ritual",
+    "religion": "Hindu",
+    "calendar": "Lunar",
+    "type": "Ritual",
+    "deity_or_figure": "Holika",
+    "priority": "Medium",
+    "region_scope": "India"
+  },
+  {
+    "name": "Chaitra Navratri",
+    "category": "festival",
+    "religion": "Hindu",
+    "calendar": "Lunar",
+    "type": "Navratri",
+    "deity_or_figure": "Durga",
+    "priority": "Major",
+    "region_scope": "India"
+  },
+  {
+    "name": "Rama Navami",
+    "category": "jayanti",
+    "religion": "Hindu",
+    "calendar": "Lunar",
+    "type": "Birth Anniversary",
+    "deity_or_figure": "Rama",
+    "priority": "Major",
+    "region_scope": "India"
+  },
+  {
+    "name": "Krishna Janmashtami",
+    "category": "jayanti",
+    "religion": "Hindu",
+    "calendar": "Lunar",
+    "type": "Birth Anniversary",
+    "deity_or_figure": "Krishna",
+    "priority": "Major",
+    "region_scope": "India"
+  },
+  {
+    "name": "Ganesh Chaturthi",
+    "category": "festival",
+    "religion": "Hindu",
+    "calendar": "Lunar",
+    "type": "Utsav",
+    "deity_or_figure": "Ganesha",
+    "priority": "Major",
+    "region_scope": "India"
+  },
+  {
+    "name": "Diwali",
+    "category": "festival",
+    "religion": "Hindu",
+    "calendar": "Lunar",
+    "type": "Festival of Lights",
+    "deity_or_figure": "Lakshmi",
+    "priority": "Major",
+    "region_scope": "India"
+  },
+    {
+    "name": "Durga Puja",
+    "category": "festival",
+    "religion": "Hindu",
+    "calendar": "Lunar",
+    "type": "Navratri",
+    "deity_or_figure": "Durga",
+    "priority": "Major",
+    "region_scope": "India"
+  },
+  {
+    "name": "Navratri",
+    "category": "festival",
+    "religion": "Hindu",
+    "calendar": "Lunar",
+    "type": "Navratri",
+    "deity_or_figure": "Durga",
+    "priority": "Major",
+    "region_scope": "India"
+  }
+]
