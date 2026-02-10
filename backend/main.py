@@ -219,10 +219,10 @@ def business_numerology():
     GET /business-numerology?bnmae=theastropulse
     This endpoint will return a JSON response with the numerology calculations.
     """
-    client_api = request.headers.get('Numlogy-API-KEY') or request.args.get('Numlogy-API-KEY')
+    # client_api = request.headers.get('Numlogy-API-KEY') or request.args.get('Numlogy-API-KEY')
     # print(f"{client_api}") use for debugging
-    if client_api != API_KEY_TOKEN:
-        return jsonify({"error":"Unauthorised request"}) , 401
+    # if client_api != API_KEY_TOKEN:
+    #     return jsonify({"error":"Unauthorised request"}) , 401
     req_name = request.args.get('bname')
     try:
         # Call the numerology calculation function
@@ -489,6 +489,23 @@ def get_yearly_festivals_route():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
+
+from api.live_darshan import check_live_status
+
+@app.route('/live-darshan', methods=['GET'])
+def get_live_darshan():
+    """
+    API Endpoint to check for live darshan on YouTube.
+    Optional Query Param: channel_id
+    """
+    channel_id = request.args.get('channel_id')
+    result = check_live_status(channel_id)
+    
+    if "error" in result:
+        return jsonify(result), 500
+        
+    return jsonify(result), 200
 
 if __name__ == '__main__':
     port = int(5000)

@@ -9,6 +9,7 @@ import {
   Calculator,
   Brain,
   ArrowRight,
+  Tv,
 } from "lucide-react"
 import Chatbot from "../chatbot/Chatbot"
 import { ErrorBoundary } from "react-error-boundary"
@@ -158,59 +159,57 @@ const ServiceCard = ({ icon: Icon, title, link, desc }) => (
 
 const HomePage = () => {
   return (
-    <div className="min-h-screen bg-transparent text-ash font-body overflow-x-hidden relative">
-      {/* Background Stars handled in MainLayout */}
-      {/* 🟣 Hero Section */}
-      <DailyWisdom />
-      <section className="w-full relative flex flex-col items-center justify-center text-center px-4 py-10 overflow-hidden">
-        {/* Zodiac Wheel Animation */}
-        <motion.div
+    <div className="bg-transparent relative min-h-screen bg-cosmic-dark text-white overflow-x-hidden">
+
+      {/* <Mandala /> */}
+
+      <section className="relative w-full min-h-screen flex justify-center text-center overflow-hidden z-10">
+      <motion.div
           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] md:w-[800px] md:h-[800px] opacity-20 z-0 pointer-events-none"
           animate={{ rotate: 360 }}
           transition={{ duration: 200, repeat: Infinity, ease: "linear" }}
-        >
-          <img
-            src="/zodicWheel.png"
-            alt="Zodiac Wheel"
-            className="w-full h-full object-contain mix-blend-darken"
-          />
-        </motion.div>
+      >
+        <img 
+            src="/zodicWheelNew.png"
+          alt="Zodiac Wheel" 
+            className="w-full h-full object-contain"
+        />
+      </motion.div>
+        <div className="flex flex-col items-center space-y-6 w-full">
+          <DailyWisdom />
 
-        {/* <Mandala /> */}
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="z-10 relative max-w-4xl"
-        >
-          <h2 className="text-saffron font-sanskrit text-2xl md:text-3xl mb-4 tracking-widest font-bold">
+          <h2 className="text-saffron font-sanskrit text-2xl md:text-3xl tracking-widest font-bold">
             ॐ ज्ञानं ब्रह्म
           </h2>
-          <h1 className="text-5xl md:text-7xl font-heading font-bold text-white mb-6 leading-tight">
-            Discover Your <span className="text-gradient-gold">Destiny</span>{" "}
+
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold text-white leading-tight px-2">
+            Discover Your <span className="text-gradient-gold">Destiny</span>
             <br />
             with AI Astrology
           </h1>
-          <p className="text-lg md:text-xl text-smoke max-w-2xl mx-auto mb-10 leading-relaxed">
+
+          <p className="text-base md:text-lg text-smoke max-w-2xl leading-relaxed px-3">
             Unveil the cosmic blueprint of your life using the ancient wisdom of
             the Vedas, powered by advanced Artificial Intelligence.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <Link
               to="/horoscope"
-              className="relative px-8 py-4 bg-gradient-to-r from-saffron to-maroon rounded-full text-white font-bold shadow-lg shadow-saffron/20 hover:shadow-saffron/40 hover:scale-105 transition-all duration-300"
+              className="px-8 py-4 bg-gradient-to-r from-saffron to-maroon rounded-full text-white font-semibold shadow-lg shadow-saffron/20 hover:shadow-saffron/40 hover:scale-105 transition-all duration-300"
             >
               <span className="flex items-center gap-2">
-                <Sparkles className="w-5 h-5" /> Get Your Kundali
+                <Sparkles className="w-5 h-5" />
+                Get Your Kundali
               </span>
             </Link>
-            <button className="px-8 py-4 border border-gold/50 rounded-full text-gold font-bold hover:bg-gold/10 transition-all duration-300 flex items-center gap-2">
-              <Brain className="w-5 h-5" /> Talk to Astro AI
+
+            <button className="px-8 py-4 border border-gold/40 rounded-full text-gold font-semibold hover:bg-gold/10 transition-all duration-300 flex items-center gap-2">
+              <Brain className="w-5 h-5" />
+              Talk to Astro AI
             </button>
           </div>
-        </motion.div>
+        </div>
       </section>
 
       {/* 🪐 Services Section */}
@@ -253,6 +252,12 @@ const HomePage = () => {
               title="Astro AI Chat"
               link="/astrology/astroinfo"
               desc="Ask our Vedic AI sage anything about your future, career, or relationships."
+            />
+            <ServiceCard
+              icon={Tv}
+              title="Live Darshan"
+              link="/live-darshan"
+              desc="Experience the divine presence with live streaming from sacred temples."
             />
           </div>
         </div>

@@ -27,6 +27,7 @@ import KnowAboutVastu from "./components/pages/Vastu/KnowAboutVastu"
 import VastuReport from "./components/pages/Vastu/VastuReport"
 import Compass from "./components/pages/Vastu/Compass"
 import Festival from "./components/pages/Festivals/Festival"
+import LiveDarshan from "./components/pages/LiveDarshan/LiveDarshan"
 
 function App() {
   return (
@@ -169,6 +170,14 @@ function App() {
           element={
             <MainLayout>
               <Festival />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/live-darshan"
+          element={
+            <MainLayout>
+              <LiveDarshan />
             </MainLayout>
           }
         />

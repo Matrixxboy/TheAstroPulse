@@ -9,8 +9,8 @@ const LoShuGrid = ({ gridData }) => {
             key={index}
             className={`w-20 h-20 flex justify-center items-center text-xl font-semibold rounded-md border-2 ${
               value
-                ? "bg-white/40  border-gray-300 shadow-sm"
-                : "bg-white/30  border-gray-700"
+                ? "bg-white/40  border-gray-300 shadow-sm text-ash"
+                : "bg-white/30  border-gray-700 text-ash"
             }`}
           >
             {value || "-"}
@@ -18,7 +18,7 @@ const LoShuGrid = ({ gridData }) => {
         ))}
       </div>
     </div>
-  );
+  )
 };
 
 export default LoShuGrid;

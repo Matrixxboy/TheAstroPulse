@@ -62,7 +62,7 @@ const DailyWisdom = () => {
   const currentWisdom = wisdoms[currentIndex]
 
   return (
-    <div className="bg-cosmic-dark/80 border-y border-gold/20 backdrop-blur-md py-4">
+    <div className="bg-cosmic-dark/80 border-y border-gold/20 backdrop-blur-md py-4 w-full relative">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center justify-center text-center">
           <div className="flex items-center gap-2 mb-2">

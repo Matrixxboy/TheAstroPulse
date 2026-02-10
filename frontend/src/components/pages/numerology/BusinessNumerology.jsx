@@ -26,12 +26,7 @@ const BusinessNumerology = () => {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BUSINESS_NUMCALCU_API_KEY}?bname=${name}`,
-        {
-          headers: {
-            "Numlogy-API-KEY": import.meta.env.VITE_API_KEY_TOKEN,
-          },
-        },
+        `${import.meta.env.VITE_ASTRO_API_URL}/business-numerology?bname=${name}`,
       )
       const data = await response.json()
       if (data.error) {

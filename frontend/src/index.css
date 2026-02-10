@@ -123,3 +123,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   top: -9999px;
   z-index: -1;
 }
+
+.remove-white {
+  mix-blend-mode: multiply;
+}

@@ -1,0 +1,15 @@
+Calculating festivals for 2026...
+
+--- Maha Shivratri ---
+Date: 2026-02-15, Details: {'name': 'Maha Shivratri', 'tithi': 'Chaturdashi', 'paksha': 'Krishna', 'lunar_month': 'Phalguna', 'nakshatra': 'Shravana', 'type': 'Lunar', 'date': '2026-02-15'}
+
+--- Rama Navami ---
+Date: 2026-03-26, Details: {'name': 'Rama Navami', 'tithi': 'Navami', 'paksha': 'Shukla', 'lunar_month': 'Chaitra', 'nakshatra': 'Ardra', 'type': 'Lunar', 'date': '2026-03-26'}
+
+--- Ganga Dussehra ---
+Date: 2026-05-25, Details: {'name': 'Ganga Dussehra', 'tithi': 'Dashami', 'paksha': 'Shukla', 'lunar_month': 'Jyeshtha', 'nakshatra': 'Uttara Phalguni', 'type': 'Lunar', 'date': '2026-05-25'}
+Date: 2026-06-24, Details: {'name': 'Ganga Dussehra', 'tithi': 'Dashami', 'paksha': 'Shukla', 'lunar_month': 'Jyeshtha', 'nakshatra': 'Chitra', 'type': 'Lunar', 'date': '2026-06-24'}
+
+--- Pitru Paksha (Start) ---
+Date: 2026-09-27, Details: {'name': 'Pitru Paksha (Start)', 'tithi': 'Pratipada', 'paksha': 'Krishna', 'lunar_month': 'Ashvina', 'nakshatra': 'Revati', 'type': 'Lunar', 'date': '2026-09-27'}
+Date: 2026-10-26, Details: {'name': 'Pitru Paksha (Start)', 'tithi': 'Pratipada', 'paksha': 'Krishna', 'lunar_month': 'Ashvina', 'nakshatra': 'Ashwini', 'type': 'Lunar', 'date': '2026-10-26'}

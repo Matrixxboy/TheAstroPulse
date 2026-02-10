@@ -1,0 +1,27 @@
+--- Debugging Pitru Paksha (Aug-Sep 2026) ---
+Date: 2026-08-25, Sunrise Tithi: Dwadashi, Paksha: Shukla, Month: Shravana
+    Afternoon Tithi: Trayodashi, Paksha: Shukla
+Date: 2026-08-26, Sunrise Tithi: Trayodashi, Paksha: Shukla, Month: Shravana
+    Afternoon Tithi: Chaturdashi, Paksha: Shukla
+Date: 2026-08-27, Sunrise Tithi: Chaturdashi, Paksha: Shukla, Month: Shravana
+    Afternoon Tithi: Purnima, Paksha: Shukla
+Date: 2026-08-28, Sunrise Tithi: Purnima, Paksha: Shukla, Month: Shravana
+    Afternoon Tithi: Pratipada, Paksha: Krishna
+Date: 2026-08-29, Sunrise Tithi: Pratipada, Paksha: Krishna, Month: Bhadrapada
+    Afternoon Tithi: Dvitiya, Paksha: Krishna
+Date: 2026-08-30, Sunrise Tithi: Dvitiya, Paksha: Krishna, Month: Bhadrapada
+    Afternoon Tithi: Tritiya, Paksha: Krishna
+Date: 2026-08-31, Sunrise Tithi: Tritiya, Paksha: Krishna, Month: Bhadrapada
+    Afternoon Tithi: Chaturthi, Paksha: Krishna
+Date: 2026-09-01, Sunrise Tithi: Chaturthi, Paksha: Krishna, Month: Bhadrapada
+    Afternoon Tithi: Panchami, Paksha: Krishna
+Date: 2026-09-02, Sunrise Tithi: Panchami, Paksha: Krishna, Month: Bhadrapada
+    Afternoon Tithi: Shashthi, Paksha: Krishna
+Date: 2026-09-03, Sunrise Tithi: Saptami, Paksha: Krishna, Month: Bhadrapada
+    Afternoon Tithi: Saptami, Paksha: Krishna
+
+--- Debugging Ganga Dussehra (May-June 2026) ---
+Date: 2026-05-25, Sunrise Tithi: Dashami, Paksha: Shukla, Month: Jyeshtha
+    Noon Tithi: Dashami, Paksha: Shukla
+Date: 2026-06-24, Sunrise Tithi: Dashami, Paksha: Shukla, Month: Jyeshtha
+    Noon Tithi: Dashami, Paksha: Shukla

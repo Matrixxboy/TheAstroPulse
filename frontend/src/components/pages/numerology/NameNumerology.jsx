@@ -33,12 +33,7 @@ const NameNumerology = () => {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_NAME_NUMCALCU_API_KEY}?fname=${name}&dob=${dob}&gen=${gender}`,
-        {
-          headers: {
-            "Numlogy-API-KEY": import.meta.env.VITE_API_KEY_TOKEN,
-          },
-        },
+        `${import.meta.env.VITE_ASTRO_API_URL}/name-numerology?fname=${name}&dob=${dob}&gen=${gender}`,
       )
       const data = await response.json()
       if (data.error) {
@@ -288,7 +283,7 @@ const NameNumerology = () => {
                   <h3 className="text-2xl font-bold text-gold mb-6">
                     Lo Shu Grid
                   </h3>
-                  <div className="bg-white p-4 rounded-xl shadow-2xl">
+                  <div className="p-4 rounded-xl">
                     <LoShuGrid gridData={result.lo_shu_grid} />
                   </div>
                 </div>

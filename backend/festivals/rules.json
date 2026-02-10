@@ -3,27 +3,37 @@
     "type": "solar",
     "sun_sign": "Capricorn"
   },
-  "Republic Day": {
-    "type": "fixed",
-    "month": 1,
-    "day": 26
-  },
-  "Valentine's Day": {
-    "type": "fixed",
-    "month": 2,
-    "day": 14
-  },
   "Vasant Panchami": {
     "type": "lunar",
     "lunar_month": "Magha",
     "paksha": "Shukla",
     "tithi": "Panchami"
   },
+  "Ratha Saptami": {
+    "type": "lunar",
+    "lunar_month": "Magha",
+    "paksha": "Shukla",
+    "tithi": "Saptami"
+  },
+  "Bhisma Ashtami": {
+    "type": "lunar",
+    "lunar_month": "Magha",
+    "paksha": "Shukla",
+    "tithi": "Ashtami"
+  },
   "Maha Shivratri": {
     "type": "lunar",
     "lunar_month": "Phalguna",
     "paksha": "Krishna",
-    "tithi": "Chaturdashi"
+    "tithi": "Chaturdashi",
+    "timing": "midnight"
+  },
+  "Holika Dahan": {
+    "type": "lunar",
+    "lunar_month": "Phalguna",
+    "paksha": "Shukla",
+    "tithi": "Chaturdashi",
+    "timing": "evening"
   },
   "Holi": {
     "type": "lunar",
@@ -31,11 +41,24 @@
     "paksha": "Shukla",
     "tithi": "Purnima"
   },
+  "Ugadi / Gudi Padwa": {
+    "type": "lunar",
+    "lunar_month": "Chaitra",
+    "paksha": "Shukla",
+    "tithi": "Pratipada"
+  },
+  "Gangaur": {
+    "type": "lunar",
+    "lunar_month": "Chaitra",
+    "paksha": "Shukla",
+    "tithi": "Tritiya"
+  },
   "Rama Navami": {
     "type": "lunar",
     "lunar_month": "Chaitra",
     "paksha": "Shukla",
-    "tithi": "Navami"
+    "tithi": "Navami",
+    "timing": "noon"
   },
   "Hanuman Jayanti": {
     "type": "lunar",
@@ -49,11 +72,42 @@
     "paksha": "Shukla",
     "tithi": "Tritiya"
   },
+  "Narasimha Jayanti": {
+    "type": "lunar",
+    "lunar_month": "Vaisakha",
+    "paksha": "Shukla",
+    "tithi": "Chaturdashi"
+  },
   "Buddha Purnima": {
     "type": "lunar",
     "lunar_month": "Vaisakha",
     "paksha": "Shukla",
     "tithi": "Purnima"
+  },
+  "Vat Savitri Vrat": {
+    "type": "lunar",
+    "lunar_month": "Jyeshtha",
+    "paksha": "Amavasya",
+    "tithi": "Amavasya"
+  },
+  "Ganga Dussehra": {
+    "type": "lunar",
+    "lunar_month": "Jyeshtha",
+    "paksha": "Shukla",
+    "tithi": "Dashami",
+    "timing": "noon"
+  },
+  "Nirjala Ekadashi": {
+    "type": "lunar",
+    "lunar_month": "Jyeshtha",
+    "paksha": "Shukla",
+    "tithi": "Ekadashi"
+  },
+  "Jagannath Rath Yatra": {
+    "type": "lunar",
+    "lunar_month": "Ashadha",
+    "paksha": "Shukla",
+    "tithi": "Dvitiya"
   },
   "Guru Purnima": {
     "type": "lunar",
@@ -61,17 +115,48 @@
     "paksha": "Shukla",
     "tithi": "Purnima"
   },
+  "Hariyali Teej": {
+    "type": "lunar",
+    "lunar_month": "Shravana",
+    "paksha": "Shukla",
+    "tithi": "Tritiya"
+  },
+  "Nag Panchami": {
+    "type": "lunar",
+    "lunar_month": "Shravana",
+    "paksha": "Shukla",
+    "tithi": "Panchami"
+  },
+  "Varalakshmi Vrat": {
+    "type": "lunar",
+    "lunar_month": "Shravana",
+    "paksha": "Shukla",
+    "tithi": "Friday_before_Purnima"
+  },
   "Raksha Bandhan": {
     "type": "lunar",
     "lunar_month": "Shravana",
     "paksha": "Shukla",
     "tithi": "Purnima"
   },
+  "Gayatri Jayanti": {
+    "type": "lunar",
+    "lunar_month": "Shravana",
+    "paksha": "Shukla",
+    "tithi": "Purnima"
+  },
+  "Kajari Teej": {
+    "type": "lunar",
+    "lunar_month": "Bhadrapada",
+    "paksha": "Krishna",
+    "tithi": "Tritiya"
+  },
   "Krishna Janmashtami": {
     "type": "lunar",
     "lunar_month": "Bhadrapada",
     "paksha": "Krishna",
-    "tithi": "Ashtami"
+    "tithi": "Ashtami",
+    "timing": "midnight"
   },
   "Ganesh Chaturthi": {
     "type": "lunar",
@@ -79,17 +164,66 @@
     "paksha": "Shukla",
     "tithi": "Chaturthi"
   },
+  "Rishi Panchami": {
+    "type": "lunar",
+    "lunar_month": "Bhadrapada",
+    "paksha": "Shukla",
+    "tithi": "Panchami"
+  },
+  "Radha Ashtami": {
+    "type": "lunar",
+    "lunar_month": "Bhadrapada",
+    "paksha": "Shukla",
+    "tithi": "Ashtami"
+  },
+  "Anant Chaturdashi": {
+    "type": "lunar",
+    "lunar_month": "Bhadrapada",
+    "paksha": "Shukla",
+    "tithi": "Chaturdashi"
+  },
+  "Pitru Paksha (Start)": {
+    "type": "lunar",
+    "lunar_month": "Ashvina",
+    "paksha": "Krishna",
+    "tithi": "Pratipada",
+    "timing": "afternoon"
+  },
+  "Mahalaya": {
+    "type": "lunar",
+    "lunar_month": "Ashvina",
+    "paksha": "Krishna",
+    "tithi": "Amavasya"
+  },
   "Navratri (Start)": {
     "type": "lunar",
     "lunar_month": "Ashvina",
     "paksha": "Shukla",
     "tithi": "Pratipada"
   },
-  "Dussehra": {
+  "Saraswati Puja (South/East)": {
+    "type": "lunar",
+    "lunar_month": "Ashvina",
+    "paksha": "Shukla",
+    "tithi": "Ashtami"
+  },
+  "Maha Navami": {
+    "type": "lunar",
+    "lunar_month": "Ashvina",
+    "paksha": "Shukla",
+    "tithi": "Navami"
+  },
+  "Dussehra / Vijayadashami": {
     "type": "lunar",
     "lunar_month": "Ashvina",
     "paksha": "Shukla",
     "tithi": "Dashami"
+  },
+  "Sharad Purnima": {
+    "type": "lunar",
+    "lunar_month": "Ashvina",
+    "paksha": "Shukla",
+    "tithi": "Purnima"
   },
   "Karva Chauth": {
     "type": "lunar",
@@ -97,17 +231,41 @@
     "paksha": "Krishna",
     "tithi": "Chaturthi"
   },
+  "Ahoi Ashtami": {
+    "type": "lunar",
+    "lunar_month": "Kartika",
+    "paksha": "Krishna",
+    "tithi": "Ashtami"
+  },
+  "Rama Ekadashi": {
+    "type": "lunar",
+    "lunar_month": "Kartika",
+    "paksha": "Krishna",
+    "tithi": "Ekadashi"
+  },
   "Dhanteras": {
     "type": "lunar",
     "lunar_month": "Kartika",
     "paksha": "Krishna",
     "tithi": "Trayodashi"
   },
-  "Diwali": {
+  "Naraka Chaturdashi": {
+    "type": "lunar",
+    "lunar_month": "Kartika",
+    "paksha": "Krishna",
+    "tithi": "Chaturdashi"
+  },
+  "Diwali / Lakshmi Puja": {
     "type": "lunar",
     "lunar_month": "Kartika",
     "paksha": "Krishna",
     "tithi": "Amavasya"
+  },
+  "Govardhan Puja": {
+    "type": "lunar",
+    "lunar_month": "Kartika",
+    "paksha": "Shukla",
+    "tithi": "Pratipada"
   },
   "Bhai Dooj": {
     "type": "lunar",
@@ -115,19 +273,76 @@
     "paksha": "Shukla",
     "tithi": "Dvitiya"
   },
-  "Independence Day": {
-    "type": "fixed",
-    "month": 8,
-    "day": 15
+  "Labh Panchami": {
+    "type": "lunar",
+    "lunar_month": "Kartika",
+    "paksha": "Shukla",
+    "tithi": "Panchami"
   },
-  "Gandhi Jayanti": {
-    "type": "fixed",
-    "month": 10,
-    "day": 2
+  "Chhath Puja": {
+    "type": "lunar",
+    "lunar_month": "Kartika",
+    "paksha": "Shukla",
+    "tithi": "Shashti"
   },
-  "Christmas": {
-    "type": "fixed",
-    "month": 12,
-    "day": 25
+  "Gopashtami": {
+    "type": "lunar",
+    "lunar_month": "Kartika",
+    "paksha": "Shukla",
+    "tithi": "Ashtami"
+  },
+  "Dev Utthana Ekadashi": {
+    "type": "lunar",
+    "lunar_month": "Kartika",
+    "paksha": "Shukla",
+    "tithi": "Ekadashi"
+  },
+  "Tulsi Vivah": {
+    "type": "lunar",
+    "lunar_month": "Kartika",
+    "paksha": "Shukla",
+    "tithi": "Dwadashi"
+  },
+  "Kartika Purnima": {
+    "type": "lunar",
+    "lunar_month": "Kartika",
+    "paksha": "Shukla",
+    "tithi": "Purnima"
+  },
+  "Vivah Panchami": {
+    "type": "lunar",
+    "lunar_month": "Margashirsha",
+    "paksha": "Shukla",
+    "tithi": "Panchami"
+  },
+  "Gita Jayanti": {
+    "type": "lunar",
+    "lunar_month": "Margashirsha",
+    "paksha": "Shukla",
+    "tithi": "Ekadashi"
+  },
+  "Dattatreya Jayanti": {
+    "type": "lunar",
+    "lunar_month": "Margashirsha",
+    "paksha": "Shukla",
+    "tithi": "Purnima"
+  },
+  "Saphala Ekadashi": {
+    "type": "lunar",
+    "lunar_month": "Pausha",
+    "paksha": "Krishna",
+    "tithi": "Ekadashi"
+  },
+  "Shakambhari Navratri (Start)": {
+    "type": "lunar",
+    "lunar_month": "Pausha",
+    "paksha": "Shukla",
+    "tithi": "Ashtami"
+  },
+  "Pausha Purnima": {
+    "type": "lunar",
+    "lunar_month": "Pausha",
+    "paksha": "Shukla",
+    "tithi": "Purnima"
   }
 }
