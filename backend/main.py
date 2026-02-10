@@ -9,6 +9,7 @@ from astrology.horoscope import fetch_horoscope , get_zodiac_sign
 from astrology.nakshtra_details import final_astro_report
 from astrology.planet_positions import planet_position_details
 from astrology.Dasha.vimashotryDasha import find_vimashotry_dasha
+from astrology.panchang import get_panchang
 from vastu.vastuProcess import allowed_file, process_blueprint, image_to_pdf_in_memory, OVERLAY_IMAGE_PATH 
 from vastu.compass import process_compass_image
 import fitz
@@ -506,6 +507,23 @@ def get_live_darshan():
         return jsonify(result), 500
         
     return jsonify(result), 200
+
+@app.route('/api/panchang', methods=['GET'])
+def get_panchang_route():
+    try:
+        date = request.args.get('date')
+        lat = request.args.get('latitude')
+        lon = request.args.get('longitude')
+        timezone = request.args.get('timezone')
+        time = request.args.get('time', "12:00")
+
+        if not all([date, lat, lon]):
+            return jsonify({"error": "Missing required parameters: date, latitude, longitude"}), 400
+
+        result = get_panchang(date, float(lat), float(lon), timezone, time)
+        return jsonify(result), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     port = int(5000)

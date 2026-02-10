@@ -122,29 +122,29 @@ class KnowledgeBaseChatbot:
         else:
             return "Sorry, I couldn't find an answer to that in my knowledge base. Could you please rephrase your question or ask something else?"
 
-# === Example Usage ===
-if __name__ == "__main__":
-    # Ensure you have 'knowledge_data.json' in the same directory or provide the full path.
-    # Example knowledge_data.json structure:
-    # [
-    #   {
-    #     "question_patterns": ["what is life path 1", "meaning of life path one"],
-    #     "answer": "Life Path 1 represents individuals who are natural leaders, innovators, and pioneers. They possess a strong drive for independence and achievement. Their core desire is to stand out and initiate new paths. Challenges include selfishness and dominance."
-    #   },
-    #   {
-    #     "question_patterns": ["tell me about life path 2", "characteristics of life path two"],
-    #     "answer": "Life Path 2 individuals are harmonizers, peacemakers, and diplomats. They excel at cooperation, intuition, and sensitivity. Their purpose is to bring people together and foster balance. They may struggle with indecisiveness or being overly sensitive."
-    #   }
-    # ]
+# # === Example Usage ===
+# if __name__ == "__main__":
+#     # Ensure you have 'knowledge_data.json' in the same directory or provide the full path.
+#     # Example knowledge_data.json structure:
+#     # [
+#     #   {
+#     #     "question_patterns": ["what is life path 1", "meaning of life path one"],
+#     #     "answer": "Life Path 1 represents individuals who are natural leaders, innovators, and pioneers. They possess a strong drive for independence and achievement. Their core desire is to stand out and initiate new paths. Challenges include selfishness and dominance."
+#     #   },
+#     #   {
+#     #     "question_patterns": ["tell me about life path 2", "characteristics of life path two"],
+#     #     "answer": "Life Path 2 individuals are harmonizers, peacemakers, and diplomats. They excel at cooperation, intuition, and sensitivity. Their purpose is to bring people together and foster balance. They may struggle with indecisiveness or being overly sensitive."
+#     #   }
+#     # ]
 
-    chatbot = KnowledgeBaseChatbot(knowledge_file="knowledge_data.json")
+#     chatbot = KnowledgeBaseChatbot(knowledge_file="knowledge_data.json")
 
-    while True:
-        user_question = input("You: ")
-        if user_question.lower() in ["exit", "quit", "bye"]:
-            print("Chatbot: Goodbye!")
-            break
+#     while True:
+#         user_question = input("You: ")
+#         if user_question.lower() in ["exit", "quit", "bye"]:
+#             print("Chatbot: Goodbye!")
+#             break
         
-        bot_response = chatbot.get_bot_reply(user_question)
-        print("Chatbot:", bot_response)
-        print("-" * 50)
+#         bot_response = chatbot.get_bot_reply(user_question)
+#         print("Chatbot:", bot_response)
+#         print("-" * 50)

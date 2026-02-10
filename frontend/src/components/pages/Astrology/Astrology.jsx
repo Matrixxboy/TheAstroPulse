@@ -31,7 +31,7 @@ const Astrology = () => {
 
         <div className="flex flex-col md:flex-row justify-center items-center gap-6 w-full">
           <Link
-            to="/astrology/astrologyreport"
+            to="/kundali/astrologyreport"
             className="group relative px-8 py-4 bg-gradient-to-r from-saffron to-maroon rounded-full text-white font-bold shadow-lg shadow-saffron/20 hover:shadow-saffron/40 hover:scale-105 transition-all duration-300 overflow-hidden w-full md:w-auto"
           >
             <span className="relative z-10 flex items-center justify-center gap-2">
@@ -42,7 +42,7 @@ const Astrology = () => {
           </Link>
 
           <Link
-            to="/astrology/astrologyinfo"
+            to="/kundali/astrologyinfo"
             className="group relative px-8 py-4 bg-white/10 border border-gold/50 rounded-full text-gold font-bold hover:bg-gold/10 hover:border-gold transition-all duration-300 flex items-center justify-center gap-2 overflow-hidden w-full md:w-auto"
           >
             <span className="relative z-10 flex items-center justify-center gap-2">

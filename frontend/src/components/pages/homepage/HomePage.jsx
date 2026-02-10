@@ -160,22 +160,21 @@ const ServiceCard = ({ icon: Icon, title, link, desc }) => (
 const HomePage = () => {
   return (
     <div className="bg-transparent relative min-h-screen bg-cosmic-dark text-white overflow-x-hidden">
-
       {/* <Mandala /> */}
 
-      <section className="relative w-full min-h-screen flex justify-center text-center overflow-hidden z-10">
-      <motion.div
+      <section className="relative w-full min-h-screen flex justify-center text-center overflow-hidden z-10 md:pt-10">
+        <motion.div
           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] md:w-[800px] md:h-[800px] opacity-20 z-0 pointer-events-none"
           animate={{ rotate: 360 }}
           transition={{ duration: 200, repeat: Infinity, ease: "linear" }}
-      >
-        <img 
+        >
+          <img
             src="/zodicWheelNew.png"
-          alt="Zodiac Wheel" 
+            alt="Zodiac Wheel"
             className="w-full h-full object-contain"
-        />
-      </motion.div>
-        <div className="flex flex-col items-center space-y-6 w-full">
+          />
+        </motion.div>
+        <div className="flex flex-col items-center space-y-6 w-1/2">
           <DailyWisdom />
 
           <h2 className="text-saffron font-sanskrit text-2xl md:text-3xl tracking-widest font-bold">
@@ -250,7 +249,7 @@ const HomePage = () => {
             <ServiceCard
               icon={Brain}
               title="Astro AI Chat"
-              link="/astrology/astroinfo"
+              link="/kundali/astroinfo"
               desc="Ask our Vedic AI sage anything about your future, career, or relationships."
             />
             <ServiceCard

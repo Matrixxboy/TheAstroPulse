@@ -160,7 +160,7 @@ const Footer = () => {
 
           {/* Copyright */}
           <div className="md:text-right text-xs text-smoke/60">
-            © {new Date().getFullYear()} The Astro Pulse
+            © {new Date().getFullYear()} The World Of Matrix
             <div className="mt-1 uppercase tracking-widest text-[10px]">
               Sanātana Dharma Inspired
             </div>

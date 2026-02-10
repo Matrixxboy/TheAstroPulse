@@ -55,7 +55,7 @@ const Astroinfo = () => {
         </div>
 
         <Link
-          to="/astrology/astrologyreport"
+          to="/kundali/astrologyreport"
           className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-saffron to-maroon rounded-full text-white font-bold shadow-lg hover:shadow-saffron/40 hover:scale-105 transition-all duration-300"
         >
           <Star className="w-5 h-5" /> Get Your Free Report

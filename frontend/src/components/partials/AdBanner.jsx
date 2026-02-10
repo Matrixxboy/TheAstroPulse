@@ -9,7 +9,7 @@ const ads = [
     title: "Unlock Your Full Potential",
     text: "Get a detailed 50-page Premium Kundali Report tailored just for you.",
     cta: "Get Report",
-    link: "/astrology/astrologyreport",
+    link: "/kundali/astrologyreport",
     icon: Crown,
     color: "from-amber-500 to-orange-600",
   },
