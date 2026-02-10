@@ -1,121 +1,271 @@
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { motion } from "framer-motion"
-import { gemRing } from "@lucide/lab"
-import { House, Car, Briefcase, Clock } from "lucide-react"
-
-const categories = [
-  { id: "marriage", label: "Vivah (Marriage)", icon: gemRing },
-  { id: "property", label: "Griha Pravesh", icon: House },
-  { id: "vehicle", label: "Vehicle Purchase", icon: Car },
-  { id: "business", label: "New Business", icon: Briefcase },
-]
-
-const timings = [
-  {
-    category: "marriage",
-    date: "June 15, 2026",
-    time: "09:45 AM - 12:30 PM",
-    nakshatra: "Rohini",
-    quality: "Excellent",
-  },
-  {
-    category: "marriage",
-    date: "June 18, 2026",
-    time: "06:15 PM - 08:00 PM",
-    nakshatra: "Mrigashirsha",
-    quality: "Good",
-  },
-  {
-    category: "property",
-    date: "June 21, 2026",
-    time: "10:00 AM - 11:45 AM",
-    nakshatra: "Pushya",
-    quality: "Best",
-  },
-  {
-    category: "vehicle",
-    date: "June 16, 2026",
-    time: "11:30 AM - 01:00 PM",
-    nakshatra: "Swati",
-    quality: "Good",
-  },
-]
+import { Calendar, Sun, Moon, Clock, Star } from "lucide-react"
 
 const Muhurat = () => {
-  const [activeCategory, setActiveCategory] = useState("marriage")
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().split("T")[0],
+  )
+  const [panchangData, setPanchangData] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
-  const filteredTimings = timings.filter((t) => t.category === activeCategory)
+  // Default location: Varanasi
+  const location = {
+    lat: 25.3176,
+    lon: 82.9739,
+    timezone: "Asia/Kolkata",
+    name: "Varanasi",
+  }
+
+  const fetchPanchang = useCallback(
+    async (date) => {
+      setLoading(true)
+      setError(null)
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/panchang?date=${date}&latitude=${location.lat}&longitude=${location.lon}&timezone=${location.timezone}`,
+        )
+        if (!response.ok) {
+          throw new Error("Failed to fetch panchang data")
+        }
+        const data = await response.json()
+        setPanchangData(data)
+      } catch (err) {
+        setError(err.message)
+        console.error("Error fetching panchang:", err)
+      } finally {
+        setLoading(false)
+      }
+    },
+    [location.lat, location.lon, location.timezone],
+  )
+
+  useEffect(() => {
+    fetchPanchang(selectedDate)
+  }, [selectedDate, fetchPanchang])
+
+  const handleDateChange = (e) => {
+    setSelectedDate(e.target.value)
+  }
 
   return (
     <div className="min-h-screen bg-transparent bg-cosmic-dark pt-24 pb-12 px-4">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4">
             Shubh <span className="text-gradient-gold">Muhurat</span>
           </h1>
-          <p className="text-smoke max-w-2xl mx-auto">
-            Discover the most auspicious timings for your life's important
-            beginnings.
+          <p className="text-smoke max-w-2xl mx-auto mb-6">
+            Discover the most auspicious timings based on Vedic Panchang
+          </p>
+
+          {/* Date Picker */}
+          <div className="flex justify-center items-center gap-4 mb-4">
+            <Calendar className="w-5 h-5 text-gold" />
+            <input
+              type="date"
+              value={selectedDate}
+              onChange={handleDateChange}
+              className="bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-gold transition-colors"
+            />
+          </div>
+          <p className="text-smoke text-sm">
+            Location: {location.name} ({location.lat}°N, {location.lon}°E)
           </p>
         </div>
 
-        {/* Category Tabs */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setActiveCategory(cat.id)}
-              className={`flex items-center gap-2 px-6 py-3 rounded-full border transition-all duration-300 ${
-                activeCategory === cat.id
-                  ? "bg-gold text-cosmic-dark border-gold font-bold shadow-lg shadow-gold/20"
-                  : "bg-white/5 text-white border-white/10 hover:border-gold/50 hover:bg-white/10"
-              }`}
-            >
-              <cat.icon className="w-5 h-5" />
-              {cat.label}
-            </button>
-          ))}
-        </div>
+        {loading && (
+          <div className="text-center py-20 text-white">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gold mx-auto"></div>
+            <p className="mt-4">Loading panchang data...</p>
+          </div>
+        )}
 
-        {/* Results Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredTimings.map((item, index) => (
+        {error && (
+          <div className="text-center py-20 text-red-400">
+            <p>Error: {error}</p>
+          </div>
+        )}
+
+        {!loading && !error && panchangData && (
+          <div className="space-y-6">
+            {/* Sunrise/Sunset Card */}
             <motion.div
-              key={index}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10 hover:border-gold/30 transition-all group"
+              className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10"
             >
-              <div className="flex justify-between items-start mb-4">
-                <div className="p-3 bg-gradient-to-br from-gold/20 to-transparent rounded-xl text-gold group-hover:scale-110 transition-transform">
-                  <Clock className="w-6 h-6" />
+              <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                <Sun className="w-6 h-6 text-gold" />
+                Sun Timings
+              </h2>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-gradient-to-br from-orange-500/20 to-transparent rounded-xl">
+                    <Sun className="w-8 h-8 text-orange-400" />
+                  </div>
+                  <div>
+                    <p className="text-smoke text-sm">Sunrise</p>
+                    <p className="text-2xl font-bold text-white">
+                      {panchangData.sunrise}
+                    </p>
+                  </div>
                 </div>
-                <span
-                  className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
-                    item.quality === "Excellent" || item.quality === "Best"
-                      ? "bg-green-500/20 text-green-400"
-                      : "bg-blue-500/20 text-blue-400"
-                  }`}
-                >
-                  {item.quality}
-                </span>
-              </div>
-
-              <h3 className="text-xl font-bold text-white mb-2">{item.date}</h3>
-              <p className="text-gold font-mono text-lg mb-4">{item.time}</p>
-
-              <div className="border-t border-white/10 pt-4 flex justify-between text-sm">
-                <span className="text-smoke">Nakshatra</span>
-                <span className="text-white font-medium">{item.nakshatra}</span>
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-gradient-to-br from-purple-500/20 to-transparent rounded-xl">
+                    <Moon className="w-8 h-8 text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-smoke text-sm">Sunset</p>
+                    <p className="text-2xl font-bold text-white">
+                      {panchangData.sunset}
+                    </p>
+                  </div>
+                </div>
               </div>
             </motion.div>
-          ))}
-        </div>
 
-        {filteredTimings.length === 0 && (
-          <div className="text-center py-20 text-white/50">
-            No specific muhurats found for this category in the upcoming week.
+            {/* Panchang Details */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10"
+            >
+              <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                <Star className="w-6 h-6 text-gold" />
+                Panchang Details
+              </h2>
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div>
+                  <p className="text-smoke text-sm mb-1">Tithi</p>
+                  <p className="text-lg font-bold text-white">
+                    {panchangData.tithi.name}
+                  </p>
+                  <p className="text-gold text-sm">
+                    {panchangData.tithi.paksha}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-smoke text-sm mb-1">Nakshatra</p>
+                  <p className="text-lg font-bold text-white">
+                    {panchangData.nakshatra}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-smoke text-sm mb-1">Yoga</p>
+                  <p className="text-lg font-bold text-white">
+                    {panchangData.yoga}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-smoke text-sm mb-1">Weekday</p>
+                  <p className="text-lg font-bold text-white">
+                    {panchangData.weekday}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Auspicious Timings */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10"
+            >
+              <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                <Clock className="w-6 h-6 text-gold" />
+                Special Timings
+              </h2>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-xl">
+                  <p className="text-green-400 font-bold mb-2">
+                    Abhijit Muhurat (Best)
+                  </p>
+                  <p className="text-white text-lg">
+                    {panchangData.abhijit_muhurat}
+                  </p>
+                </div>
+                <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
+                  <p className="text-red-400 font-bold mb-2">
+                    Rahu Kalam (Avoid)
+                  </p>
+                  <p className="text-white text-lg">
+                    {panchangData.rahu_kalam}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Day Choghadiya */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10"
+            >
+              <h2 className="text-2xl font-bold text-white mb-6">
+                Day Choghadiya
+              </h2>
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {panchangData.day_choghadiya.map((chog, idx) => (
+                  <div
+                    key={idx}
+                    className={`p-4 rounded-xl border ${
+                      chog.quality === "Best" || chog.quality === "Good"
+                        ? "bg-green-500/10 border-green-500/20"
+                        : chog.quality === "Gain"
+                          ? "bg-blue-500/10 border-blue-500/20"
+                          : chog.quality === "Neutral"
+                            ? "bg-gray-500/10 border-gray-500/20"
+                            : "bg-red-500/10 border-red-500/20"
+                    }`}
+                  >
+                    <p className="font-bold text-white mb-1">{chog.name}</p>
+                    <p className="text-sm text-smoke mb-2">{chog.quality}</p>
+                    <p className="text-xs text-white/70">
+                      {chog.start} - {chog.end}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Night Choghadiya */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10"
+            >
+              <h2 className="text-2xl font-bold text-white mb-6">
+                Night Choghadiya
+              </h2>
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {panchangData.night_choghadiya.map((chog, idx) => (
+                  <div
+                    key={idx}
+                    className={`p-4 rounded-xl border ${
+                      chog.quality === "Best" || chog.quality === "Good"
+                        ? "bg-green-500/10 border-green-500/20"
+                        : chog.quality === "Gain"
+                          ? "bg-blue-500/10 border-blue-500/20"
+                          : chog.quality === "Neutral"
+                            ? "bg-gray-500/10 border-gray-500/20"
+                            : "bg-red-500/10 border-red-500/20"
+                    }`}
+                  >
+                    <p className="font-bold text-white mb-1">{chog.name}</p>
+                    <p className="text-sm text-smoke mb-2">{chog.quality}</p>
+                    <p className="text-xs text-white/70">
+                      {chog.start} - {chog.end}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
           </div>
         )}
       </div>

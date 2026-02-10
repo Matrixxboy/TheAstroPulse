@@ -8,6 +8,7 @@ import {
   Clock,
   ChevronDown,
   ChevronUp,
+  Info,
 } from "lucide-react"
 
 const PanchangRow = ({ label, value, icon: Icon, time }) => (
@@ -110,6 +111,7 @@ const Panchang = () => {
 
         const data = await response.json()
         setPanchangData(data)
+        console.log(data)
       } catch (err) {
         console.error("Error fetching panchang:", err)
         setError(err.message)
@@ -219,7 +221,7 @@ const Panchang = () => {
             <div className="grid md:grid-cols-2 gap-4">
               <PanchangRow
                 label="Tithi"
-                value={`${panchangData?.tithi?.name} (${panchangData?.tithi?.paksha})`}
+                value={`${panchangData?.tithi}`}
                 icon={Moon}
                 time="Full Day"
               />
@@ -310,10 +312,14 @@ const Panchang = () => {
               transition={{ delay: 0.3 }}
               className="p-6 rounded-2xl bg-gradient-to-br from-green-900/20 to-green-800/20 border border-green-500/20"
             >
-              <h3 className="text-xl font-bold text-green-400 mb-2 flex items-center gap-2">
+              <div className="flex items-end justify-end gap-2">
+                <Info className="w-5 h-5 text-green-200 hover:text-green-400 cursor-pointer" />
+              </div>
+
+              <h3Inf className="text-xl font-bold text-green-400 mb-2 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                 Abhijit Muhurat
-              </h3>
+              </h3Inf>
               <p className="text-sm text-green-200/80 mb-1">
                 Best time for auspicious activities
               </p>
@@ -328,6 +334,9 @@ const Panchang = () => {
               transition={{ delay: 0.4 }}
               className="p-6 rounded-2xl bg-gradient-to-br from-red-900/20 to-red-800/20 border border-red-500/20"
             >
+              <div className="flex items-end justify-end gap-2">
+                <Info className="w-5 h-5 text-red-200 hover:text-red-400 cursor-pointer" />
+              </div>
               <h3 className="text-xl font-bold text-red-400 mb-2 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
                 Rahu Kaal
@@ -363,6 +372,59 @@ const Panchang = () => {
                   </p>
                 </div>
               </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.5 }}
+              className="p-6 rounded-2xl bg-white/5 border border-white/10"
+            >
+              <h3 className="text-lg font-bold text-white mb-3">
+                Choghadiya Meanings
+              </h3>
+
+              <p className="text-sm text-white/70 mb-4">
+                Choghadiya divides the day into auspicious and inauspicious time
+                periods, commonly used in Panchang to choose the right moment
+                for activities.
+              </p>
+
+              <ul className="space-y-2 text-sm list-decimal">
+                <li>
+                  <span className="font-semibold text-emerald-400">Amrita</span>{" "}
+                  – Extremely auspicious; ideal for all important and sacred
+                  activities.
+                </li>
+                <li>
+                  <span className="font-semibold text-green-400">Shubha</span> –
+                  Favorable and positive; good for beginnings and routine tasks.
+                </li>
+                <li>
+                  <span className="font-semibold text-blue-400">Labh</span> –
+                  Time of gains and profits; suitable for business and financial
+                  work.
+                </li>
+                <li>
+                  <span className="font-semibold text-yellow-400">Chara</span> –
+                  Neutral but mobile; good for travel, movement, and flexible
+                  actions.
+                </li>
+                <li>
+                  <span className="font-semibold text-orange-400">Udhvega</span>{" "}
+                  – Stressful period; avoid important decisions or risky
+                  actions.
+                </li>
+                <li>
+                  <span className="font-semibold text-red-400">Rog</span> –
+                  Inauspicious; associated with illness, conflict, and delays.
+                </li>
+                <li>
+                  <span className="font-semibold text-pink-400">Kaal</span> –
+                  Highly unfavorable; avoid all significant and auspicious
+                  activities.
+                </li>
+              </ul>
             </motion.div>
           </div>
         </div>
