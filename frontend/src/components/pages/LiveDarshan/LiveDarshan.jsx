@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { Loader2, Tv, Wifi, WifiOff, RefreshCcw, Clock } from "lucide-react"
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Loader2, Tv, Wifi, WifiOff, RefreshCcw, Clock } from "lucide-react";
 
 const LiveDarshan = () => {
-  const [status, setStatus] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-  const [selectedTemple, setSelectedTemple] = useState("random")
+  const [status, setStatus] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [selectedTemple, setSelectedTemple] = useState("random");
 
   const temples = [
     { id: "random", name: "Featured" },
@@ -16,7 +16,7 @@ const LiveDarshan = () => {
     { id: "ganesha", name: "Ganesha" },
     { id: "saibaba", name: "Shirdi Sai" },
     { id: "Khodal", name: "Khodal" },
-  ]
+  ];
 
   const darshanSchedule = {
     somnath: [
@@ -42,27 +42,28 @@ const LiveDarshan = () => {
       "Shej Aarti – 10:30 PM",
     ],
     Khodal: ["Morning Darshan – 6:00 AM", "Evening Darshan – 7:00 PM"],
-  }
+  };
 
   const checkLiveStatus = async (templeId = selectedTemple) => {
-    setLoading(true)
-    setError(null)
+    setLoading(true);
+    setError(null);
     try {
       const res = await fetch(
-        `http://localhost:5000/live-darshan?channel_id=${templeId}`,
-      )
-      const data = await res.json()
-      setStatus(data)
+        import.meta.env.VITE_ASTRO_API_URL +
+          `/live-darshan?channel_id=${templeId}`,
+      );
+      const data = await res.json();
+      setStatus(data);
     } catch (e) {
-      setError("Unable to connect to live service")
+      setError("Unable to connect to live service");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-    checkLiveStatus(selectedTemple)
-  }, [selectedTemple])
+    checkLiveStatus(selectedTemple);
+  }, [selectedTemple]);
 
   return (
     <div className="min-h-screen px-4 py-10 text-white">
@@ -166,7 +167,7 @@ const LiveDarshan = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default LiveDarshan
+export default LiveDarshan;

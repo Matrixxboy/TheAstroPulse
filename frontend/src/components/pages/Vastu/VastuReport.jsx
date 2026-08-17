@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import React, { useState, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Upload,
   MapPin,
@@ -8,66 +8,66 @@ import {
   Loader2,
   Download,
   FileText,
-} from "lucide-react"
+} from "lucide-react";
 
 const VastuReport = () => {
-  const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState({ text: "", type: "" })
-  const [uploadedImage, setUploadedImage] = useState(null)
-  const [uploadedFileType, setUploadedFileType] = useState(null)
-  const [analysisImage, setAnalysisImage] = useState(null)
-  const formRef = useRef(null)
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState({ text: "", type: "" });
+  const [uploadedImage, setUploadedImage] = useState(null);
+  const [uploadedFileType, setUploadedFileType] = useState(null);
+  const [analysisImage, setAnalysisImage] = useState(null);
+  const formRef = useRef(null);
 
   const handleFileChange = (event) => {
-    const file = event.target.files[0]
+    const file = event.target.files[0];
     if (file) {
-      setUploadedImage(URL.createObjectURL(file))
-      setUploadedFileType(file.type)
+      setUploadedImage(URL.createObjectURL(file));
+      setUploadedFileType(file.type);
     }
-  }
+  };
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
-    setLoading(true)
-    setMessage({ text: "", type: "" })
+    event.preventDefault();
+    setLoading(true);
+    setMessage({ text: "", type: "" });
 
-    const formData = new FormData(formRef.current)
+    const formData = new FormData(formRef.current);
     // Use existing environment variable
-    const apiUrl = import.meta.env.VITE_ASTRO_API_URL || "http://localhost:5000"
+    const apiUrl = import.meta.env.VITE_ASTRO_API_URL;
 
     try {
       const response = await fetch(`${apiUrl}/vastu`, {
         method: "POST",
         body: formData,
-      })
+      });
 
       if (
         response.ok &&
         response.headers.get("Content-Type") === "application/pdf"
       ) {
-        const blob = await response.blob()
-        const url = window.URL.createObjectURL(blob)
-        setAnalysisImage(url)
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        setAnalysisImage(url);
         setMessage({
           text: "Success! Your analysis is ready.",
           type: "success",
-        })
+        });
       } else {
-        const errorData = await response.json()
-        const errorMessage = errorData.error || "An unknown error occurred."
-        console.error("API Error:", errorMessage)
-        setMessage({ text: `Error: ${errorMessage}`, type: "danger" })
+        const errorData = await response.json();
+        const errorMessage = errorData.error || "An unknown error occurred.";
+        console.error("API Error:", errorMessage);
+        setMessage({ text: `Error: ${errorMessage}`, type: "danger" });
       }
     } catch (error) {
-      console.error("Fetch Error:", error)
+      console.error("Fetch Error:", error);
       setMessage({
         text: "Failed to connect to the API. Please ensure the server is running.",
         type: "danger",
-      })
+      });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen py-12 px-4 relative z-10 w-full">
@@ -318,7 +318,7 @@ const VastuReport = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default VastuReport
+export default VastuReport;

@@ -1,14 +1,14 @@
-import { useState, useEffect, useCallback } from "react"
-import { motion } from "framer-motion"
-import { Calendar, Sun, Moon, Clock, Star } from "lucide-react"
+import { useState, useEffect, useCallback } from "react";
+import { motion } from "framer-motion";
+import { Calendar, Sun, Moon, Clock, Star } from "lucide-react";
 
 const Muhurat = () => {
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split("T")[0],
-  )
-  const [panchangData, setPanchangData] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  );
+  const [panchangData, setPanchangData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // Default location: Varanasi
   const location = {
@@ -16,38 +16,39 @@ const Muhurat = () => {
     lon: 82.9739,
     timezone: "Asia/Kolkata",
     name: "Varanasi",
-  }
+  };
 
   const fetchPanchang = useCallback(
     async (date) => {
-      setLoading(true)
-      setError(null)
+      setLoading(true);
+      setError(null);
       try {
         const response = await fetch(
-          `http://localhost:5000/api/panchang?date=${date}&latitude=${location.lat}&longitude=${location.lon}&timezone=${location.timezone}`,
-        )
+          import.meta.env.VITE_ASTRO_API_URL +
+            `/api/panchang?date=${date}&latitude=${location.lat}&longitude=${location.lon}&timezone=${location.timezone}`,
+        );
         if (!response.ok) {
-          throw new Error("Failed to fetch panchang data")
+          throw new Error("Failed to fetch panchang data");
         }
-        const data = await response.json()
-        setPanchangData(data)
+        const data = await response.json();
+        setPanchangData(data);
       } catch (err) {
-        setError(err.message)
-        console.error("Error fetching panchang:", err)
+        setError(err.message);
+        console.error("Error fetching panchang:", err);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     },
     [location.lat, location.lon, location.timezone],
-  )
+  );
 
   useEffect(() => {
-    fetchPanchang(selectedDate)
-  }, [selectedDate, fetchPanchang])
+    fetchPanchang(selectedDate);
+  }, [selectedDate, fetchPanchang]);
 
   const handleDateChange = (e) => {
-    setSelectedDate(e.target.value)
-  }
+    setSelectedDate(e.target.value);
+  };
 
   return (
     <div className="min-h-screen bg-transparent bg-cosmic-dark pt-24 pb-12 px-4">
@@ -270,7 +271,7 @@ const Muhurat = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Muhurat
+export default Muhurat;

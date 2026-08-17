@@ -1,6 +1,6 @@
-import React from "react"
-import { motion } from "framer-motion"
-import { Link } from "react-router-dom"
+import React from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import {
   Sparkles,
   Star,
@@ -10,10 +10,10 @@ import {
   Brain,
   ArrowRight,
   Tv,
-} from "lucide-react"
-import Chatbot from "../chatbot/Chatbot"
-import { ErrorBoundary } from "react-error-boundary"
-import DailyWisdom from "../../partials/DailyWisdom"
+} from "lucide-react";
+import Chatbot from "../chatbot/Chatbot";
+import { ErrorBoundary } from "react-error-boundary";
+import DailyWisdom from "../../partials/DailyWisdom";
 // const Mandala = () => {
 //   const signs = [
 //     "♈",
@@ -155,7 +155,7 @@ const ServiceCard = ({ icon: Icon, title, link, desc }) => (
       Explore <ArrowRight className="w-4 h-4 ml-1" />
     </Link>
   </motion.div>
-)
+);
 
 const HomePage = () => {
   return (
@@ -169,7 +169,7 @@ const HomePage = () => {
           transition={{ duration: 200, repeat: Infinity, ease: "linear" }}
         >
           <img
-            src="/zodicWheelNew.png"
+            src="/astropulse/zodicWheelNew.png"
             alt="Zodiac Wheel"
             className="w-full h-full object-contain"
           />
@@ -373,7 +373,7 @@ const HomePage = () => {
         <Chatbot />
       </ErrorBoundary>
     </div>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;

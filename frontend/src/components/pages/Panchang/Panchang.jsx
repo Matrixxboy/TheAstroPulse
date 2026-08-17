@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { motion } from "framer-motion"
+import React, { useState } from "react";
+import { motion } from "framer-motion";
 import {
   Calendar,
   Sun,
@@ -9,7 +9,7 @@ import {
   ChevronDown,
   ChevronUp,
   Info,
-} from "lucide-react"
+} from "lucide-react";
 
 const PanchangRow = ({ label, value, icon: Icon, time }) => (
   <motion.div
@@ -32,7 +32,7 @@ const PanchangRow = ({ label, value, icon: Icon, time }) => (
       </div>
     )}
   </motion.div>
-)
+);
 
 const ChoghadiyaItem = ({ name, quality, start, end }) => {
   const getQualityColor = (q) => {
@@ -40,17 +40,17 @@ const ChoghadiyaItem = ({ name, quality, start, end }) => {
       case "Best":
       case "Good":
       case "Gain":
-        return "text-green-400 border-green-500/20 bg-green-900/10"
+        return "text-green-400 border-green-500/20 bg-green-900/10";
       case "Bad":
       case "Evil":
       case "Loss":
-        return "text-red-400 border-red-500/20 bg-red-900/10"
+        return "text-red-400 border-red-500/20 bg-red-900/10";
       default:
-        return "text-blue-300 border-blue-500/20 bg-blue-900/10"
+        return "text-blue-300 border-blue-500/20 bg-blue-900/10";
     }
-  }
+  };
 
-  const colorClass = getQualityColor(quality)
+  const colorClass = getQualityColor(quality);
 
   return (
     <div
@@ -66,62 +66,63 @@ const ChoghadiyaItem = ({ name, quality, start, end }) => {
         {start} - {end}
       </div>
     </div>
-  )
-}
+  );
+};
 
 const Panchang = () => {
-  const [date, setDate] = useState(new Date())
-  const [panchangData, setPanchangData] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [date, setDate] = useState(new Date());
+  const [panchangData, setPanchangData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Toggle sections
-  const [showDayChoghadiya, setShowDayChoghadiya] = useState(true)
-  const [showNightChoghadiya, setShowNightChoghadiya] = useState(true)
+  const [showDayChoghadiya, setShowDayChoghadiya] = useState(true);
+  const [showNightChoghadiya, setShowNightChoghadiya] = useState(true);
 
   const handleDateChange = (e) => {
-    const newDate = new Date(e.target.value)
+    const newDate = new Date(e.target.value);
     if (!isNaN(newDate)) {
-      setDate(newDate)
+      setDate(newDate);
     }
-  }
+  };
 
   React.useEffect(() => {
     const fetchPanchang = async () => {
       try {
-        setLoading(true)
+        setLoading(true);
         // Default location: Varanasi (Spiritual capital)
         // TODO: Get user's location
-        const lat = 25.3176
-        const lon = 82.9739
-        const tz = "Asia/Kolkata"
+        const lat = 25.3176;
+        const lon = 82.9739;
+        const tz = "Asia/Kolkata";
         // Adjust for local time representation to avoid UTC shift issues on date string
-        const year = date.getFullYear()
-        const month = String(date.getMonth() + 1).padStart(2, "0")
-        const day = String(date.getDate()).padStart(2, "0")
-        const formattedDate = `${year}-${month}-${day}`
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        const formattedDate = `${year}-${month}-${day}`;
 
         const response = await fetch(
-          `http://localhost:5000/api/panchang?date=${formattedDate}&latitude=${lat}&longitude=${lon}&timezone=${tz}`,
-        )
+          import.meta.env.VITE_ASTRO_API_URL +
+            `/api/panchang?date=${formattedDate}&latitude=${lat}&longitude=${lon}&timezone=${tz}`,
+        );
 
         if (!response.ok) {
-          throw new Error("Failed to fetch Panchang data")
+          throw new Error("Failed to fetch Panchang data");
         }
 
-        const data = await response.json()
-        setPanchangData(data)
-        console.log(data)
+        const data = await response.json();
+        setPanchangData(data);
+        console.log(data);
       } catch (err) {
-        console.error("Error fetching panchang:", err)
-        setError(err.message)
+        console.error("Error fetching panchang:", err);
+        setError(err.message);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchPanchang()
-  }, [date])
+    fetchPanchang();
+  }, [date]);
 
   if (loading) {
     return (
@@ -130,7 +131,7 @@ const Panchang = () => {
           Aligning with the cosmos...
         </div>
       </div>
-    )
+    );
   }
 
   if (error) {
@@ -140,7 +141,7 @@ const Panchang = () => {
           Error loading cosmic data. Please try again later.
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -430,7 +431,7 @@ const Panchang = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Panchang
+export default Panchang;

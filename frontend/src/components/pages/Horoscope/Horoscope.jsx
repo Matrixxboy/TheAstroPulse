@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
 import {
   Sparkles,
   Calendar,
@@ -6,39 +6,39 @@ import {
   Moon,
   ArrowRight,
   Loader2,
-} from "lucide-react"
-import { motion } from "framer-motion"
+} from "lucide-react";
+import { motion } from "framer-motion";
 
 const Horoscope = () => {
-  const [dob, setDob] = useState("")
-  const [day, setDay] = useState("today")
-  const [result, setResult] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const [dob, setDob] = useState("");
+  const [day, setDay] = useState("today");
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    if (!dob || !day) return
+    e.preventDefault();
+    if (!dob || !day) return;
 
-    setLoading(true)
-    setResult(null)
+    setLoading(true);
+    setResult(null);
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_HOROSCOPE_API_KEY}?dob=${dob}&day=${day}`,
-      )
-      const data = await response.json()
+        `${import.meta.env.VITE_ASTRO_API_URL}/horoscope?dob=${dob}&day=${day}`,
+      );
+      const data = await response.json();
 
       if (data.horoscope) {
-        setResult(data)
+        setResult(data);
       } else {
-        setResult({ error: "No horoscope found." })
+        setResult({ error: "No horoscope found." });
       }
     } catch (e) {
-      setResult({ error: "Failed to fetch horoscope. Please try again.", e })
+      setResult({ error: "Failed to fetch horoscope. Please try again.", e });
     }
 
-    setLoading(false)
-  }
+    setLoading(false);
+  };
 
   return (
     <div className="min-h-screen py-12 flex flex-col items-center px-4 relative z-10">
@@ -156,7 +156,7 @@ const Horoscope = () => {
         )}
       </motion.div>
     </div>
-  )
-}
+  );
+};
 
-export default Horoscope
+export default Horoscope;

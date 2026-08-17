@@ -1,40 +1,40 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import "bootstrap/dist/css/bootstrap.min.css"
-import "bootstrap"
-import "./App.css"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap";
+import "./App.css";
 
-import MainLayout from "./components/MainLayout"
-import HomePage from "./components/pages/homepage/HomePage"
-import Horoscope from "./components/pages/Horoscope/Horoscope"
-import Palmreading from "./components/pages/palmreading/Palmreading"
-import PalmReadingPage from "./components/pages/palmreading/PalmReadingPage"
-import PalmistryInfo from "./components/pages/palmreading/PalmistryInfo"
-import Numerology from "./components/pages/numerology/Numerology"
-import NameNumerology from "./components/pages/numerology/NameNumerology"
-import BuisnessNumerology from "./components/pages/numerology/BusinessNumerology"
-import Astrology from "./components/pages/Astrology/Astrology"
-import Astroinfo from "./components/pages/Astrology/astroinfo"
-import Astroreportpage from "./components/pages/Astrology/Astroreportpage"
-import Vastu from "./components/pages/Vastu/Vastu"
-import KnowAboutVastu from "./components/pages/Vastu/KnowAboutVastu"
-import VastuReport from "./components/pages/Vastu/VastuReport"
-import Compass from "./components/pages/Vastu/Compass"
-import Festival from "./components/pages/Festivals/Festival"
-import LiveDarshan from "./components/pages/LiveDarshan/LiveDarshan"
-import AboutUs from "./components/pages/AboutUs/AboutUs"
-import NotFound from "./components/pages/NotFound"
+import MainLayout from "./components/MainLayout";
+import HomePage from "./components/pages/homepage/HomePage";
+import Horoscope from "./components/pages/Horoscope/Horoscope";
+import Palmreading from "./components/pages/palmreading/Palmreading";
+import PalmReadingPage from "./components/pages/palmreading/PalmReadingPage";
+import PalmistryInfo from "./components/pages/palmreading/PalmistryInfo";
+import Numerology from "./components/pages/numerology/Numerology";
+import NameNumerology from "./components/pages/numerology/NameNumerology";
+import BuisnessNumerology from "./components/pages/numerology/BusinessNumerology";
+import Astrology from "./components/pages/Astrology/Astrology";
+import Astroinfo from "./components/pages/Astrology/astroinfo";
+import Astroreportpage from "./components/pages/Astrology/Astroreportpage";
+import Vastu from "./components/pages/Vastu/Vastu";
+import KnowAboutVastu from "./components/pages/Vastu/KnowAboutVastu";
+import VastuReport from "./components/pages/Vastu/VastuReport";
+import Compass from "./components/pages/Vastu/Compass";
+import Festival from "./components/pages/Festivals/Festival";
+import LiveDarshan from "./components/pages/LiveDarshan/LiveDarshan";
+import AboutUs from "./components/pages/AboutUs/AboutUs";
+import NotFound from "./components/pages/NotFound";
 
-import Panchang from "./components/pages/Panchang/Panchang"
-import Muhurat from "./components/pages/Muhurat/Muhurat"
-import Remedies from "./components/pages/Remedies/Remedies"
-import VedicAstrology from "./components/pages/Knowledge/VedicAstrology"
-import Blog from "./components/pages/Knowledge/Blog"
-import FAQ from "./components/pages/Knowledge/FAQ"
-import Contact from "./components/pages/Contact/Contact"
+import Panchang from "./components/pages/Panchang/Panchang";
+import Muhurat from "./components/pages/Muhurat/Muhurat";
+import Remedies from "./components/pages/Remedies/Remedies";
+import VedicAstrology from "./components/pages/Knowledge/VedicAstrology";
+import Blog from "./components/pages/Knowledge/Blog";
+import FAQ from "./components/pages/Knowledge/FAQ";
+import Contact from "./components/pages/Contact/Contact";
 
 function App() {
   return (
-    <Router>
+    <Router basename="/astropulse">
       <Routes>
         <Route path="*" element={<NotFound />} />
         <Route
@@ -253,7 +253,7 @@ function App() {
         />
       </Routes>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,94 +1,99 @@
-import React, { useState, useRef } from "react"
-import { motion } from "framer-motion"
-import { Camera, Upload, Sparkles, Loader2, RefreshCw } from "lucide-react"
+import React, { useState, useRef } from "react";
+import { motion } from "framer-motion";
+import { Camera, Upload, Sparkles, Loader2, RefreshCw } from "lucide-react";
 
 const PalmReadingPage = () => {
-  const [selectedImage, setSelectedImage] = useState(null)
-  const [previewURL, setPreviewURL] = useState(null)
-  const [resultImage, setResultImage] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const [showCamera, setShowCamera] = useState(false)
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [previewURL, setPreviewURL] = useState(null);
+  const [resultImage, setResultImage] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [showCamera, setShowCamera] = useState(false);
 
-  const videoRef = useRef(null)
-  const canvasRef = useRef(null)
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
 
   // File upload
   const handleImageChange = (e) => {
-    const file = e.target.files[0]
+    const file = e.target.files[0];
     if (file) {
-      setSelectedImage(file)
-      setPreviewURL(URL.createObjectURL(file))
-      setResultImage(null)
+      setSelectedImage(file);
+      setPreviewURL(URL.createObjectURL(file));
+      setResultImage(null);
     }
-  }
+  };
 
   // Start camera
   const startCamera = async () => {
-    setShowCamera(true)
+    setShowCamera(true);
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true })
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       if (videoRef.current) {
-        videoRef.current.srcObject = stream
+        videoRef.current.srcObject = stream;
       }
     } catch (err) {
-      console.error("Camera error:", err)
-      alert("Unable to access camera.")
-      setShowCamera(false)
+      console.error("Camera error:", err);
+      alert("Unable to access camera.");
+      setShowCamera(false);
     }
-  }
+  };
 
   // Capture from video stream
   const capturePhoto = () => {
-    const video = videoRef.current
-    const canvas = canvasRef.current
-    if (!video || !canvas) return
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    if (!video || !canvas) return;
 
-    const context = canvas.getContext("2d")
-    canvas.width = video.videoWidth
-    canvas.height = video.videoHeight
-    context.drawImage(video, 0, 0, canvas.width, canvas.height)
+    const context = canvas.getContext("2d");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
     canvas.toBlob((blob) => {
-      const file = new File([blob], "captured_palm.jpg", { type: "image/jpeg" })
-      setSelectedImage(file)
-      setPreviewURL(URL.createObjectURL(file))
-      setShowCamera(false)
+      const file = new File([blob], "captured_palm.jpg", {
+        type: "image/jpeg",
+      });
+      setSelectedImage(file);
+      setPreviewURL(URL.createObjectURL(file));
+      setShowCamera(false);
 
       // Stop camera
-      const stream = video.srcObject
+      const stream = video.srcObject;
       if (stream) {
-        stream.getTracks().forEach((track) => track.stop())
+        stream.getTracks().forEach((track) => track.stop());
       }
-    }, "image/jpeg")
-  }
+    }, "image/jpeg");
+  };
 
   // Send image to backend
   const handleUpload = async () => {
-    if (!selectedImage) return
-    setLoading(true)
+    if (!selectedImage) return;
+    setLoading(true);
 
-    const formData = new FormData()
-    formData.append("image", selectedImage)
+    const formData = new FormData();
+    formData.append("image", selectedImage);
 
     try {
-      const res = await fetch("http://127.0.0.1:5000/process-image", {
-        method: "POST",
-        body: formData,
-      })
+      const res = await fetch(
+        import.meta.env.VITE_ASTRO_API_URL + "/process-image",
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
 
-      if (!res.ok) throw new Error("Image processing failed")
+      if (!res.ok) throw new Error("Image processing failed");
 
-      const blob = await res.blob()
-      const imageUrl = URL.createObjectURL(blob)
+      const blob = await res.blob();
+      const imageUrl = URL.createObjectURL(blob);
 
-      setResultImage(imageUrl)
+      setResultImage(imageUrl);
     } catch (err) {
-      console.error("Error:", err)
-      alert("Upload failed. Check server.")
+      console.error("Error:", err);
+      alert("Upload failed. Check server.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen px-4 py-12 flex flex-col items-center relative z-10">
@@ -245,7 +250,7 @@ const PalmReadingPage = () => {
       {/* Hidden canvas for capturing */}
       <canvas ref={canvasRef} className="hidden" />
     </div>
-  )
-}
+  );
+};
 
-export default PalmReadingPage
+export default PalmReadingPage;
