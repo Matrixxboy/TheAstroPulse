@@ -153,15 +153,6 @@ const KundaliReportPage = ({ reportData, p_name1 }) => {
 
   return (
     <>
-      <div className="text-center mb-8">
-        <button
-          onClick={handleDownloadPDF}
-          className="flex items-center gap-2 mx-auto bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
-        >
-          <Download className="w-5 h-5" /> Download Full PDF Report
-        </button>
-      </div>
-
       <div
         id="pdf-container"
         ref={reportRef}

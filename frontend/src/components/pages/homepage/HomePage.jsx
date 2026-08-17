@@ -322,7 +322,7 @@ const HomePage = () => {
             "As is the human body, so is the cosmic body."
           </p>
         </div>
-        <div className="container mx-auto px-4">
+        {/* <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-heading font-bold text-center text-white mb-16">
             Seeker's <span className="text-gradient-gold">Experiences</span>
           </h2>
@@ -366,7 +366,7 @@ const HomePage = () => {
               </motion.div>
             ))}
           </div>
-        </div>
+        </div> */}
       </section>
 
       <ErrorBoundary>

@@ -271,7 +271,28 @@ const Astroreportpage = () => {
                 <p>{result.error}</p>
               </div>
             ) : (
-              <KundaliReportPage reportData={result} p_name1={fullName} />
+              <div className="space-y-6">
+                <div className="flex justify-end justify-center items-center">
+                  <button
+                    onClick={() => {
+                      const query = new URLSearchParams({
+                        dob,
+                        tob,
+                        lob,
+                        timezone,
+                        name: fullName,
+                        gender: "unknown", // You might want to add gender input later
+                        "Astro-API-KEY": import.meta.env.VITE_API_KEY_TOKEN,
+                      }).toString()
+                      window.location.href = `${import.meta.env.VITE_ASTRO_API_URL}/astro-report/pdf?${query}`
+                    }}
+                    className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg text-white font-semibold hover:shadow-lg transition-all"
+                  >
+                    <Sparkles className="w-4 h-4" /> Download PDF Report
+                  </button>
+                </div>
+                <KundaliReportPage reportData={result} p_name1={fullName} />
+              </div>
             )}
           </motion.div>
         )}

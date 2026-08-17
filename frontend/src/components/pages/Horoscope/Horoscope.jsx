@@ -24,7 +24,7 @@ const Horoscope = () => {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_HOROSCOPE_API_KEY}?dob=${dob}&day=${day}`,
+        `${import.meta.env.VITE_ASTRO_API_URL}/horoscope?dob=${dob}&day=${day}`,
       )
       const data = await response.json()
 

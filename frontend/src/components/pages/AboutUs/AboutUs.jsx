@@ -106,10 +106,7 @@ const AboutUs = () => {
                 </div>
               </p>
               <p className="text-smoke mb-6 leading-relaxed">
-                A passionate developer focused on crafting high-performance
-                digital experiences at the intersection of design, engineering,
-                and artificial intelligence. Currently pursuing a Diploma in
-                Computer Engineering at Bhagwan Mahavir Polytechnic, Surat.
+               the person behind this website , who is very passionate about astrology and technology and wants to make a difference in the world.Actively learning and exploring new things in the field of technology and astrology.
               </p>
 
               <div className="flex items-center justify-center gap-4">
