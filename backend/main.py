@@ -2,6 +2,8 @@ import io
 import os
 import cv2
 import json
+import base64
+import math
 import numpy as np
 from datetime import datetime, date
 from numerology.numlogycalcu import name_numlogy_basic_sums , business_numerology_basic_sums
@@ -30,7 +32,8 @@ from skimage.filters import meijering
 from skimage.util import img_as_ubyte
 from skimage.restoration import denoise_tv_chambolle
 from skimage.morphology import skeletonize, remove_small_objects
-# import mediapipe as mp
+import mediapipe as mp
+
 
 # toekn for api verification
 API_KEY_TOKEN = os.getenv("API_KEY_TOKEN")
@@ -41,6 +44,16 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 limiter = Limiter(get_remote_address, app=app, default_limits=["10 per minute"])
 
+def is_palm(image):
+    try:
+        resized = cv2.resize(image, (224, 224))
+        normalized = resized.astype('float32') / 255.0
+        input_tensor = np.expand_dims(normalized, axis=0)
+        prediction = model.predict(input_tensor, verbose=0)[0][0]
+        return prediction > 0.5
+    except Exception as e:
+        print("Prediction failed:", e)
+        return False
 
 # Convert OpenCV image to PNG bytes
 def cv2_to_bytes(image):
@@ -99,84 +112,209 @@ def get_horoscope():
     else:
         return jsonify({"error": "Could not fetch horoscope. Please check the DOB and try again.", "dob": dob_str, "day_type": day_type}), 500
 
-
 @app.route('/process-image', methods=['POST'])
-@limiter.limit("5 per minute")  # Limit to 5 requests per minute
+@limiter.limit("5 per minute")
 def process_image():
+    import mediapipe as mp
+    from mediapipe.python.solutions import hands as mp_hands
+
     if 'image' not in request.files:
         return {"error": "No image file provided"}, 400
 
     file = request.files['image']
+
     if file.filename == '':
         return {"error": "Empty filename"}, 400
 
     try:
-        # Decode the uploaded image
-        image = np.frombuffer(file.read(), np.uint8)
-        img = cv2.imdecode(image, cv2.IMREAD_COLOR)
-        original = img.copy()
+
+        # -------------------------
+        # Decode Image
+        # -------------------------
+        image_bytes = np.frombuffer(file.read(), np.uint8)
+        img = cv2.imdecode(image_bytes, cv2.IMREAD_COLOR)
+
         if img is None:
             return {"error": "Invalid image format"}, 400
 
-        # 2. Background removal using MediaPipe
-        img = remove_background_opencv(img)
-        
-        # 3. Negative filter + grayscale
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        gray = cv2.GaussianBlur(gray, (1, 1), 0)
+        original = img.copy()
 
-        # 4. Remove small noise (initial)
+        # -------------------------
+        # Background Removal
+        # -------------------------
+        img_no_bg = remove_background_opencv(img.copy())
+
+        # -------------------------
+        # MediaPipe Hand Detection
+        # -------------------------
+        hands = mp_hands.Hands(
+            static_image_mode=True,
+            max_num_hands=1,
+            min_detection_confidence=0.5
+        )
+
+        image_rgb = cv2.cvtColor(img_no_bg, cv2.COLOR_BGR2RGB)
+        results = hands.process(image_rgb)
+
+        palm_mask = np.ones(img_no_bg.shape[:2], dtype=np.uint8) * 255
+        cropped_palm = None
+
+        if results.multi_hand_landmarks:
+
+            for hand_landmarks in results.multi_hand_landmarks:
+
+                h, w, _ = img_no_bg.shape
+
+                palm_indices = [0, 1, 2, 5, 9, 13, 17]
+
+                palm_points = []
+
+                for idx in palm_indices:
+                    lm = hand_landmarks.landmark[idx]
+                    x, y = int(lm.x * w), int(lm.y * h)
+                    palm_points.append([x, y])
+
+                palm_points = np.array(palm_points, dtype=np.int32)
+
+                palm_mask = np.zeros((h, w), dtype=np.uint8)
+
+                palm_hull = cv2.convexHull(palm_points)
+
+                cv2.fillConvexPoly(palm_mask, palm_hull, 255)
+
+                # Remove fingers
+                finger_groups = [
+                    [1,2,3,4],
+                    [5,6,7,8],
+                    [9,10,11,12],
+                    [13,14,15,16],
+                    [17,18,19,20]
+                ]
+
+                for group in finger_groups:
+
+                    finger_pts = []
+
+                    for idx in group:
+                        lm = hand_landmarks.landmark[idx]
+                        x, y = int(lm.x * w), int(lm.y * h)
+                        finger_pts.append([x,y])
+
+                    finger_pts = np.array(finger_pts, dtype=np.int32)
+
+                    cv2.fillConvexPoly(palm_mask, finger_pts, 0)
+
+                # Expand palm area
+                dilation_kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(55,55))
+                palm_mask = cv2.dilate(palm_mask, dilation_kernel, iterations=1)
+
+                # Crop palm
+                x, y, w_box, h_box = cv2.boundingRect(palm_hull)
+                palm_crop = img_no_bg[y:y+h_box, x:x+w_box]
+
+                if palm_crop.shape[0] > 10 and palm_crop.shape[1] > 10:
+
+                    if is_palm(palm_crop):
+                        cropped_palm = palm_crop
+                    else:
+                        return {"error":"Palm not detected by model"},400
+
+        hands.close()
+
+        if cropped_palm is None:
+            return {"error":"No palm detected"},400
+
+        # -------------------------
+        # Apply Palm Mask
+        # -------------------------
+        img_masked = cv2.bitwise_and(img_no_bg, img_no_bg, mask=palm_mask)
+
+        # -------------------------
+        # Grayscale
+        # -------------------------
+        gray = cv2.cvtColor(img_masked, cv2.COLOR_BGR2GRAY)
+
         cleaned = remove_small_objects(gray.astype(bool), min_size=50, connectivity=2)
         cleaned = (cleaned * 255).astype(np.uint8)
 
+        outerline = cleaned.copy()
 
-        # 6. CLAHE + TopHat
-        clahe = cv2.createCLAHE(clipLimit=5.0, tileGridSize=(13, 13))
+        # -------------------------
+        # CLAHE + TopHat
+        # -------------------------
+        clahe = cv2.createCLAHE(clipLimit=5.0, tileGridSize=(10,10))
         enhanced = clahe.apply(gray)
-        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (7, 12))
-        tophat = cv2.morphologyEx(enhanced, cv2.MORPH_TOPHAT, kernel)
-        combined = cv2.addWeighted(enhanced, 0.8, tophat, 0.8, 0)
-        combined = cv2.GaussianBlur(combined, (3, 3), 0)
-        combined = denoise_tv_chambolle(combined / 255.0, weight=0.2)
-        combined = (combined * 255).astype(np.uint8)
-        
 
-        # 7. Meijering line enhancement
-        meij = meijering(combined / 255.0, sigmas=range(4, 8), black_ridges=True)
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT,(9,14))
+
+        tophat = cv2.morphologyEx(enhanced, cv2.MORPH_TOPHAT, kernel)
+
+        combined = cv2.addWeighted(enhanced,0.8,tophat,0.8,0)
+
+        # -------------------------
+        # Meijering Filter
+        # -------------------------
+        meij = meijering(combined/255.0, sigmas=range(2,8), black_ridges=True)
         meij = img_as_ubyte(meij)
 
-        # 8. Threshold + Skeleton
-        _, binary = cv2.threshold(meij, 50, 255, cv2.THRESH_BINARY)
-        skeleton = skeletonize(binary // 255).astype(np.uint8) * 255
-        # ✅ Make skeleton lines thicker
-        kernel_thick = cv2.getStructuringElement(cv2.MORPH_RECT, (5,5))  # or (5, 5)
+        # -------------------------
+        # Threshold + Skeleton
+        # -------------------------
+        _, binary = cv2.threshold(meij,50,255,cv2.THRESH_BINARY)
+
+        skeleton = skeletonize(binary//255).astype(np.uint8)*255
+
+        kernel_thick = cv2.getStructuringElement(cv2.MORPH_RECT,(6,6))
         skeleton = cv2.dilate(skeleton, kernel_thick, iterations=1)
 
-        # 9. Apply mask again
-        skeleton = cv2.bitwise_and(skeleton, skeleton, mask=cleaned)
-        
-        # 10. Remove small objects after skeleton
-        cleaned = remove_small_objects(skeleton.astype(bool), min_size=500, connectivity=1)
-        cleaned = (cleaned * 255).astype(np.uint8)
-        
-        # 11. Overlay result on original
-        result_img = cv2.cvtColor(cleaned, cv2.COLOR_GRAY2BGR)
-        overlay = cv2.addWeighted(original, 0.6, result_img, 0.6, 0)
+        # Apply masks
+        _, binary_mask = cv2.threshold(meij,60,255,cv2.THRESH_BINARY)
 
-        # ------------------ 7. Return the Result ------------------
+        skeleton = cv2.bitwise_and(skeleton,skeleton,mask=outerline)
+        skeleton = cv2.bitwise_and(skeleton,skeleton,mask=binary_mask)
+
+        # -------------------------
+        # Remove small objects
+        # -------------------------
+        cleaned_lines = remove_small_objects(
+            skeleton.astype(bool),
+            min_size=600,
+            connectivity=1
+        )
+
+        cleaned_lines = (cleaned_lines*255).astype(np.uint8)
+
+        # Morphological opening
+        kernel_opening = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(5,5))
+        cleaned_lines = cv2.morphologyEx(cleaned_lines, cv2.MORPH_OPEN, kernel_opening)
+
+        # -------------------------
+        # Overlay result
+        # -------------------------
+        result_img = cv2.cvtColor(cleaned_lines, cv2.COLOR_GRAY2BGR)
+
+        overlay = cv2.addWeighted(original,0.6,result_img,0.6,0)
+
+        # -------------------------
+        # Return Image
+        # -------------------------
         success, encoded_image = cv2.imencode('.png', overlay)
+
         if not success:
-            return {"error": "Failed to encode image"}, 500
+            return {"error":"Failed to encode image"},500
 
         return send_file(
             io.BytesIO(encoded_image.tobytes()),
             mimetype='image/png',
             as_attachment=False,
-            download_name='palm_lines_highlighted.png'
+            download_name="palm_lines.png"
         )
 
     except Exception as e:
-        return {"error": str(e)}, 500
+        print("\n\n")
+        print(e)
+        print("\n\n")
+        return {"error":str(e)},500
 
 #api = /numerology?fname=Utsavlankapati&dob=14-07-2004
 @app.route('/name-numerology', methods=['GET'])
@@ -262,6 +400,8 @@ def final_astro_report_generator():
     
     req_dob = request.args.get('dob') #date of birth
     req_tob = request.args.get('tob') #time of birth
+    if req_tob:
+        req_tob = ":".join(req_tob.split(":")[:2])
     req_lob = request.args.get('lob')#location of birth
     req_timezone = request.args.get('timezone')
     
@@ -289,6 +429,64 @@ def final_astro_report_generator():
         )
     except Exception as e :
         return jsonify({"error":str(e)}),500
+
+from astrology.pdf_report import generate_pdf
+
+@app.route("/astro-report/pdf", methods=['GET'])
+def astro_report_pdf():
+    client_api = request.headers.get('Astro-API-KEY') or request.args.get('Astro-API-KEY')
+    if client_api != API_KEY_TOKEN:
+        return jsonify({"error":"Unauthorised request"}) , 401
+    
+    req_dob = request.args.get('dob')
+    req_tob = request.args.get('tob')
+    req_lob = request.args.get('lob')
+    req_timezone = request.args.get('timezone')
+    req_name = request.args.get('name', 'Seeker')
+    req_gender = request.args.get('gender', '')
+    
+    if not all([req_dob, req_tob, req_lob]):
+        return jsonify({"error": "Missing params: dob, tob, lob"}), 400
+        
+    try:
+        # Fetch Data (Reuse logic)
+        report = []
+        # 1. Basic Details
+        report.append(final_astro_report(req_dob, req_tob, req_lob))
+        # 2. Planetary Positions
+        report.append(planet_position_details(req_dob, req_tob, req_lob, req_timezone))
+        
+        # 3. Dasha
+        moon_info = report[1]["Moon"]
+        moon_nak_deg = moon_info["Degree in sign"]
+        moon_nak_lord = moon_info["NakLord"]
+        rashi_sign = next(iter(report[0]["rashi_all_details"]))
+        dasha_data = find_vimashotry_dasha(req_dob, req_tob, moon_nak_deg, rashi_sign, moon_nak_lord)
+        report.append(dasha_data)
+        
+        # Determine Filename
+        filename = f"AstroPulse_Report_{req_name.replace(' ', '_')}.pdf"
+        
+        # Generate PDF
+        user_details = {
+            "name": req_name,
+            "dob": req_dob,
+            "tob": req_tob,
+            "lob": req_lob,
+            "gender": req_gender
+        }
+        pdf_buffer = generate_pdf(report, user_details)
+        
+        return send_file(
+            pdf_buffer,
+            as_attachment=True,
+            download_name=filename,
+            mimetype='application/pdf'
+        )
+        
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
     
 @app.route('/vastu', methods=['POST'])
 def process_image_endpoint():
@@ -526,5 +724,5 @@ def get_panchang_route():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    port = int(5000)
+    port = int(8005)
     app.run(debug=True,host="0.0.0.0",port=port) # debug=True allows for automatic reloading on code changes

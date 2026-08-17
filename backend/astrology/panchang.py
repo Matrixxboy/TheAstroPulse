@@ -143,8 +143,8 @@ def find_end_time(jd_start, func, current_val):
     return float(jd)
 
 def get_panchang(date_str, lat, lon, timezone_str=None, time_str="12:00"):
-    lat_f = float(lat)
-    lon_f = float(lon)
+    lat_f = 21.1481
+    lon_f = 72.7604
     
     if not timezone_str:
         tf = TimezoneFinder()

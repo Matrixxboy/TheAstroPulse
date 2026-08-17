@@ -1,0 +1,29 @@
+[Unit]
+Description=The Astro Pulse Flask Backend
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+
+# Update these paths to match your server install location.
+WorkingDirectory=/var/www/python-the_astro_pulse
+Environment=PATH=/var/www/python-the_astro_pulse/venv/bin
+EnvironmentFile=-/var/www/python-the_astro_pulse/.env
+
+ExecStart=/var/www/python-the_astro_pulse/.venv/bin/gunicorn -w 1 --timeout 120 -b 0.0.0.0:8005 main:app
+ExecReload=/bin/kill -s HUP $MAINPID
+
+Restart=on-failure
+RestartSec=5
+KillMode=mixed
+TimeoutStopSec=30
+
+# Hardening (optional; remove lines that break your deployment)
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]   
+WantedBy=multi-user.target
